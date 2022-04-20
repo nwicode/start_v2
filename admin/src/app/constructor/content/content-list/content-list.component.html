@@ -1,0 +1,157 @@
+<ng-container >
+
+    <!-- begin::Loading -->
+    <ng-container *ngIf="isLoading$ | async">
+        <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                 style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </ng-container>
+    <!-- end::Loading -->
+
+    <a type="button" [routerLink]="'/constructor/' + applicationId + '/content/content-edit/' + contentTypeId + '/0'" class="btn btn-primary btn-sm mt-3"> <i class="fas fa-plus"></i> {{'CONSTRUCTOR.CONTENT_LIST.ADD_CONTENT' | translate}}</a>
+    <!-- search field-->
+    <div class="gutter-b">
+        <div class="input-group input-group-lg input-group-solid my-2">
+            <input type="text" class="form-control pl-4" placeholder="{{'GENERAL.LANGUAGES.SEARCH' | translate}}" [(ngModel)]="filterString" #userSearchInput>
+            <div class="input-group-append">
+                <span class="input-group-text pr-3">
+                  <span class="svg-icon svg-icon-lg">
+                    <span [inlineSVG]="'./assets/media/svg/icons/General/Search.svg'" cacheSVG="true"
+                          class="svg-icon"></span>
+                  </span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" *ngIf="contents.length > 0">
+        <div class="card-body">
+            <div class="table-responsive">
+            <table class="table table-vertical-center">
+                <caption>{{'CONSTRUCTOR.CONTENT_LIST.CONTENT_LIST' | translate}}</caption>
+                <thead>
+                <tr >
+                    <th scope="col" class="text-center">#</th>
+                    <ng-container *ngFor="let field of fields;index as i;">
+                        <ng-container *ngIf="field.list == 1">
+                            <ng-container *ngIf="field.db_field.startsWith('column_title') || field.db_field.startsWith('column_text') || field.db_field.startsWith('column_string')">
+                                <ng-container *ngIf="field.multilang == 1">
+                                    <ng-container *ngFor="let lang of languages">
+                                        <th scope="col" class="text-center min-w-160px">{{field.name}}{{' (' + (('GENERAL.LANGUAGES.' + lang.code) | translate) + ')'}}</th>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="field.multilang == 0">
+                                    <th scope="col" class="text-center min-w-160px cursor-pointer" (click)="changeSort(field, i)">
+                                        <span>{{field.name}}
+                                            <i *ngIf="orderField && field.db_field == orderField.db_field && orderDirection === 1" class="flaticon2-arrow-up icon-sm text-primary"></i>
+                                            <i *ngIf="orderField && field.db_field == orderField.db_field && orderDirection === 2" class="flaticon2-arrow-down icon-sm text-primary"></i>
+                                        </span>
+                                    </th>
+                                </ng-container>
+                            </ng-container>
+                            <th *ngIf="!field.db_field.startsWith('column_title') && !field.db_field.startsWith('column_text') && !field.db_field.startsWith('column_string')" scope="col" class="text-center">{{field.name}}</th>
+                        </ng-container>
+                    </ng-container>
+                    <th scope="col" class="text-center"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let content of contents; index as i;">
+                    <th scope="row">{{itemsPerPage * (currentPage - 1) + i + 1}}</th>
+                    <ng-container *ngFor="let field of fields">
+                        <ng-container *ngIf="field.list == 1">
+                            <td *ngIf="field.db_field.startsWith('column_date')" class="text-center">{{content[field.db_field] | date:'d/M/yy'}}</td>
+                            <td *ngIf="field.db_field.startsWith('column_logical')" class="text-center">
+                                <span *ngIf="!!content[field.db_field]" class="btn btn-icon btn-sm btn-icon-primary"><i class="flaticon2-check-mark icon-1x"></i></span>
+                                <span *ngIf="!content[field.db_field]" class="btn btn-icon btn-sm btn-icon-danger"><i class="flaticon2-cross icon-1x"></i></span>
+                            </td>
+                            <td *ngIf="field.db_field.startsWith('column_number')" class="text-center">{{content[field.db_field]}}</td>
+                            <td *ngIf="field.db_field.startsWith('column_image')" class="text-center"><img class="max-w-100px max-h-100px" *ngIf="content[field.db_field]" [src]="platform_url + resources_dir + content[field.db_field]"></td>
+                            <ng-container *ngIf="field.db_field.startsWith('column_string') || field.db_field.startsWith('column_title')">
+                                <ng-container *ngIf="field.multilang == 1">
+                                    <ng-container *ngFor="let lang of languages">
+                                        <td class="text-center">{{(content[field.db_field] !== null && content[field.db_field].hasOwnProperty(lang.code)) ? content[field.db_field][lang.code] : ''}}</td>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="field.multilang == 0">
+                                    <td class="text-center">{{(content[field.db_field] !== null && content[field.db_field].hasOwnProperty(defaultLanguage)) ? content[field.db_field][defaultLanguage] : ''}}</td>
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="field.db_field.startsWith('column_text')">
+                                <ng-container *ngIf="field.multilang == 1">
+                                    <ng-container *ngFor="let lang of languages">
+                                        <td class="text-center" [innerHTML]="((content[field.db_field] !== null && content[field.db_field].hasOwnProperty(lang.code)) ? content[field.db_field][lang.code] : '') | safe: 'html'"></td>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="field.multilang == 0">
+                                    <td class="text-center" [innerHTML]="((content[field.db_field] !== null && content[field.db_field].hasOwnProperty(defaultLanguage)) ? content[field.db_field][defaultLanguage] : '') | safe: 'html'"></td>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+
+                    <td class="text-right">
+                        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                            <a ngbDropdownToggle class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                <i class="ki ki-bold-more-hor"></i>
+                            </a>
+                            <div class="dropdown-menu" ngbDropdownMenu>
+                                <button class="dropdown-item"
+                                        [routerLink]="'/constructor/' + applicationId + '/content/content-edit/' + contentTypeId + '/' + content.id">{{'CONSTRUCTOR.CONTENT_LIST.OPEN_CONTENT' | translate}}</button>
+                                <div *ngIf="deleteContentConfirm != content" (click)="deleteContentConfirm=content" class="dropdown-item-text dropdown-text-confirm cursor-pointer">{{'CONSTRUCTOR.CONTENT_LIST.DELETE_CONTENT' | translate}}</div>
+                                <div *ngIf="deleteContentConfirm == content" class="dropdown-item">
+                                    <div>
+                                        {{'CONSTRUCTOR.CONTENT_LIST.ARE_YOU_SURE' | translate}}?
+                                        <a (click)="deleteContentConfirm = null" class="btn btn-text-primary btn-hover-light-primary  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                        <a (click)="deleteContent(content.id)" class="btn btn-text-danger btn-hover-light-danger  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+            </div>
+
+        </div>
+    </div>
+
+    <div *ngIf="total > 0" class="card-body py-5">
+        <div class="d-flex justify-content-between flex-wrap">
+            <!-- pagination select-->
+            <div class="d-flex flex-wrap mr-3 align-items-center">
+                <ngb-pagination class="d-flex flex-wrap justify-content-end mr-3"
+                                (pageChange)="pageChange($event)"
+                                [collectionSize]="total" [(page)]="currentPage"
+                                [pageSize]="itemsPerPage"
+                                [maxSize]="5" [rotate]="true"></ngb-pagination>
+                <div class="d-flex justify-content-end">
+                    {{paginationString()}}
+                </div>
+            </div>
+
+            <!-- search field-->
+            <div class="d-flex align-items-center">
+                {{'GENERAL.LANGUAGES.ITMS_PER_PAGE' | translate}}:
+                <div ngbDropdown placement="top-right" class="d-inline-block ml-3">
+                    <button class="btn btn-sm btn-outline-secondary" id="dropdownBasic2"
+                            ngbDropdownToggle>{{itemsPerPage}}</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                        <button class="dropdown-item" (click)="itemsPerPageChange(25)">25</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(50)">50</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(100)">100</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(500)">500</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <ng-container *ngIf="total < 1 && isPageLoad && filterString !== ''"><h1>{{'CONSTRUCTOR.CONTENT_LIST.NO_MATCH_FOUND' | translate}}</h1></ng-container>
+    <ng-container *ngIf="total < 1 && isPageLoad && filterString === ''"><h1>{{'CONSTRUCTOR.CONTENT_LIST.NO_CONTENT' | translate}}</h1></ng-container>
+
+</ng-container>

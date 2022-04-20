@@ -1,0 +1,37 @@
+div.card-component-panel {
+    height: 100%;
+}
+
+div.pages-list {
+    overflow: scroll;
+    height: 100vh;
+    display: block;
+    padding-bottom: 100px;
+}
+
+div.page-block {
+    height: 150px;
+    img {
+        width: 100px;
+    }
+}
+
+div.scrollable-panel {
+    height: calc(100vh - 300px);
+    overflow: auto;
+}
+
+div.symbol.active span.symbol-label {
+    border: 3px solid var(--danger);
+}
+
+
+div.color-picker {
+    position: relative;
+    width: 100%;
+    left:0px;
+}
+
+.symbol-list .symbol {
+    max-width: 75px;
+}

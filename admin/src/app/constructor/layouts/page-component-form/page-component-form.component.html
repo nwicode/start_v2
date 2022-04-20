@@ -1,0 +1,315 @@
+<div class="slide-panel">
+    <div class="card card-custom card-stretch card-component-panel">
+        <div class="card-header">
+
+            <div class="card-title">
+                <h3 class="card-label">{{component.title}}<br><small>{{page.name}}</small></h3>
+            </div>
+
+            <div class="card-toolbar">
+                <a class="btn btn-sm btn-icon btn-text-dark btn-hover-light-dark" (click)="cancel()"><i class="flaticon2-delete icon-sm"></i></a>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="card-scroll">
+                <div id="component_form">
+
+                    <div [innerHtml]="form">
+
+                    </div>
+                    <mat-accordion>
+
+                        <div *ngIf="form_tabs.length>0">
+                            <mat-expansion-panel *ngFor="let tab of form_tabs">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title [innerHtml]="tab.title"></mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div [innerHtml]="tab.html">
+
+                                </div>
+                            </mat-expansion-panel>
+                        </div>
+
+                        <mat-expansion-panel *ngIf="has_card_design">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Card as wrapper
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label">Use card</label>
+                                <div class="col-12">
+                                    <select class="custom-select form-control" [(ngModel)]="component.use_card" (change)="onFixedPosChange($event.target.value)">
+                                        <option [selected]="0===component.use_card" [value]="0" >{{ 'GENERAL.LANGUAGES.NO' | translate }} </option>
+                                        <option [selected]="1===component.use_card" [value]="1" >{{ 'GENERAL.LANGUAGES.YES' | translate }} </option>
+                                    </select>
+                                </div>
+                            </div>    
+                            
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label">Background color</label>
+                                <div class="col-12 p-1"  [style.background-color]="card_background_color_value">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block btn-icon" (click)="setCardBackgroundColor()"><i class="fas fa-palette"></i></button>
+                                </div>
+                            </div>   
+                            
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label">Border color</label>
+                                <div class="col-12 p-1"   [style.background-color]="card_border_color_value">
+                                    <button type="button" class="btn btn-primary btn-lg btn-block btn-icon" (click)="setCardBorderColor()"><i class="fas fa-palette"></i></button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label">Shadow settings</label>
+                                <div class="input-group">
+                                  
+                                  
+                                    <input type="text" [(ngModel)]="component.card_shadow" class="form-control" aria-label="">
+                              
+                                  <div ngbDropdown class="input-group-append d-inline-block">
+                                    <button class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'GENERAL.LANGUAGES.CHOOSE' |
+                                      translate}}</button>
+                                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                      <button class="dropdown-item" (click)="component.card_shadow='none'; ">None</button>
+                                      <button class="dropdown-item" (click)="component.card_shadow='0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12)'; ">Default</button>
+                                    </div>
+                                  </div>
+                              
+                                </div>
+
+                            </div>
+
+                            <div class="form-group row">
+                                <label  class="col-12 col-form-label">Horizontal padding</label>
+                                <div class="col-8">
+                                    <mat-slider thumbLabel [(ngModel)]="component.card_padding_left" min="0" max="100" step="1"></mat-slider>
+                                </div>
+                                <label class="col-3 col-form-label">{{component.card_padding_left}}px</label>
+                            </div>
+
+                            <div class="form-group row">
+                                <label  class="col-12 col-form-label">Vertical padding</label>
+                                <div class="col-8">
+                                    <mat-slider thumbLabel [(ngModel)]="component.card_padding_top" min="0" max="100" step="1"></mat-slider>
+                                </div>
+                                <label class="col-3 col-form-label">{{component.card_padding_top}}px</label>
+                            </div>
+
+                            <div class="form-group row">
+                                <label  class="col-12 col-form-label">Border radius(px)</label>
+                                <div class="col-8">
+                                    <mat-slider (change)="changeCardBorderRadiusSlider()" thumbLabel [(ngModel)]="component.card_border_radius" min="0" max="100" step="1"></mat-slider>
+                                </div>
+                                <label class="col-3 col-form-label">{{component.card_border_radius}}px</label>
+                            </div>                             
+                            
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label">Border width(px)</label>
+                                <div class="col-8">
+                                    <mat-slider (change)="changeCardBorderWidhSlider()" thumbLabel [(ngModel)]="component.card_border_width" min="0" max="100" step="1"></mat-slider>
+                                </div>
+                                <label class="col-3 col-form-label">{{component.card_border_width}}px</label>
+                            </div>                            
+                            
+                            <div class="form-group row">
+                                <label class="col-12 col-form-label">Card opacity</label>
+                                <div class="col-8">
+                                    <mat-slider (change)="changeCardOpacitySlider()" thumbLabel [(ngModel)]="component.card_opacity" min="0" max="100" step="1"></mat-slider>
+                                </div>
+                                <label class="col-3 col-form-label">{{component.card_opacity}} % </label>
+                            </div>  
+
+
+
+
+                        </mat-expansion-panel>           
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Component position, height and width
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="form-group">
+                                
+                                <div class="form-group">
+                                    <label>Fixed position</label>
+                                    <select class="custom-select form-control" [(ngModel)]="component.fixed" (change)="onFixedPosChange($event.target.value)">
+                                        <option [selected]="0===component.fixed" [value]="0" >{{ 'GENERAL.LANGUAGES.NO' | translate }} </option>
+                                        <option [selected]="1===component.fixed" [value]="1" >{{ 'GENERAL.LANGUAGES.YES' | translate }} </option>
+                                    </select>
+                                </div>         
+
+                                <div class="form-group">
+                                    <label>Width mode</label>
+                                    <select class="custom-select form-control" [(ngModel)]="component.fluid_width" (change)="onFixedPosChange($event.target.value)">
+                                        <option [selected]="0===component.fluid_width" [value]="0" >Fixed</option>
+                                        <option [selected]="1===component.fluid_width" [value]="1" >Fluid</option>
+                                    </select>
+                                </div>
+
+                                
+                                <div class="form-group">
+                                    <label>Height mode</label>
+                                    <select class="custom-select form-control" [(ngModel)]="component.fluid_height" (change)="onFixedPosChange($event.target.value)">
+                                        <option [selected]="0===component.fluid_height" [value]="0" >Fixed</option>
+                                        <option [selected]="1===component.fluid_height" [value]="1" >Automatic</option>
+                                    </select>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label>Stick to left side </label>
+                                    <select class="custom-select form-control" [(ngModel)]="component.fixed_left" (change)="onFixedPosChange($event.target.value)">
+                                        <option [selected]="0===component.fixed_left" [value]="0" >None</option>
+                                        <option [selected]="1===component.fixed_left" [value]="1" >Stick</option>
+                                    </select>
+                                </div>            
+
+                                <div class="form-group">
+                                    <label>Stick to right side </label>
+                                    <select class="custom-select form-control" [(ngModel)]="component.fixed_right" (change)="onFixedPosChange($event.target.value)">
+                                        <option [selected]="0===component.fixed_right" [value]="0" >None</option>
+                                        <option [selected]="1===component.fixed_right" [value]="1" >Stick</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Left</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">px</span>
+                                        </div>
+                                        <input type="text" class="form-control" [(ngModel)]="component.x0" type="number">
+                                    </div>
+                                </div>
+        
+                                <div class="form-group">
+                                    <label>Top</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">px</span>
+                                        </div>
+                                        <input type="text" class="form-control" [(ngModel)]="component.y0" type="number">
+                                    </div>
+                                </div>
+        
+                                <div class="form-group">
+                                    <label>Width</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">px</span>
+                                        </div>
+                                        <input type="text" class="form-control" [(ngModel)]="component.width" type="number">
+                                    </div>
+                                </div>
+        
+                                <div class="form-group">
+                                    <label>Height</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">px</span>
+                                        </div>
+                                        <input type="text" class="form-control" [(ngModel)]="component.height" type="number">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    CSS class
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="form-group">
+       
+                                <div class="form-group">
+                                    <label>This class add to component wrapper</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" [(ngModel)]="component.css_class">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Visibility
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+
+                            <ul class="nav nav-tabs nav-tabs-line" id="textTabs">
+                                <li class="nav-item cursor-pointer">
+                                    <a class="nav-link" [ngClass]="selectedTab == 0 ? 'active' : ''" (click)="selectTab($event, 0)">{{'OR'}}</a>
+                                </li>
+                                <li class="nav-item cursor-pointer">
+                                    <a class="nav-link" [ngClass]="selectedTab == 1 ? 'active' : ''" (click)="selectTab($event, 1)">{{'AND'}}</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-5" id="myTabContent">
+                                <div *ngIf="selectedTab === 0"  class="tab-pane" [ngClass]="{'show': selectedTab == 0, 'active': selectedTab == 0}">
+                                    <div *ngFor="let visibility of visibility_list_or; let i = index">
+                                        <div class="form-group">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-lg">
+                                                    {{(i + 1) + '. ' + visibility.description}}&nbsp;
+                                                    <input type="checkbox" [(ngModel)]="visibility.selected"/>
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="selectedTab === 1" class="tab-pane" [ngClass]="{'show': selectedTab == 1, 'active': selectedTab == 1}">
+                                    <div *ngFor="let visibility of visibility_list_and; let i = index">
+                                        <div class="form-group">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-lg">
+                                                    {{(i + 1) + '. ' + visibility.description}}&nbsp;
+                                                    <input type="checkbox" [(ngModel)]="visibility.selected"/>
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+
+                        </mat-expansion-panel>
+
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.VARIABLES_HELP' | translate }}
+                              </mat-panel-title>
+                            </mat-expansion-panel-header>
+  
+                            <ul>
+                                <li *ngFor="let variable of variables_list">
+                                    <strong>{{variable.code}}</strong> - {{variable.description}}
+                                </li>
+                            </ul>
+  
+                          </mat-expansion-panel>                        
+
+                    </mat-accordion>
+                </div>
+    
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <button class="btn btn-primary font-weight-bold mr-2" [disabled]="is_saving" [ngClass]="{'spinner spinner-white spinner-left': is_saving}" (click)="save()">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</button>
+            <button class="btn btn-light font-weight-bold mr-2"  [disabled]="is_saving" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+            <button class="btn btn-danger font-weight-bold mr-2"  [disabled]="is_saving" (click)="delete()">{{'GENERAL.LANGUAGES.DELETE' | translate}}</button>
+        </div>
+
+    </div>
+</div>

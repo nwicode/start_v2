@@ -1,0 +1,62 @@
+<ng-container >
+
+    <!-- begin::Loading -->
+    <ng-container *ngIf="isLoading$ | async">
+        <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                 style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </ng-container>
+    <!-- end::Loading -->
+
+    <a type="button" [routerLink]="'/constructor/' + applicationId + '/create-content-type'" class="btn btn-primary btn-sm mt-3 mb-3"> <i class="fas fa-plus"></i> {{'CONSTRUCTOR.CONTENT_TYPE_LIST.ADD_CONTENT_TYPE' | translate}}</a>
+
+    <div *ngIf="contentTypes && contentTypes.length > 0">
+        <ng-container *ngFor="let contentType of contentTypes; let i = index">
+            <div class="row  gutter-b">
+                <div class="col-lg-12">
+                    <!--begin::Callout-->
+                    <div class="card card-custom p-2">
+                        <div class="card-body">
+                            <div class="row">
+                                <!--begin::Content-->
+                                <div class="col-sm-6">
+                                    <h2 class="text-dark mb-4">{{i + 1}}. {{contentType.name}}</h2>
+                                </div>
+                                <!--end::Content-->
+
+                                <!--begin::Button-->
+                                <div class="col-sm-6 d-flex align-items-center justify-content-sm-end"
+                                     *ngIf="selectedContentTypeIndex !== i">
+                                    <a class="btn font-weight-bolder text-uppercase btn-primary py-3 px-6 mr-2"
+                                       [routerLink]="'/constructor/' + applicationId + '/edit-content-type/' + contentType.id">{{'GENERAL.LANGUAGES.EDIT' | translate}}</a><br>
+                                    <a class="btn font-weight-bolder text-uppercase btn-danger py-3 px-6"
+                                       (click)="chooseContentType(i)">{{'GENERAL.LANGUAGES.DELETE' | translate}}</a>
+                                </div>
+                                <!--end::Button-->
+
+                                <!--begin::Button confirm-->
+                                <div class="col-sm-6 d-flex align-items-center justify-content-sm-end"
+                                     *ngIf="selectedContentTypeIndex === i">
+                                    <p class="text-dark font-weight-bold line-height-lg mr-2">{{'CONSTRUCTOR.CONTENT_TYPE_LIST.DELETE_CONFIRM' | translate}}?</p>
+                                    <a class="btn font-weight-bolder text-uppercase btn-primary py-3 px-6 mr-2"
+                                       (click)="clickContentTypeConfirm(i)">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</a>
+                                    <a class="btn font-weight-bolder text-uppercase btn-light py-3 px-6"
+                                       (click)="clickContentTypeCancel(i)">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                </div>
+                                <!--end::Button confirm-->
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Callout-->
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+    <div *ngIf="contentTypes && contentTypes.length < 1">
+        <h1>{{'CONSTRUCTOR.CONTENT_TYPE_LIST.NO_CONTENT_TYPES' | translate}}</h1>
+    </div>
+</ng-container>
+

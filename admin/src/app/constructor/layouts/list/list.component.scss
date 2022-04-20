@@ -1,0 +1,38 @@
+div.layers-container {
+    transform-origin: left top 0px;
+    padding-top: 80px;
+}
+div.layer-controls {
+    position: fixed;
+    right: 20px;
+    top: 140px;
+    z-index: 2;
+    background-color: var(--white);
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 10px;    
+}
+
+div.add-button {
+    position: fixed;
+    left: 250px;
+    top: 90px;
+    z-index: 100;
+}
+
+div.slide-panel {
+    width: 400px;
+    display: block;
+    background: #fff;
+    border: 1px solid #ddd;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    z-index: 999;
+    height: 100%;
+}
+.components-list-area {
+    overflow: auto;
+    max-height: 300px;
+    min-height: 100px;
+}

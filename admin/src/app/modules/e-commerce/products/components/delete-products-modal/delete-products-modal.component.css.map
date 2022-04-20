@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "delete-products-modal.component.scss"
+    ],
+    "names": [],
+    "file": "delete-products-modal.component.css"
+}

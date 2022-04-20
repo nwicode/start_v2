@@ -1,0 +1,142 @@
+<div class="slide-panel">
+    <div class="card card-custom card-component-panel">
+        <div class="card-header">
+
+            <div class="card-title" *ngIf="current_list=='main'">
+                <span class="card-icon">
+                    <i class="flaticon-layers text-primary"></i>
+                </span>
+                <h3 class="card-label">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.TITLE' | translate }}
+                <br><small>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.TITLE_TEXT' | translate }}</small></h3>
+            </div>
+
+            <div class="card-title" *ngIf="current_list=='pages'">
+                <span class="card-icon">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-3d.svg'" cacheSVG="true" class="svg-icon svg-icon-xl svg-icon-primary"></span>
+                </span>
+                <h3 class="card-label">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGES' | translate }}
+                <br><small>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGES_TEXT' | translate }}</small></h3>
+            </div>
+
+            <div class="card-title" *ngIf="current_list=='components'">
+                <span class="card-icon">
+                    <span [inlineSVG]="'./assets/media/svg/Layout/Layout-arrange.svg'" cacheSVG="true" class="svg-icon svg-icon-xl svg-icon-primary"></span>
+                </span>
+                <h3 class="card-label">{{ selected_list.title | translate }}
+                <br><small>{{ selected_list.description | translate }}</small></h3>
+            </div>
+
+            <div class="card-title" *ngIf="current_list=='create_page'">
+                <h3 class="card-label">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADD_PAGE' | translate }}
+                <br><small>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADD_PAGE_TEXT' | translate }}</small></h3>
+            </div>
+
+            <div *ngIf="current_list=='main' || current_list=='pages' || current_list=='components'" class="card-toolbar">
+                <a *ngIf="current_list!='main'" class="btn btn-sm btn-icon btn-text-dark btn-hover-light-dark" (click)="current_list='main'"><i class="flaticon2-back icon-sm"></i></a>
+                <a class="btn btn-sm btn-icon btn-text-dark btn-hover-light-dark" (click)="closeSideComponentPanel()"><i class="flaticon2-delete icon-sm"></i></a>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div *ngIf="components_loaded">
+
+                <div class="row" *ngIf="current_list=='create_page'">
+                    <div class="col-12" >
+                        <app-page-create-form [form_type]="form_type"></app-page-create-form>
+                    </div>
+                </div>
+
+                <!-- pages list-->
+                <div class="row pages-list" *ngIf="current_list=='pages'">
+                    
+                    <div class=" col-6 mb-10 cursor-pointer page-block text-center" *ngFor="let available_page of available_page_list" (click)="addPage(available_page.page_type)">
+                        <!--begin::Symbol-->
+                        <div class="page-icon">
+                            <img [src]="available_page.image">
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Text-->
+                        <div class="font-weight-bold">
+                            <a class="text-dark text-hover-primary mb-1 font-size-lg">{{ available_page.page_name | translate }}</a>
+                        </div>
+                        <!--end::Text-->
+                    </div>                    
+                </div>
+
+                <!-- headers list-->
+                <div class="row pages-list" *ngIf="current_list=='components'">
+                    
+                    <!--<div class="mb-10 cursor-pointer page-block text-center" *ngFor="let available_header of available_headers_list" (window:mouseup)="mouseUp($event,available_header)" (mousedown)="mouseDown($event,available_header)" >-->
+                    <div class="col-6 mb-2 cursor-pointer text-center" *ngFor="let available_header of selected_list.items"  >
+                        <div class="component-block m-1">
+                            <!--begin::Symbol-->
+                            <div class="svg-icon svg-icon-10x" [innerHtml]="available_header.svg" (mousedown)="mouseDown($event,available_header)" (window:mouseup)="mouseUp($event,available_header)">
+                                
+                            </div>
+                            <!--end::Symbol-->
+                            <!--begin::Text-->
+                            <div class="font-weight-bold">
+                                <a class="text-dark text-hover-primary mb-1 font-size-h5">{{ available_header.name | translate }}</a>
+                                <p class="text-muted">{{ available_header.description | translate }}</p>
+                            </div>
+                            <!--end::Text-->
+                        </div>
+                    </div>                    
+                </div>
+
+                <!-- main components menu-->
+                <div class="col-12" *ngIf="current_list=='main'">
+
+                    <!-- pages -->
+                    <div class="d-flex align-items-center mb-10 cursor-pointer" (click)="current_list='pages'">
+                        <!--begin::Symbol-->
+                        <div class="symbol symbol-40 symbol-light-primary mr-5">
+                            <span class="symbol-label">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-3d.svg'" cacheSVG="true" class="svg-icon svg-icon-xl svg-icon-primary"></span>
+                            </span>
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Text-->
+                        <div class="d-flex flex-column font-weight-bold flex-grow-1">
+                            <a class="text-dark text-hover-primary mb-1 font-size-lg">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGES' | translate }}</a>
+                            <span class="text-muted">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGES_TEXT' | translate }}</span>
+                        </div>
+                        <!--end::Text-->
+                        <span class="label light-primary label-rounded">{{available_page_list.length}}</span>
+                    </div>
+
+
+
+
+                    <!-- other components -->
+                    <div class="d-flex align-items-center mb-10 cursor-pointer"  (click)="current_list='components'; selected_list = category;" *ngFor="let category of available_components_list">
+                        <!--begin::Symbol-->
+                        <div class="symbol symbol-40 symbol-light-primary mr-5">
+                            <span class="symbol-label">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-arrange.svg'" cacheSVG="true" class="svg-icon svg-icon-xl svg-icon-primary"></span>
+                            </span>
+                        </div>
+                        <!--end::Symbol-->
+                        <!--begin::Text-->
+                        <div class="d-flex flex-column font-weight-bold flex-grow-1">
+                            <a  class="text-dark text-hover-primary mb-1 font-size-lg">{{ category.title | translate }}</a>
+                            <span class="text-muted">{{ category.description | translate }}</span>
+                        </div>
+                        <!--end::Text-->
+                        <span class="label light-primary label-rounded">{{category.items.length}}</span>
+                    </div>
+
+                    
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="draggable_component" [innerHtml]="drag_image" [style.transform]="drag_translate" style="position: fixed;" *ngIf="drag_in_process" [style.top.px]="drag_x" [style.left.px]="drag_x">
+        
+    </div>
+
+</div>
+

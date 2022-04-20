@@ -1,0 +1,8 @@
+  <!--begin::ThemeSwither-->
+  <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="true">
+    <div class="btn btn-icon btn-clean btn-lg btn-dropdown mr-1" (click)="switchTheme()">
+        <span *ngIf="mode=='light'" [inlineSVG]="'./assets/media/svg/icons/Weather/Moon.svg'" cacheSVG="true" class="svg-icon svg-icon-xl svg-icon-primary"></span>
+        <span *ngIf="mode=='dark'" [inlineSVG]="'./assets/media/svg/icons/Weather/Sun.svg'" cacheSVG="true" class="svg-icon svg-icon-xl svg-icon-primary"></span>
+    </div>
+</div>
+  <!--end::ThemeSwitcher-->

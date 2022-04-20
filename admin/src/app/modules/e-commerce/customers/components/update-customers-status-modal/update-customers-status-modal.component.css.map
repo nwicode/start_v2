@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "update-customers-status-modal.component.scss"
+    ],
+    "names": [],
+    "file": "update-customers-status-modal.component.css"
+}

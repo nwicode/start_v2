@@ -1,0 +1,16 @@
+<div class="modal-header">
+    <h4>{{header | translate}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+        <span style="display: block" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div>
+        <div [innerHTML]="content"></div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="activeModal.close()">
+        {{'GENERAL.LANGUAGES.CLOSE' | translate}}
+    </button>
+</div>

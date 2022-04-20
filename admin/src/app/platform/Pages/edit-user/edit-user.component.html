@@ -1,0 +1,123 @@
+<!--begin::Profile Overview-->
+<div class="d-flex flex-row" *ngIf="editUser">
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+        <!--begin::Profile Card-->
+        <div class="card card-custom card-stretch" >
+            <!--begin::Body-->
+            <div class="card-body pt-4">
+                <!--begin::User-->
+                <div class="d-flex align-items-center">
+                    <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
+                        <div class="symbol-label"
+                        [ngClass]="{'image-empty': !avatar}"
+                        [style.backgroundImage]="'url('+ avatar +')'"></div>
+                        <i class="symbol-badge bg-success"></i>
+                    </div>
+                    <div>
+                        <a class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary cursor-pointer">
+                            {{editUser.name + ' ' + editUser.lastname}}
+                        </a>
+                        <div class="text-muted">
+                            <span *ngIf="editUser.user_type_id==1">{{'PAGE.USERS.ROLE_ADMIN' | translate}}</span>
+                            <span *ngIf="editUser.user_type_id==2">{{'PAGE.USERS.ROLE_CUSTOMER' | translate}}</span>
+                            <span *ngIf="editUser.user_type_id==3">{{'PAGE.USERS.ROLE_MAANGER' | translate}}</span>
+                        </div>
+                    </div>
+                </div>
+                <!--end::User-->
+
+                <!--begin::Contact-->
+                <div class="py-9">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="font-weight-bold mr-2">{{'EDIT.USER.EMAIL' | translate}}:</span>
+                        <a class="text-muted text-hover-primary">{{editUser.email}}</a>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="font-weight-bold mr-2">{{'EDIT.USER.PHONE' | translate}}:</span>
+                        <span class="text-muted">{{editUser.phone}}</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <span class="font-weight-bold mr-2">{{'EDIT.USER.LOCATION' | translate}}:</span>
+                        <span class="text-muted">{{editUser.address}}</span>
+                    </div>
+                </div>
+                <!--end::Contact-->
+
+                <!--begin::Nav-->
+                <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" [routerLink]="'/edit-user/'+ editUser.id + '/personal-information'" routerLinkActive="active">
+                            <span class="navi-icon mr-2">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true" class="svg-icon"></span>
+                                </span>
+                            <span class="navi-text font-size-lg">
+                                {{'EDIT.USER.PERSONAL_INFORMATION' | translate}}
+                            </span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" [routerLink]="'/edit-user/'+ editUser.id + '/account-information'" routerLinkActive="active">
+                            <span class="navi-icon mr-2">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Address-card.svg'" cacheSVG="true" class="svg-icon"></span>
+                                </span>
+                            <span class="navi-text font-size-lg">
+                                {{'EDIT.USER.ACCOUNT_INFORMATION' | translate}}
+                            </span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" [routerLink]="'/edit-user/'+ editUser.id + '/change-password'" routerLinkActive="active">
+                            <span class="navi-icon mr-2">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Shield-user.svg'" cacheSVG="true"
+                                    class="svg-icon"></span>
+                                </span>
+                            <span class="navi-text font-size-lg">
+                                {{'EDIT.USER.CHANGE_PASSWORD' | translate}}
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" [routerLink]="'/edit-user/'+ editUser.id + '/applications'" routerLinkActive="active">
+                            <span class="navi-icon mr-2">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Code/Compiling.svg'" cacheSVG="true" class="svg-icon"></span>
+                                </span> 
+                            <span class="navi-text font-size-lg">
+                                {{'EDIT.USER.APPLICATIONS' | translate}}
+                            </span>
+                            <span class="navi-label">
+                                <span class="label label-light-primary label-rounded font-weight-bold">{{userApplications.length}}</span>
+                            </span>                            
+                        </a>
+                    </div>
+
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" [routerLink]="'/edit-user/'+ editUser.id + '/managers'" routerLinkActive="active">
+                            <span class="navi-icon mr-2">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group.svg'" cacheSVG="true" class="svg-icon"></span>
+                                </span>
+                            <span class="navi-text font-size-lg">
+                                {{'EDIT.USER.MANAGERS' | translate}}
+                            </span>
+                            <span class="navi-label">
+                                <span class="label label-light-primary label-rounded font-weight-bold">{{userManagers.length}}</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <!--end::Nav-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+        <router-outlet></router-outlet>
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Profile Overview-->

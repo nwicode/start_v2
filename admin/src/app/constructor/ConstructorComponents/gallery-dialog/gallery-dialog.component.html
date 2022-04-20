@@ -1,0 +1,26 @@
+<h3>{{'GALLERY.TITLE' | translate}}</h3>
+<mat-tab-group [selectedIndex]="tabIndex" (selectedIndexChange)="onSelectedTabChanges($event)">
+    <mat-tab label="{{'GALLERY.MY_IMAGES' | translate}}">
+        <app-my-images [galleryDialog]="galleryDialog" (onCanceled)="onCanceled($event)"
+                       (onSelectGalleryImages)="onSelectGalleryImages($event)"
+                       (onSelectGalleryImage)="onSelectGalleryImage($event)">
+        </app-my-images>
+    </mat-tab>
+    <mat-tab label="Adobe CC">
+        <app-adobe-images [galleryDialog]="galleryDialog" (onCanceled)="onCanceled($event)"
+                          (onSelectGalleryImages)="onSelectGalleryImages($event)"
+                          (onSelectGalleryImage)="onSelectGalleryImage($event)">
+
+        </app-adobe-images>
+    </mat-tab>
+    <mat-tab label="Drop Box">
+        <app-dropbox-images></app-dropbox-images>
+    </mat-tab>
+    <mat-tab label="{{'GALLERY.LOCAL_DISK' | translate}}">
+        <app-local-disk-images [galleryDialog]="galleryDialog" (onCanceled)="onCanceled($event)"
+                               (onSelectGalleryImages)="onSelectGalleryImages($event)"
+                               (onSelectGalleryImage)="onSelectGalleryImage($event)">
+
+        </app-local-disk-images>
+    </mat-tab>
+</mat-tab-group>

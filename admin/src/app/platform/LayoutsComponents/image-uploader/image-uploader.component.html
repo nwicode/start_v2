@@ -1,0 +1,66 @@
+<div class="image-input image-input-outline" [style.background-color]="bgColor" [class.image-input-empty]="imageSrc==''" [style.width.px]="innerWidth" [style.height.px]="innerHeight">
+<img class="image-input-wrapper" [src]="imageSrc!=''?imageSrc:placeholderSrc" />
+<label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+    data-action="change"
+    data-toggle="tooltip"
+    title="{{'IMAGE.CROPPER.CHANGE_IMAGE' | translate }}"
+    data-original-title="Change avatar">
+    <i class="fa fa-pen icon-sm text-muted"></i>
+    <input type="file" name="profile_avatar" accept=".png, .jpg, .jpeg,.ico,.svg" (change)="fileChangeEvent($event, cropModalContent)" />
+    <input type="hidden" name="profile_avatar_remove"  />
+</label>
+<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+    data-action="cancel" data-toggle="tooltip" title="" data-original-title="Cancel avatar">
+    <i class="ki ki-bold-close icon-xs text-muted"></i>
+</span>
+<span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" (click)="removeavatar()" data-action="remove" data-toggle="tooltip" title="{{'IMAGE.CROPPER.RESET_IMAGE' | translate }}" data-original-title="">
+    <i class="ki ki-bold-close icon-xs text-muted"></i>
+</span>
+</div> 
+
+
+<ng-template #cropModalContent let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title">{{'IMAGE.CROPPER.TITLE' | translate }}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-6 col-xl-6 text-left">
+                <span class="text-muted">{{'IMAGE.CROPPER.ORIGINAL_IMAGE' | translate }}</span>
+                <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                    [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="aspectRatio" [resizeToWidth]="outWidth" [resizeToHeight]="outHeight"
+                    [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" [canvasRotation]="canvasRotation"
+                    [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
+                    (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
+
+                    (loadImageFailed)="loadImageFailed()">
+                </image-cropper>                
+            </div>
+            <div class="col-lg-6 col-xl-6 text-left">
+                <span class="text-muted">{{'IMAGE.CROPPER.CROPED_IMAGE' | translate }}</span><br>
+                <img class="image-input-wrapper" [src]="croppedImage" />
+                <div class="cropper-buttons pt-3">
+                    <span class="text-muted">{{'IMAGE.CROPPER.ROTATE_OPERATIONS' | translate }}</span>
+                    <div class="separator separator-solid mb-2"></div>
+                    <a (click)="rotateLeft()" class="btn btn-dark btn-sm ml-1"><i class="fas fa-undo"></i>{{'IMAGE.CROPPER.ROTATE_LEFT' | translate }} 90</a>
+                    <a (click)="rotateRight()" class="btn btn-dark btn-sm ml-1"><i class="fas fa-redo"></i>{{'IMAGE.CROPPER.ROTATE_RIGHT' | translate }} 90</a>
+                    <div class="separator separator-solid mb-2 mt-2"></div>
+                    <a (click)="flipHorizontal()" class="btn btn-dark btn-sm ml-1"><i class="fas fa-grip-horizontal"></i>{{'IMAGE.CROPPER.FLIP_HORIZONTAL' | translate }}</a>
+                    <a (click)="flipVertical()" class="btn btn-dark btn-sm ml-1"><i class="fas fa-grip-vertical"></i>{{'IMAGE.CROPPER.FLIP_VETICAL' | translate }}</a>                    
+                    <div class="separator separator-solid mb-2 mt-2"></div>
+                    <a *ngIf="containWithinAspectRatio" (click)="toggleContainWithinAspectRatio()" class="btn btn-dark btn-block btn-sm ml-1"><i class="fas fa-arrows-alt-h"></i>{{'IMAGE.CROPPER.FILL_ASPECT_RATIO' | translate }}</a> 
+                    <a *ngIf="!containWithinAspectRatio" (click)="toggleContainWithinAspectRatio()" class="btn btn-dark btn-block btn-sm ml-1"><i class="fas fa-arrows-alt-h"></i>{{'IMAGE.CROPPER.CONTAIN_WITHIN_ASPECT_RATIO' | translate }}</a> 
+                    <div class="separator separator-solid mb-2 mt-2"></div>
+                    <div class="text-right">
+                        <a (click)="store()" class="btn btn-success mr-3 ml-1 mt-5"><i class="fas fa-save"></i>{{'IMAGE.CROPPER.READY' | translate }}</a>
+                        <a (click)="cancel()" class="btn btn-light mr-3 ml-1 mt-5"><i class="flaticon2-cross"></i>{{'IMAGE.CROPPER.CANCEL' | translate }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+

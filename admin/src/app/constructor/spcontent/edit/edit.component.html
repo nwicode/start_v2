@@ -1,0 +1,102 @@
+<ng-container>
+
+    <div class="card card-custom  gutter-b">
+
+
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+    
+            <!--begin::Header-->
+            <div class="card-header py-3">
+                <div class="card-title align-items-start flex-column">
+                    <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.SPCONTENT.PRODUCT_TITLE' | translate}}</h3>
+                    <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.SPCONTENT.PRODUCT_TITLE_TEXT' | translate}}</span>
+                </div>
+
+                <div class="card-toolbar">
+                    <span class="label label-warning label-pill label-inline mr-2" *ngIf="!validate()" >{{'CONSTRUCTOR.SPCONTENT.SAVE_FILL_REQUIERED' | translate}}</span>
+                    <button type="submit" class="btn btn-success mr-2" [disabled]="!validate()" (click)="save()">{{ 'GENERAL.LANGUAGES.SAVE_CHANGES' | translate }}</button>
+                    <button type="reset" class="btn btn-secondary" [routerLink]="['/constructor',app_id,'spcontent','list']">{{ 'GENERAL.LANGUAGES.CANCEL' | translate }}</button>
+                </div>                
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Form-->
+            <div class="form card-body mt-2">
+
+                <div *ngIf="was_loaded">
+
+                    <!-- name -->
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.SPCONTENT.PRODUCT_NAME' | translate}}</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <mat-tab-group >
+                                <mat-tab *ngFor="let language of product.languages; let i = index" [label]="'метка'">
+                                    <ng-template mat-tab-label>
+                                        <span>{{language.code}} - {{language.language_name}}</span>
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <input class="form-control form-control-lg form-control-solid" type="text" [(ngModel)]="language.name" [class.is-invalid]="language.name==''" [class.is-valid]="language.name!=''" />
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+                    <!-- name -->
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.SPCONTENT.PRODUCT_DESCRIPTION' | translate}}</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <mat-tab-group >
+                                <mat-tab *ngFor="let language of product.languages; let i = index" [label]="'метка'">
+                                    <ng-template mat-tab-label>
+                                        <span>{{language.code}} - {{language.language_name}}</span>
+                                    </ng-template>
+                                    <ng-template matTabContent>
+                                        <input class="form-control form-control-lg form-control-solid" type="text" [(ngModel)]="language.description" [class.is-invalid]="language.description==''" [class.is-valid]="language.description!=''" />
+                                    </ng-template>
+                                </mat-tab>
+                            </mat-tab-group>
+                        </div>
+                    </div>
+
+                    <!-- code -->
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.SPCONTENT.PRODUCT_CODE' | translate}}</label>
+                        <div class="col-lg-9 col-xl-6">
+                            <input [(ngModel)]="product.code" class="form-control form-control-lg form-control-solid" type="text" [class.is-invalid]="product.code==''" [class.is-valid]="product.code!=''" />
+                        </div>
+                    </div>
+
+                    <!-- iap type-->
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.SPCONTENT.PRODUCT_TYPE' | translate}}</label>
+                        <div class="col-lg-9 col-xl-6" >
+                            <select required class="form-control form-control-lg form-control-solid" [(ngModel)]="product.iap_id" [class.is-invalid]="product.iap_id==0">
+                                <option *ngFor="let type of this.application.in_app_types" value="{{type.id}}">{{type.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- status-->
+                    <div class="form-group row">
+                        <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.SPCONTENT.PRODUCT_DISABLED' | translate}}</label>
+                        <div class="col-lg-9 col-xl-6 checkbox-inline">
+                            <label class="checkbox checkbox-danger">
+                                <input type="checkbox" name="disabled" [(ngModel)]="product.disabled"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+    </div>
+
+
+</ng-container>

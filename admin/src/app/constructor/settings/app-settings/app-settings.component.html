@@ -1,0 +1,105 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div *ngIf="formGroup" class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.APP_SETTINGS.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.APP_SETTINGS.TITLE_TEXT' | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup.invalid && this.formGroup.touched">{{ 'GENERAL.LANGUAGES.FORM_NOT_FILL' | translate}}</span>
+                <button type="submit" class="btn btn-success mr-2" [disabled]="formGroup.invalid && this.formGroup.touched" (click)="save()">{{ 'GENERAL.LANGUAGES.SAVE_CHANGES' | translate }}</button>
+                <button type="reset" class="btn btn-secondary" (click)="cancel()">{{ 'GENERAL.LANGUAGES.CANCEL' | translate }}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div *ngIf="formGroup" class="form" [formGroup]="formGroup">
+            <div class="card-body">
+
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.APP_SETTINGS.NAME' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <input class="form-control form-control-lg form-control-solid" type="text" formControlName="name"
+                               [class.is-invalid]="isControlInvalid('name')" [class.is-valid]="isControlValid('name')" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.APP_SETTINGS.DESCRIPTION' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <input class="form-control form-control-lg form-control-solid" type="text" formControlName="description"
+                               [class.is-invalid]="isControlInvalid('description')" [class.is-valid]="isControlValid('description')" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.APP_SETTINGS.VERSION' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <input class="form-control form-control-lg form-control-solid" type="text" formControlName="version"
+                               [class.is-invalid]="isControlInvalid('version')" [class.is-valid]="isControlValid('version')" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.APP_SETTINGS.BUNDLE_ID' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <input class="form-control form-control-lg form-control-solid" type="text" formControlName="bundleId"
+                               [class.is-invalid]="isControlInvalid('bundleId')" [class.is-valid]="isControlValid('bundleId')" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.APP_SETTINGS.PLATFORMS' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <div class="checkbox-inline" formGroupName="platformsCheckboxes">
+                            <label class="checkbox">
+                                <input type="checkbox" formControlName="pwa" name="pwa"/>
+                                <span></span>
+                                PWA&nbsp;
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" formControlName="android" name="android"/>
+                                <span></span>
+                                Android&nbsp;
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" formControlName="ios" name="ios"/>
+                                <span></span>
+                                IOS&nbsp;
+                            </label>
+
+                        </div>
+                        <div class="fv-plugins-message-container"
+                             *ngIf="formGroup.controls['platformsCheckboxes'].invalid && formGroup.controls['platformsCheckboxes'].touched">
+                            <div class="fv-help-block">
+                                {{'CONSTRUCTOR.APP_SETTINGS.PLATFORM_REQUIRED' | translate}}!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.APP_SETTINGS.SCREEN_MODE' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <select class="form-control form-control-lg form-control-solid" formControlName="screenMode">
+                            <option value="portrait">{{'CONSTRUCTOR.APP_SETTINGS.PORTRAIT' | translate}}</option>
+                            <option value="landscape">{{'CONSTRUCTOR.APP_SETTINGS.LANDSCAPE' | translate}}</option>
+                            <option value="both">{{'CONSTRUCTOR.APP_SETTINGS.BOTH' | translate}}</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>

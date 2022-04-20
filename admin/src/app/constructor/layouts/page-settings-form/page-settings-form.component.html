@@ -1,0 +1,320 @@
+<ng-template #colorPickerContent let-c="close" let-d="dismiss" class="color-picker-modal">
+    <div class="modal-header">
+      <h4 class="modal-title">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADD_COLOR' | translate }}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <app-color-picker [disableAlpha]="true"  [color]="'#fff'" [color]="new_color_value" (onChange)="changeBgColorEvent($event)" ></app-color-picker>
+        <div class="form-group">
+          <label>{{'CONSTRUCTOR.COLORS.COLOR_NAME' | translate}}</label>
+          <input type="text" class="form-control"  value="" name="new_color_name" [class.is-invalid]="new_color_name==''" [(ngModel)]="new_color_name">
+      </div>        
+    </div>
+    <div class="modal-footer">
+      <button type="button"  [disabled]="new_color_name==''" (click)="closeAndSaveColorPickerModal()" class="btn btn-success">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+      <button type="button" class="btn btn-secondary" (click)="closeColorPickerModalAndCancelSettings()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    </div>
+  </ng-template>
+
+<div class="slide-panel">
+    <div class="card card-custom card-component-panel">
+        <div class="card-header">
+
+            <div class="card-title">
+                <h3 class="card-label">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_SETTINGS' | translate }} - {{page_name}}
+                <br><small>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_SETTINGS_TEXT' | translate }} </small></h3>
+            </div>
+
+            <div class="card-toolbar">
+                <a class="btn btn-sm btn-icon btn-text-dark btn-hover-light-dark" (click)="closeForm()"><i class="flaticon2-delete icon-sm"></i></a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+
+
+                <div class="col-xl-12">
+                    
+                    <div *ngIf="!data_loaded" class="spinner spinner-track spinner-primary mr-15"></div>
+
+                    <div class="scrollable-panel">
+
+                    <mat-accordion *ngIf="data_loaded">
+
+                        <!-- name -->
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_NAME' | translate }}
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_NAME' | translate }} 
+                                <span class="text-danger">*</span></label>
+                                <input type="text" [class.is-invalid]="page_settings.page.name==''" class="form-control" [(ngModel)]="page_settings.page.name" name="form_name" id="exampleInputPassword1" placeholder="{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_NAME' | translate }} ">
+                            </div>
+                        </mat-expansion-panel>
+
+                        <!-- bg color -->
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_BACKGROUND' | translate }}
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="form-group">
+
+                                <p class="font-size-sm"><u>{{'CONSTRUCTOR.COLORS.SYSTEM_COLORS' | translate}}</u></p>
+                                <div class="symbol-list d-flex flex-wrap">
+                                    <div class="symbol symbol-55 p-1 text-center"   [class.active]="page_settings.page.background==color.color_name" *ngFor="let color of page_settings.colors_system">
+                                        <span (click)="setBackgroundColor(color)" class="symbol-label font-size-xs cursor-pointer" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast?color.color_value_contrast:'#000'" ></span>
+                                        <span class="font-weight-lighter font-size-xs color-name">{{color.name}}</span>
+                                      </div>
+                                </div>
+                                                              
+                                <p class="font-size-sm mt-5"><u>{{'CONSTRUCTOR.COLORS.ADDITIONAL_COLORS' | translate}}</u></p>
+                                <div class="symbol-list d-flex flex-wrap">
+                                    <div class="symbol symbol-55 p-1  text-center"   [class.active]="page_settings.page.background==color.color_name" *ngFor="let color of page_settings.colors_main">
+                                        <span (click)="setBackgroundColor(color)" class="symbol-label font-size-xs cursor-pointer" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast?color.color_value_contrast:'#000'" ></span>
+                                        <span class="font-weight-lighter font-size-xs color-name">{{color.name}}</span>
+                                      </div>
+                                </div>
+
+                                <p class="font-size-sm mt-5"><u>{{'CONSTRUCTOR.COLORS.USER_COLORS' | translate}}</u></p>
+                                <div class="symbol-list d-flex flex-wrap">
+                                    <div class="symbol symbol-55 p-1  text-center"   [class.active]="page_settings.page.background==color.color_name"  *ngFor="let color of page_settings.colors_user">
+                                        <span (click)="setBackgroundColor(color)" class="symbol-label font-size-xs cursor-pointer" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast?color.color_value_contrast:'#000'" ></span>
+                                        <span class="font-weight-lighter font-size-xs color-name">{{color.name}}</span>
+                                    </div>
+                                    <div class="symbol symbol-55 p-1  text-center">
+                                        <span (click)="openColorPickerModal(colorPickerContent)" class="symbol-label font-size-xs cursor-pointer"><i class="flaticon2-plus icon-lg"></i></span>
+                                        <span class="font-weight-lighter font-size-xs color-name">{{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADD_COLOR' | translate}}</span>
+                                    </div>                                    
+                                </div>                                
+                            </div>
+                        </mat-expansion-panel>
+
+                        <!-- bbg image-->
+                        <mat-expansion-panel>
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_BACKGROUND_IMAGE' | translate}}
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p class="text-muted">
+                            {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_BACKGROUND_IMAGE_TEXT' | translate}}
+                          </p>
+                          <mat-radio-group (change)="changeBackgroundImage()" [(ngModel)]="selectedBackgroundImage">
+                            <mat-radio-button  value="default">{{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.USE_DEFAULT_BACKGROUND_IMAGE' | translate}}</mat-radio-button><br>
+                            <mat-radio-button  value="none">{{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.NOT_USE_BACKGROUND_IMAGE' | translate}}</mat-radio-button>
+                            <mat-radio-button  value="custom">{{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.CUSTOM_BACKGROUND_IMAGE' | translate}}</mat-radio-button>
+                          </mat-radio-group>
+                          
+                          <!-- load custom image -->
+                          <div *ngIf="selectedBackgroundImage=='custom'">
+
+                            <div class="custom-file mt-3" [formGroup]="formGroup">
+                              <input id="inputImage" type="file" class="custom-file-input" accept=".png" formControlName="inputImage" (change)="onLoadImage()">
+                              <label class="custom-file-label form-control form-control-lg" for="inputImage">{{inputText ? inputText : 'GENERAL.LANGUAGES.CHOOSE_FILE' | translate}}</label>
+                            </div>
+
+                            <div class="form-group">
+                              <label>{{'CONSTRUCTOR.BACKGROUND.IMAGE_MODE' | translate}}</label>
+                              <div class="input-group">
+                                <input type="text" [(ngModel)]="page_settings.page.background_image_mode" class="form-control" aria-label="">
+                            
+                                <div ngbDropdown class="input-group-append d-inline-block">
+                                  <button class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'GENERAL.LANGUAGES.CHOOSE' |
+                                    translate}}</button>
+                                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_mode='repeat-x'; changeBackgroundImage();">repeat-x</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_mode='repeat'; changeBackgroundImage();">repeat</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_mode='repeat-y'; changeBackgroundImage();">repeat-y</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_mode='space'; changeBackgroundImage();">space</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_mode='no-repeat'; changeBackgroundImage();">no-repeat</button>
+                            
+                                  </div>
+                                </div>
+                            
+                              </div>
+                              <span class="form-text text-muted">{{'CONSTRUCTOR.BACKGROUND.IMAGE_MODE_HELPER' | translate}}</span>
+                            </div>
+                            
+                            <div class="form-group">
+                              <label>{{'CONSTRUCTOR.BACKGROUND.IMAGE_SIZE' | translate}}</label>
+                              <div class="input-group">
+                                <input type="text" [(ngModel)]="page_settings.page.background_image_size" class="form-control" aria-label="">
+                            
+                                <div ngbDropdown class="input-group-append d-inline-block">
+                                  <button class="btn btn-light" id="dropdownBasic1" ngbDropdownToggle>{{'GENERAL.LANGUAGES.CHOOSE' |
+                                    translate}}</button>
+                                  <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_size='contain'; changeBackgroundImage();">contain</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_size='cover'; changeBackgroundImage();">cover</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_size='auto'; changeBackgroundImage();">auto</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_size='30%'; changeBackgroundImage();">30%;</button>
+                                    <button class="dropdown-item" (click)="page_settings.page.background_image_size='10%'; changeBackgroundImage();">10%;</button>
+                            
+                                  </div>
+                                </div>
+                            
+                              </div>
+                              <span class="form-text text-muted">{{'CONSTRUCTOR.BACKGROUND.IMAGE_MODE_HELPER' | translate}}</span>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            </div>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel *ngIf="page_settings.admob_enabled==1">
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADMOB_SETTINGS' | translate}}
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p class="text-muted">
+                            {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADMOB_TEXT' | translate}}
+                          </p>
+                          <mat-checkbox [(ngModel)]="page_settings.page.show_admob_banner">Banner</mat-checkbox><br>
+                          <mat-checkbox [(ngModel)]="page_settings.page.show_admob_interstitial">Interstitial</mat-checkbox><br>
+                          <mat-checkbox [(ngModel)]="page_settings.page.show_admob_reward_video">Reward Video</mat-checkbox><br>
+                        </mat-expansion-panel>
+
+                        <mat-expansion-panel *ngIf="page_settings.page.type=='start'">
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_SETTINGS' | translate}}
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <p class="text-muted">
+                            {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_SETTINGS_TEXT' | translate}}
+                          </p>
+
+                          <div class="form-group">
+														<label>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION' | translate }} </label>
+														<div></div>
+														<select class="custom-select form-control" [(ngModel)]="page_settings.page.current_animation" (change)="onAnimationChange($event.target.value)">
+															<option [selected]="0===page_settings.page.current_animation" [value]="0" >{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION_CUSTOM' | translate }} </option>
+															<option [selected]="p.id===page_settings.page.current_animation" [value]="p.id" *ngFor="let p of page_settings.page.start_animations" >{{p.name}}</option>
+														</select>
+													</div>
+
+                          <div *ngIf="selectedAnimation.id==0">
+                            <p class="text-muted">
+                              {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION_CUSTOM_TEXT' | translate }} 
+                            </p>
+                          </div>
+                          <!-- aniamation settings block-->
+                          <div *ngIf="selectedAnimation.id!=0">
+
+                            <!-- color 1 if use-->
+                            <div class="form-group" *ngIf="selectedAnimation.color1_used">
+                              <label >#1 {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION_COLOR' | translate }} 
+                              <span class="text-danger">*</span></label>
+                              <input type="color" class="form-control" [(ngModel)]="selectedAnimation.color1" name="color1"  placeholder="" (change)="startAnimationChanged()">
+                            </div>               
+
+                            <!-- color 2 if use-->
+                            <div class="form-group" *ngIf="selectedAnimation.color2_used">
+                              <label >#2 {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION_COLOR' | translate }} 
+                              <span class="text-danger">*</span></label>
+                              <input type="color" class="form-control" [(ngModel)]="selectedAnimation.color2" name="color2"  placeholder="" (change)="startAnimationChanged()">
+                            </div>            
+
+                            <!-- color 3 if use-->
+                            <div class="form-group" *ngIf="selectedAnimation.color3_used">
+                              <label >#3 {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION_COLOR' | translate }} 
+                              <span class="text-danger">*</span></label>
+                              <input type="color" class="form-control" [(ngModel)]="selectedAnimation.color3" name="color3"  placeholder="" (change)="startAnimationChanged()">
+                            </div>           
+
+                            <!-- color 4 if use-->
+                            <div class="form-group" *ngIf="selectedAnimation.color4_used">
+                              <label >#4 {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION_COLOR' | translate }} 
+                              <span class="text-danger">*</span></label>
+                              <input type="color" class="form-control" [(ngModel)]="selectedAnimation.color4" name="color4"  placeholder="" (change)="startAnimationChanged()">
+                            </div>      
+
+                            <!-- color 5 if use-->
+                            <div class="form-group" *ngIf="selectedAnimation.color5_used">
+                              <label >#5 {{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_ANIMATION_COLOR' | translate }} 
+                              <span class="text-danger">*</span></label>
+                              <input type="color" class="form-control" [(ngModel)]="selectedAnimation.color5" name="color5"  placeholder="" (change)="startAnimationChanged()">
+                            </div>
+
+                          </div>
+
+                          <div class="form-group">
+														<label>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_NEXT' | translate }} </label>
+														<div></div>
+														<select class="custom-select form-control" [(ngModel)]="page_settings.page.start_page_next_page">
+															<option [selected]="p.id===page_settings.page.start_page_next_page" [value]="p.id" *ngFor="let p of page_settings.pages" >{{p.name}}</option>
+														</select>
+													</div>
+
+
+
+                          <div class="form-group">
+                            <label >{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.START_PAGE_TIMEOUT' | translate }} 
+                            <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" [(ngModel)]="page_settings.page.start_page_timeout" name="start_page_timeout"  placeholder="3">
+                          </div>
+
+                        </mat-expansion-panel>
+                          
+                          
+                        
+                        <mat-expansion-panel *ngIf="page_settings.page.type!='start'">
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              {{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_PADDING' | translate }}
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+
+                          <div class="form-group">
+														<label>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_PADDING' | translate }} </label>
+														<div></div>
+														<select class="custom-select form-control" [(ngModel)]="page_settings.page.ion_padding">
+															<option [selected]="1===page_settings.page.ion_padding" [value]="1" >{{ 'GENERAL.LANGUAGES.YES' | translate }}</option>
+															<option [selected]="0===page_settings.page.ion_padding" [value]="0" >{{ 'GENERAL.LANGUAGES.NO' | translate }}</option>
+														</select>
+													</div>       
+
+                        </mat-expansion-panel>
+
+                        <!-- <mat-expansion-panel *ngFor="let i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]">
+                          <mat-expansion-panel-header>
+                            <mat-panel-title>
+                              Personal data
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          asdsadsadsad
+                        </mat-expansion-panel>-->
+
+
+
+                      </mat-accordion>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <button [disabled]="!validateSettings()"  class="btn btn-success font-weight-bold" (click)="savePageSettings()" >{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+            <a  (click)="closeForm()" class="btn btn-outline-secondary font-weight-bold">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+        </div>
+    </div>
+</div>
+                        
+                        

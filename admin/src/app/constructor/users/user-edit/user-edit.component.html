@@ -1,0 +1,229 @@
+<div class="card card-custom gutter-b">
+    <ng-container *ngIf="isLoading$ | async">
+        <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                 style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label">
+                <ng-container *ngIf="appUser && id">
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.EDIT_USER' | translate}} <small>{{ appUser?.mail }}</small>
+                </ng-container>
+                <ng-container *ngIf="appUser && !id">
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.NEW_USER' | translate}} <small>{{ appUser?.mail }}</small>
+                </ng-container>
+            </h3>
+        </div>
+        <div class="card-toolbar">
+            <a type="button" class="btn btn-light" routerLink="{{id == 0? '../../users': '../../../users'}}">
+                <i class="fa fa-arrow-left"></i>{{'GENERAL.LANGUAGES.RETURN' | translate}}
+            </a>
+            <button class="btn btn-secondary ml-2" (click)="reset()">
+                <i class="fa fa-redo"></i>{{'GENERAL.LANGUAGES.RESET' | translate}}
+            </button>
+        </div>
+    </div>
+    <div class="card-body">
+        <!--<ul class="nav nav-tabs nav-tabs-line" role="tablist">
+            <li class="nav-item cursor-pointer" (click)="changeTab(tabs.BASIC_TAB)">
+                <a class="nav-link" data-toggle="tab" role="tab" [attr.aria-selected]="activeTabId === tabs.BASIC_TAB"
+                   [class.active]="activeTabId === tabs.BASIC_TAB">Basic info</a>
+            </li>
+        </ul>-->
+
+        <ng-container *ngIf="activeTabId === tabs.BASIC_TAB">
+            <div class="mt-5" *ngIf="appUser">
+                <form action="#" class="form form-label-right" [formGroup]="formGroup" (ngSubmit)="save()">
+                    <div class="form-group row">
+                        <!--<div class="col-lg-4">
+                            <label>Enter APP ID</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="App ID" name="app_id"
+                                   [class.is-invalid]="isControlInvalid('app_id')"
+                                   [class.is-valid]="isControlValid('app_id')"
+                                   formControlName="app_id"/>
+                            <div class="feedback" *ngIf="!isControlTouched('app_id')">
+                                Please enter <b>APP ID</b>
+                            </div>
+                            <div class="valid-feedback" *ngIf="isControlValid('app_id')">
+                                Model was entered correct
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'app_id')">
+                                Model is required
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'app_id')">
+                                Model should have at least 3 symbols
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'app_id')">
+                                Model should have maximum 100 symbols
+                            </div>
+                        </div>-->
+                        <div class="col-lg-4">
+                            <label>{{'CONSTRUCTOR.APPLICATIONS_USERS.ENTER_NAME' | translate}}</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="{{'CONSTRUCTOR.APPLICATIONS_USERS.NAME' | translate}}" name="name"
+                                   [class.is-invalid]="isControlInvalid('name')"
+                                   [class.is-valid]="isControlValid('name')"
+                                   formControlName="name"/>
+                            <!--<div class="feedback" *ngIf="!isControlTouched('name')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}>
+                            </div>-->
+                            <!--<div class="valid-feedback" *ngIf="isControlValid('name')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>-->
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'name')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'name')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'password')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'name')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>{{'CONSTRUCTOR.APPLICATIONS_USERS.ENTER_LASTNAME' | translate}}</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="{{'CONSTRUCTOR.APPLICATIONS_USERS.LASTNAME' | translate}}" name="lastname"
+                                   [class.is-invalid]="isControlInvalid('lastname')"
+                                   [class.is-valid]="isControlValid('lastname')"
+                                   formControlName="lastname"/>
+                            <div class="invalid-feedback" *ngIf="controlHasError('required', 'lastname')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('minlength', 'lastname')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                            <div class="invalid-feedback" *ngIf="controlHasError('maxLength', 'lastname')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>{{'CONSTRUCTOR.APPLICATIONS_USERS.ENTER_MAIL' | translate}}</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="E-Mail" name="mail"
+                                   [class.is-invalid]="isControlInvalid('mail')"
+                                   [class.is-valid]="isControlValid('mail')"
+                                   formControlName="mail"/>
+                            <!--<div class="feedback" *ngIf="!isControlTouched('mail')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>-->
+                            <div class="valid-feedback" *ngIf="!isControlValid('mail')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>{{'CONSTRUCTOR.APPLICATIONS_USERS.ENTER_PHONE' | translate}}</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="{{'CONSTRUCTOR.APPLICATIONS_USERS.PHONE' | translate}}" name="phone"
+                                   [class.is-invalid]="isControlInvalid('phone')"
+                                   [class.is-valid]="isControlValid('phone')"
+                                   formControlName="phone"/>
+                            <!--<div class="feedback" *ngIf="!isControlTouched('phone')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>-->
+                            <div class="valid-feedback" *ngIf="!isControlValid('phone')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--
+                    <div class="form-group row">
+
+                        <div class="col-lg-4">
+                            <label>Enter Balance</label>
+                            <input type="text" class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="Balance" name="balance"
+                                   [class.is-invalid]="isControlInvalid('balance')"
+                                   [class.is-valid]="isControlValid('balance')"
+                                   formControlName="balance"/>
+                            <div class="feedback" *ngIf="!isControlTouched('balance')">
+                                Please enter <b>Balance</b>
+                            </div>
+                            <div class="valid-feedback" *ngIf="isControlValid('balance')">
+                                Balance was entered correct
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Select Role</label>
+                            <select class="form-control form-control-lg form-control-solid" name="role"
+                                    formControlName="role">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
+                    </div>-->
+                    <div class="form-group row">
+                        <div class="col-lg-4">
+                            <label>{{'CONSTRUCTOR.APPLICATIONS_USERS.STATUS' | translate}}</label>
+                            <select class="form-control form-control-lg form-control-solid" name="blocked"
+                                    formControlName="blocked">
+                                <option value="0">{{'CONSTRUCTOR.APPLICATIONS_USERS.ACTIVE' | translate}}</option>
+                                <option value="1">{{'CONSTRUCTOR.APPLICATIONS_USERS.BLOCKED' | translate}}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label>Password</label>
+                            <input type="password" class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="Password" name="password"
+                                   [class.is-invalid]="isControlInvalid('password')"
+                                   [class.is-valid]="isControlValid('password')"
+                                   formControlName="password"/>
+                            <!--<div class="feedback" *ngIf="!isControlTouched('phone')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>-->
+                            <div class="valid-feedback" *ngIf="!isControlValid('password')">
+                                {{'CONSTRUCTOR.APPLICATIONS_USERS.ERROR_FIELD' | translate}}
+                            </div>
+                        </div>
+
+                        <!--<div class="col-lg-4">
+                            <label>Avatar</label>
+                            <input type="text" disabled class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="Avatar" name="avatar"
+                                   [class.is-invalid]="isControlInvalid('avatar')"
+                                   [class.is-valid]="isControlValid('avatar')"
+                                   formControlName="avatar"/>
+                        </div>
+                        <div class="col-lg-4">
+                            <label>Last Date</label>
+                            <input type="text" disabled class="form-control form-control-lg form-control-solid"
+                                   autocomplete="off" placeholder="Balance" name="last_date"
+                                   [class.is-invalid]="isControlInvalid('last_date')"
+                                   [class.is-valid]="isControlValid('last_date')"
+                                   formControlName="last_date"/>
+                        </div>-->
+                    </div>
+                    <div class="float-right">
+                        <a class="btn btn-default font-weight-bold mr-2" routerLink="{{id == 0? '../../users': '../../../users'}}">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                        <button type="submit" class="btn btn-primary font-weight-bold mr-2" [disabled]="formGroup.invalid">{{'GENERAL.LANGUAGES.SAVE' | translate}}</button>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="activeTabId === tabs.REMARKS_TAB && appUser && appUser.id">
+            <!--<app-remarks [appUserId]="appUser.id"></app-remarks>-->
+        </ng-container>
+
+        <ng-container *ngIf="activeTabId === tabs.SPECIFICATIONS_TAB && appUser && appUser.id">
+            <!--<app-specifications [appUserId]="appUser.id"></app-specifications>-->
+        </ng-container>
+    </div>
+</div>

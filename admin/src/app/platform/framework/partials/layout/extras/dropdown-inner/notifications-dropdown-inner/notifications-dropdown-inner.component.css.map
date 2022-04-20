@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "notifications-dropdown-inner.component.scss"
+    ],
+    "names": [],
+    "file": "notifications-dropdown-inner.component.css"
+}

@@ -1,0 +1,56 @@
+<ng-container>
+
+    <div class="card card-custom  gutter-b">
+
+
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+    
+            <!--begin::Header-->
+            <div class="card-header py-3">
+                <div class="card-title align-items-start flex-column">
+                    <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.NEWS.TITLE' | translate}}</h3>
+                    <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.NEWS.TITLE_TEXT' | translate}}</span>
+                </div>
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Form-->
+            <div class="form card-body mt-2">
+
+                <div *ngFor="let item of news_list">
+                    <!--begin::Info-->
+                    <div class="d-flex align-items-start card-spacer-x py-4 mb-3">
+                        <!--begin::User Details-->
+                        <div class="d-flex flex-column flex-grow-1 flex-wrap mr-2">
+                            <div class="d-flex">
+                                <span class="font-size-lg font-weight-bolder text-dark-75 text-hover-primary mr-2" [innerHtml]="item.title"></span>
+                                <div class="font-weight-bold text-muted">
+                                    <span class="label label-success label-dot mr-2"></span>{{item.item_date}}</div>
+                            </div>
+                            <div class="d-flex flex-column">
+                                <div class="text-muted font-weight-bold toggle-on-item" [innerHtml]="item.description"></div>
+                                <div class="text-muted font-weight-bold"><a [href]="item.item_url" target="_blank" *ngIf="item.item_url!=''"class="text-hover-danger">{{'CONSTRUCTOR.NEWS.READ_MORE' | translate}}</a></div>
+                            </div>
+                        </div>
+                        <!--end::User Details-->
+                    </div>
+                    <div class="separator separator-dashed"></div>
+                    <!--end::Info-->
+
+                </div>
+
+
+            </div>
+            <!--end::Form--> 
+
+    </div>
+
+
+</ng-container>

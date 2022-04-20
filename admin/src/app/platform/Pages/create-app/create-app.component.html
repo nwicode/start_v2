@@ -1,0 +1,186 @@
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container">
+        <!--begin::Card-->
+        <div class="card card-custom">
+            <!--begin::Card Body-->
+            <div class="card-body p-0">
+                <!--begin::Wizard 5-->
+                <div
+                    #wizard
+                    class="wizard wizard-5 d-flex flex-column flex-lg-row flex-row-fluid"
+                    id="kt_wizard"
+                    data-wizard-state="step-first"
+                >
+                    <!--begin::Aside-->
+                    <div class="wizard-aside d-flex flex-column flex-row-auto w-100 w-lg-300px w-xl-400px w-xxl-500px">
+                        <!--begin::Aside Top-->
+                        <div class="d-flex flex-column-fluid flex-column px-xxl-30 px-10">
+                            <!--begin: Wizard Nav-->
+                            <div class="wizard-nav d-flex d-flex justify-content-center pt-10 pt-lg-20 pb-5">
+                                <!--begin::Wizard Steps-->
+                                <div class="wizard-steps">
+                                    <!--begin::Wizard Step 1 Nav-->
+                                    <a class="wizard-step"
+                                       href="javascript:;"
+                                       data-wizard-type="step"
+                                       data-wizard-state="current"
+                                    >
+                                        <div class="wizard-wrapper">
+                                            <div class="wizard-icon">
+                                                <i class="wizard-check ki ki-check"></i>
+                                                <span class="wizard-number">1</span>
+                                            </div>
+                                            <div class="wizard-label">
+                                                <h3 class="wizard-title">{{'CREATE.APP.APP_SETTINGS' | translate}}</h3>
+                                                <div class="wizard-desc">{{'CREATE.APP.SETUP_UP_DETAILS' | translate}}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--end::Wizard Step 1 Nav-->
+                                    <!--begin::Wizard Step 2 Nav-->
+                                    <a class="wizard-step"
+                                       href="javascript:;"
+                                       data-wizard-type="step">
+                                        <div class="wizard-wrapper">
+                                            <div class="wizard-icon">
+                                                <i class="wizard-check ki ki-check"></i>
+                                                <span class="wizard-number">2</span>
+                                            </div>
+                                            <div class="wizard-label">
+                                                <h3 class="wizard-title">{{'CREATE.APP.TEMPLATE' | translate}}</h3>
+                                                <div class="wizard-desc">{{'CREATE.APP.CHOOSE_TEMPLATE' | translate}}</div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <!--end::Wizard Step 2 Nav-->
+                                </div>
+                                <!--end::Wizard Steps-->
+                            </div>
+                            <!--end: Wizard Nav-->
+                        </div>
+
+                    </div>
+                    <!--end::Aside-->
+                    <!--begin::Content-->
+                    <div class="wizard-content d-flex flex-column flex-row-fluid py-15 px-5 px-lg-10">
+                        <!--begin::Form-->
+                        <div class="d-flex justify-content-center flex-row-fluid">
+                            <form class="pb-5 w-100 w-md-450px w-lg-500px fv-plugins-bootstrap fv-plugins-framework" novalidate="novalidate" id="kt_form">
+                                <!--begin: Wizard Step 1-->
+                                <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current" [formGroup]="formGroup1">
+                                    <!--begin::Title-->
+                                    <div class="pb-10 pb-lg-15">
+                                        <h3 class="font-weight-bolder font-size-h2">{{'CREATE.APP.CREATE_APP' | translate}}</h3>
+                                    </div>
+                                    <!--begin::Title-->
+                                    <!--begin::Form Group-->
+                                    <div class="fv-plugins-icon-container">
+                                        <label class="font-size-h6 font-weight-bolder">{{'CREATE.APP.ICON' | translate}}</label>
+                                        <div *ngIf="icon_base64" class="d-flex flex-row align-items-start justify-content-center mb-3">
+                                            <img [src]="icon_base64" id="new_app_icon" [style.background-color]="colorValue" class="max-h-100px max-w-100px" alt="application icon">
+                                            <a class="btn btn-icon btn-light ml-2 btn-xs" (click)="displayColorPicker=true">
+                                                <i class="fas fa-paint-brush"></i>
+                                            </a>
+                                            <app-color-picker [disableAlpha]="true" *ngIf="displayColorPicker" [color]="colorValue" (onClose)="displayColorPicker=false" (onChange)="changeColorEvent($event)"></app-color-picker>
+                                        </div>
+                                        <div class="custom-file">
+                                            <input id="inputIcon" type="file" class="custom-file-input" accept=".png" formControlName="inputIcon" (change)="onLoadImage()">
+                                            <label class="custom-file-label form-control form-control-lg" for="inputIcon">{{inputText ? inputText : 'GENERAL.LANGUAGES.CHOOSE_FILE' | translate}}</label>
+                                        </div>
+                                        <span class="form-text text-muted mb-7">{{'CREATE.APP.ICON_COMMENT' | translate}}</span>
+                                        <div class="fv-plugins-message-container" *ngIf="formGroup1.get('inputIcon').invalid && this.formGroup1.get('inputIcon').touched">
+                                            <div class="fv-help-block">
+                                                {{'CREATE.APP.ICON_REQUIRED' | translate}}!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Form Group-->
+                                    <!--begin::Form Group-->
+                                    <div class="fv-plugins-icon-container">
+                                        <label class="font-size-h6 font-weight-bolder">{{'CREATE.APP.NAME' | translate}}</label>
+                                        <input type="text" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6" name="appName" formControlName="appName" placeholder="{{'CREATE.APP.NAME' | translate}}" [(ngModel)]="name">
+                                        <div class="fv-plugins-message-container" *ngIf="formGroup1.get('appName').invalid && this.formGroup1.get('appName').touched">
+                                            <div class="fv-help-block">
+                                                {{'CREATE.APP.NAME_REQUIRED' | translate}}!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Form Group-->
+                                    <!--begin::Form Group-->
+                                    <div class="fv-plugins-icon-container">
+                                        <label class="font-size-h6 font-weight-bolder">{{'CREATE.APP.DESCRIPTION' | translate}}</label>
+                                        <input type="text" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6" name="description" formControlName="description" placeholder="{{'CREATE.APP.DESCRIPTION' | translate}}" value="" [(ngModel)]="description">
+                                        <div class="fv-plugins-message-container" *ngIf="formGroup1.get('description').invalid && this.formGroup1.get('description').touched">
+                                            <div class="fv-help-block">
+                                                {{'CREATE.APP.DESCRIPTION_REQUIRED' | translate}}!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Form Group-->
+                                </div>
+                                <!--end: Wizard Step 1-->
+
+                                <!--begin: Wizard Step 2-->
+                                <div class="pb-5" data-wizard-type="step-content">
+                                    <!--begin::Title-->
+                                    <div class="pb-10 pb-lg-15">
+                                        <h3 class="font-weight-bolder font-size-h2">{{'CREATE.APP.TEMPLATE' | translate}}</h3>
+                                    </div>
+                                    <!--end::Title-->
+                                    <!--begin::Section-->
+                                    <div *ngFor="let template of templates" class="d-flex">
+                                        <div>
+                                            <h3 class="font-weight-bolder font-size-h2">{{template.name}}</h3>
+                                            <img [src]="template.image ? template.image : './assets/media/svg/icons/Devices/Tablet.svg'"
+                                                 class="h-100px w-100px">
+                                        </div>
+                                    </div>
+                                    <!--end::Section-->
+                                </div>
+                                <!--end: Wizard Step 2-->
+                                <!--begin: Wizard Actions-->
+                                <div class="d-flex justify-content-between pt-3">
+
+
+                                    <div class="mr-2">
+
+                                        <button type="button" routerLink="/dashboard"  class="btn btn-secondary font-weight-bolder font-size-h6 pl-6 pr-8 py-4 my-3 mr-3">
+                                            <i class="fas fa-backspace icon-nm"></i> 
+                                            {{'GENERAL.LANGUAGES.CANCEL' | translate}} / {{'GENERAL.LANGUAGES.BACK' | translate}}
+                                        </button>
+                                    </div>
+
+                                    <div class="mr-2">
+                                        <button type="button" class="btn btn-light-primary font-weight-bolder font-size-h6 pl-6 pr-8 py-4 my-3 mr-3" data-wizard-type="action-prev">
+                                            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Left-2.svg'" cacheSVG="true" class="svg-icon svg-icon-md mr-1">
+                                            </span>
+                                            {{'GENERAL.LANGUAGES.PREVIOUS' | translate}}
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button (click)="onSubmit()" type="button" class="btn btn-primary font-weight-bolder font-size-h6 pl-5 pr-8 py-4 my-3" data-wizard-type="action-submit">{{'GENERAL.LANGUAGES.SUBMIT' | translate}}
+                                            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Right-2.svg'" cacheSVG="true" class="svg-icon svg-icon-md ml-2">
+                                            </span>
+                                        </button>
+                                        <button type="button" class="btn btn-primary font-weight-bolder font-size-h6 pl-8 pr-4 py-4 my-3" data-wizard-type="action-next" [disabled]="(page === 1 && formGroup1.invalid)">{{'GENERAL.LANGUAGES.NEXT_STEP' | translate}}
+                                            <span [inlineSVG]="'./assets/media/svg/icons/Navigation/Right-2.svg'" cacheSVG="true" class="svg-icon svg-icon-md ml-1">
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!--end: Wizard Actions-->
+                                <div></div><div></div></form>
+                        </div>
+                        <!--end::Form-->
+                    </div>
+                    <!--end::Content-->
+                </div>
+                <!--end::Wizard 5-->
+            </div>
+            <!--end::Card Body-->
+        </div>
+        <!--end::Card-->
+    </div>
+    <!--end::Container-->
+</div>

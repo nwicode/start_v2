@@ -1,0 +1,58 @@
+<div class="page-card">
+  <div class="controls">
+    <div class="move" (mousedown)="setStatus($event, 2)" (window:mouseup)="setStatus($event, 0)"><i class="fas fa-arrows-alt"></i></div>
+    <div class="title">{{name}}</div>
+    <div class="settings" (click)="openSettings()"><i class="flaticon2-gear"></i></div>
+    <div class="trash" *ngIf="can_delete==1" (click)="delete()"><i class="fas fa-trash-alt"></i></div>
+  </div>
+  <div class="frame"  
+    [style.background-color]="frame_background_color" 
+    [ngClass]="{'active':status==2 || status==1 || selected}" 
+    [style.height.px]="current_height" 
+    [style.width.px]="width" 
+    [style.background-size]="background_image_size"
+    [style.background-repeat]="background_image_mode"
+    [style.background-image]="'url(' + background_image + ')'"    
+    [style.min-height.px]="height_orig"
+    [style.min-height.px]="height_orig"
+  >
+  
+  
+    <div class="container h-100 page-preloader text-center" *ngIf="!page_loaded">
+      <div class="row h-100 justify-content-center align-items-center">
+        <div class="spinner spinner-track spinner-lg spinner-primary"></div>
+      </div>
+    </div>  
+  
+    <!-- if page is type == start-->
+    <div class="container h-100 page-page_loaded text-center" *ngIf="page_loaded && type=='start'">
+      <div  [innerHtml]="pageHtml">
+      <!--
+        <div class='example'>
+          <div class='block'>
+              <div class='item'></div>
+              <div class='item'></div>
+              <div class='item'></div>
+              <div class='item'></div>
+              <div class='item'></div>
+              <div class='item'></div>
+              <div class='item'></div>
+              <div class='item'></div>
+          </div>
+        </div>
+      -->
+      </div>
+    </div>  
+
+    <!-- if page is type != start-->
+    <div class="h-100 page-page_loaded" *ngIf="page_loaded && type!='start'" [innerHtml]="ionic_html">
+      
+    </div>
+    
+  
+  </div>
+  <div class="controls-bottom">
+    <div class="resize" (mousedown)="setStatus($event, 1)" (window:mouseup)="setStatus($event, 0)"><i class="fas fa-arrows-alt-v"></i></div>
+  </div>   
+</div>
+

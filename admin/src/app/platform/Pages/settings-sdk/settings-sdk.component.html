@@ -1,0 +1,157 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'PAGE.SETTINGS_SDK.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'PAGE.SETTINGS_SDK.TITLE_TEXT' | translate}}</span>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+
+        <div class="card-body">
+            <p class="text-muted">{{'PAGE.SETTINGS_SDK.INSTALL_SDK_TEXT' | translate}}</p>
+            <div class="row">
+                <div class="col-12">
+                    <table class="table ">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">{{'PAGE.SETTINGS_SDK.SDK' | translate}}</th>
+                                <th scope="col">{{'PAGE.SETTINGS_SDK.STATUS' | translate}}</th>
+                                <th scope="col">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            <!-- cron row-->
+                            <tr>
+                                <th scope="row"><span class="font-weight-bolder">1</span></th>
+                                <td>
+                                    <span style="width: 450px;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                                <img class="" src="/assets/images/cron.png" alt="photo">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">Cron commands (must be enabled before other installing)</div>
+                                                <span class="text-muted font-weight-bold text-hover-primary">{{config.cron_run}}</span>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="config.cron_found" class="label label-inline label-success font-weight-bold">{{'PAGE.SETTINGS_SDK.INSTALLED' | translate}}</span>
+                                    <span *ngIf="!config.cron_found" class="label label-inline label-danger font-weight-bold">{{'PAGE.SETTINGS_SDK.NOT_INSTALLED' | translate}}</span>
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+
+                            <!-- gradle row-->
+                            <tr>
+                                <th scope="row"><span class="font-weight-bolder">2</span></th>
+                                <td>
+                                    <span style="width: 450px;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                                <img class="" src="/assets/images/gradle.png" alt="photo">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">Gradle</div>
+                                                <span class="text-muted font-weight-bold text-hover-primary">{{config.gradle_dir}}</span>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="config.gradle_installed" class="label label-inline label-success font-weight-bold">{{'PAGE.SETTINGS_SDK.INSTALLED' | translate}}</span>
+                                    <span *ngIf="!config.gradle_installed && !gradle_install_process" class="label label-inline label-danger font-weight-bold">{{'PAGE.SETTINGS_SDK.NOT_INSTALLED' | translate}}</span>
+                                    <span *ngIf="!config.gradle_installed && gradle_install_process" class="label label-inline label-warning font-weight-bold">{{'PAGE.SETTINGS_SDK.INSTALLING' | translate}}</span>
+                                </td>
+                                <td>
+                                    <button (click)="installGradle()" *ngIf="!gradle_install_process" class="btn btn-sm btn-primary mr-2"> <span [inlineSVG]="'./assets/media/svg/icons/Files/Download.svg'" cacheSVG="true" class="svg-icon"></span>{{'PAGE.SETTINGS_SDK.DO_INSTALL' | translate}}</button>
+                                    <div *ngIf="gradle_install_process" class="spinner spinner-track spinner-primary mr-15 pt-5"></div>
+                                </td>
+                            </tr>
+        
+                            <!-- android sdkmanager-->
+                            <tr>
+                                <th scope="row"><span class="font-weight-bolder">3</span></th>
+                                <td>
+                                    <span style="width: 450px;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                                <img class="" src="/assets/images/android-sdk.png" alt="photo">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">Android Build SDK</div>
+                                                <span class="text-muted font-weight-bold text-hover-primary">{{config.android_build_tools_dir}}</span>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="config.android_build_tools_installed" class="label label-inline label-success font-weight-bold">{{'PAGE.SETTINGS_SDK.INSTALLED' | translate}}</span>
+                                    <span *ngIf="!config.android_build_tools_installed && !android_tools_install_process" class="label label-inline label-danger font-weight-bold">{{'PAGE.SETTINGS_SDK.NOT_INSTALLED' | translate}}</span>
+                                    <span *ngIf="!config.android_build_tools_installed && android_tools_install_process" class="label label-inline label-warning font-weight-bold">{{'PAGE.SETTINGS_SDK.INSTALLING' | translate}}</span>
+                                </td>
+                                <td>
+                                    <button (click)="installAndroidTools()" *ngIf="!android_tools_install_process && !config.android_build_tools_installing" class="btn btn-sm btn-primary mr-2"> <span [inlineSVG]="'./assets/media/svg/icons/Files/Download.svg'" cacheSVG="true" class="svg-icon"></span>{{'PAGE.SETTINGS_SDK.DO_INSTALL' | translate}}</button>
+                                    <div *ngIf="android_tools_install_process || (!config.android_build_tools_installed && config.android_build_tools_installing)" class="spinner spinner-track spinner-primary mr-15 pt-5"></div>
+                                </td>
+                            </tr>                            
+                            
+                            <!-- ionic and capacitor row-->
+                            <tr>
+                                <th scope="row"><span class="font-weight-bolder">4</span></th>
+                                <td>
+                                    <span style="width: 450px;">
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                                <img class="" src="/assets/images/ionic.png" alt="photo">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-dark-75 font-weight-bolder font-size-lg mb-0">Ionic & Capacitor</div>
+                                                <span class="text-muted font-weight-bold text-hover-primary">{{config.ionic_dir}}</span>
+                                            </div>
+                                        </div>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="config.ionic_installed" class="label label-inline label-success font-weight-bold">{{'PAGE.SETTINGS_SDK.INSTALLED' | translate}}</span>
+                                    <span *ngIf="!config.ionic_installed && !config.ionic_installing" class="label label-inline label-danger font-weight-bold">{{'PAGE.SETTINGS_SDK.NOT_INSTALLED' | translate}}</span>
+                                    <span *ngIf="!config.ionic_installed && config.ionic_installing" class="label label-inline label-warning font-weight-bold">{{'PAGE.SETTINGS_SDK.INSTALLING' | translate}}</span>
+                                </td>
+                                <td>
+                                    <button (click)="installIonic()" *ngIf="!ionic_install_process && !config.ionic_installing" class="btn btn-sm btn-primary mr-2"> <span [inlineSVG]="'./assets/media/svg/icons/Files/Download.svg'" cacheSVG="true" class="svg-icon"></span>{{'PAGE.SETTINGS_SDK.DO_INSTALL' | translate}}</button>
+                                    <div *ngIf="ionic_install_process || (!config.ionic_installed && config.ionic_installing) " class="spinner spinner-track spinner-primary mr-15 pt-5"></div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+        
+                </div>
+                <div class="col-12">
+                    <p class="text-muted">{{'PAGE.SETTINGS_SDK.BASH_COMMANDS' | translate}}:</p>
+                    <div class="mt-2 rounded p-5 bg-light-primary text-dark-50 font-weight-bold font-size-lg">
+                        <div *ngFor="let c of config.bash_commands">{{c}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>

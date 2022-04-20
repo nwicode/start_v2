@@ -1,0 +1,50 @@
+<!--begin::Profile Overview-->
+<div class="d-flex flex-row">
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Profile Card-->
+        <div class="card card-custom card-stretch" >
+            <!--begin::Body-->
+            <div class="card-body pt-4">
+                <!--begin::Nav-->
+                <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+                    <div>
+                        <h3 class="card-label font-weight-bolder text-dark mb-2">{{ 'CONSTRUCTOR.CUSTOM_CODE.PAGES_LIST' | translate }}:</h3>
+                    </div>
+                    <div class="navi-item mb-2" *ngFor="let page of this.pages">
+                        <a class="navi-link py-4" [routerLink]="['page/', page.id]" routerLinkActive="active">
+                            <span class="navi-icon mr-2">
+                                <span class="flaticon-edit-1 icon-xl"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">
+                                {{ page.name }}
+                             </span>
+                        </a>
+                    </div>
+                    <div *ngIf="this.pages && this.pages.length == 0">
+                        <span class="font-size-h3">{{ 'CONSTRUCTOR.CUSTOM_CODE.EMPTY_LIST' | translate }}</span>
+                    </div>
+                </div>
+                <!--end::Nav-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+        <router-outlet></router-outlet>
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Profile Overview-->

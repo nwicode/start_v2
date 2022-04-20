@@ -1,0 +1,31 @@
+<div mat-dialog-content>
+    <h3>Ionicon Icons</h3>
+    <div class="row">
+        <mat-button-toggle-group name="fontStyle" #group="matButtonToggleGroup">
+            <mat-button-toggle value="All">All</mat-button-toggle>
+            <mat-button-toggle value="Normal">normal</mat-button-toggle>
+            <mat-button-toggle value="outline">Outline</mat-button-toggle>
+            <mat-button-toggle value="sharp">Sharp</mat-button-toggle>
+        </mat-button-toggle-group>
+        <div class="col-sm-6">
+            <input class="form-control form-control" type="text" placeholder="Type to search" [(ngModel)]="searchText"/>
+        </div>
+
+    </div>
+    <hr>
+    <div class="row" style="padding: 10px; text-align: center; display: flex; overflow-y: scroll; max-height: 300px">
+        <div *ngFor="let myImage of myIonicons | searchFilter: searchText: group.value != null? group.value : 'all'"
+             class="card" [ngClass]="myImage.icon_name == selectedIcon? 'select': ''"
+             (click)="selectIcon(myImage.icon_name)">
+            <div class="portrait">
+                <svg-icon src="{{'assets/ionicons/' + myImage.icon_name + '.svg'}}" [stretch]="true" viewBox="auto"
+                          [svgStyle]="{'width.px':70,'fill':'rgb(0,0,0)'}"></svg-icon>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div mat-dialog-actions>
+        <button class="btn btn-primary mr-2" (click)="submit()">Select Icon</button>
+        <button class="btn btn-secondary mr-2" (click)="cancel()">Cancel</button>
+    </div>
+</div>

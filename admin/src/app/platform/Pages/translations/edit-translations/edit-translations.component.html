@@ -1,0 +1,184 @@
+<ng-container >
+    <div class="card card-custom" >
+    <!-- begin::Loading -->
+    <ng-container *ngIf="isLoading$ | async">
+        <div class="progress progress-modal">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+            role="progressbar"
+            style="width: 100%"
+            aria-valuenow="100"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          ></div>
+        </div>
+      </ng-container>
+      <!-- end::Loading -->
+
+    <!--begin::Header-->
+    <div class="card-header py-3">
+        <div class="card-title align-items-start flex-column">
+          <h3 class="card-label font-weight-bolder text-dark">{{'PAGE.TRANSLATIONS.EDIT_LANGUAGE' | translate}}</h3>
+          <span class="text-muted font-weight-bold font-size-sm mt-1">{{'PAGE.TRANSLATIONS.EDIT_LANGUAGE_TEXT' | translate}}</span>
+        </div>
+        <div class="card-toolbar">
+          <span *ngIf="was_changes" class="label label-info label-inline mr-2">{{'PAGE.TRANSLATIONS.DONT_FORGET_SAVE' | translate}}</span>
+          <button type="submit" class="btn btn-success mr-2" (click)="save()" [disabled]="!was_changes">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+          <button type="reset" class="btn btn-secondary" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+        </div>
+      </div>
+      <!--end::Header-->      
+
+
+
+      
+
+
+      <!--begin::Form-->
+      <div class="form">
+        <div class="card-body row row-marginless align-items-center flex-wrap py-5 h-auto">
+
+          <!-- search field-->
+          <div class="col-sm-12 col-md-12 col-xxl-4 ">
+            <div class="input-group input-group-lg input-group-solid my-2">
+              <input type="text" class="form-control pl-4" placeholder="{{'GENERAL.LANGUAGES.SEARCH' | translate}}" [(ngModel)]="filter" (keyup)="applyFilter($event)">
+              <div class="input-group-append">
+                <span class="input-group-text pr-3">
+                  <span class="svg-icon svg-icon-lg">
+                    <span [inlineSVG]="'./assets/media/svg/icons/General/Search.svg'" cacheSVG="true" class="svg-icon"></span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- search field-->
+          <div class="col-sm-3 col-md-3 col-xxl-2 text-center ">
+            {{'GENERAL.LANGUAGES.ITMS_PER_PAGE' | translate}}: 
+              <div ngbDropdown placement="bottom-right" class="d-inline-block">
+                <button class="btn btn-sm btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle>{{items_per_page}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                  <button class="dropdown-item" (click)="items_per_page=10; prepareTranslationFiltered()">10</button>
+                  <button class="dropdown-item" (click)="items_per_page=25; prepareTranslationFiltered()">25</button>
+                  <button class="dropdown-item" (click)="items_per_page=50; prepareTranslationFiltered()">50</button>
+                  <button class="dropdown-item" (click)="items_per_page=100; prepareTranslationFiltered()">100</button>
+                  <button class="dropdown-item" (click)="items_per_page=250; prepareTranslationFiltered()">250</button>
+                  <button class="dropdown-item" (click)="items_per_page=1000; prepareTranslationFiltered()">1000</button>
+                 </div>
+              </div>
+          </div>          
+
+          <!-- pagination select-->
+          <div class="col-sm-9 col-md-9 col-xxl-6">
+            <ngb-pagination class="d-flex justify-content-end" (pageChange)="pageChange($event)" [collectionSize]="collection_size" [(page)]="page_current" [pageSize]="items_per_page" [maxSize]="5" [rotate]="true" ></ngb-pagination>
+            <div class="d-flex justify-content-end">
+              {{paginationString()}} 
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            {{'PAGE.TRANSLATIONS.SECTION_FILTER' | translate}}: 
+            <div ngbDropdown placement="bottom-right" class="d-inline-block">
+              <button class="btn btn-sm btn-outline-secondary" id="dropdownBasic2" ngbDropdownToggle>{{section_filter | translate}}</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic2" class="section-dropdown">
+                <button class="dropdown-item" (click)="setSectionFilter('-')">-</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+                <button *ngFor="let s of section_array" class="dropdown-item" (click)="setSectionFilter(s)">{{s | translate}}</button>
+               </div>
+            </div>            
+          </div>
+
+          <!-- translation table-->
+          <div class="col-sm-12">
+
+
+
+            <div class="table-responsive pt-10">
+              <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">{{'PAGE.TRANSLATIONS.SECTION' | translate}}</th>
+                        <th scope="col">{{'PAGE.TRANSLATIONS.CODE' | translate}} / {{'PAGE.TRANSLATIONS.TEXT_ENGLISH' | translate}}</th>
+                        <th scope="col">{{'PAGE.TRANSLATIONS.TRANSLATED_TEXT' | translate}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let translation of translation_filtered" [class.table-success]="translation.was_changed">
+                        <th scope="row">{{translation.id}}</th>
+                        <td  style="max-width: 100px;"><span class="font-size-xs">{{translation.section+'.SECTION_HEADER' | translate}}<br>{{translation.section}}</span></td>
+                        <td style="max-width: 100px;"><span class="text-dark-75 font-weight-bolder font-size-xs">{{translation.phrase}}</span><br><span class="text-muted">{{translation.default}}</span></td>
+                        <td>
+                          <div class="form-group">
+                              <input type="text" class="form-control form-control-solid" [(ngModel)]="translation.translation" placeholder="{{'PAGE.TRANSLATIONS.TRANSLATED_TEXT' | translate}}..." (change)="updateTranslation(translation)">
+                          </div>
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+          </div>
+          
+
+
+          </div>
+
+        </div>
+      </div>
+      <!--end::Form-->
+
+    </div>
+</ng-container>

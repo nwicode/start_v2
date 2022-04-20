@@ -1,0 +1,10 @@
+.error.error-6 .error-title {
+  font-size: 5rem !important;
+}
+
+@media (min-width: 768px) {
+  .error.error-6 .error-title {
+    font-size: 10rem !important;
+  }
+}
+/*# sourceMappingURL=error-6.css.map */

@@ -1,0 +1,7 @@
+.card-component-panel {
+    height: 100vh !important;
+
+    .card-scroll {
+        height: calc(100vh - 220px) !important;
+    }
+}

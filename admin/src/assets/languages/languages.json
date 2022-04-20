@@ -1,0 +1,29 @@
+{
+    "default": "en",
+    "languages": [
+        {
+            "id": 1,
+            "code": "en",
+            "name": "ENGLISH",
+            "file": "",
+            "image": "assets\/languages\/en.png",
+            "is_default": 1
+        },
+        {
+            "id": 2,
+            "code": "ru",
+            "name": "RUSSIAN",
+            "file": "",
+            "image": "assets\/languages\/ru.png",
+            "is_default": 0
+        },
+        {
+            "id": 4,
+            "code": "ts",
+            "name": "TEST",
+            "file": "",
+            "image": "assets\/languages\/ts.png",
+            "is_default": 0
+        }
+    ]
+}

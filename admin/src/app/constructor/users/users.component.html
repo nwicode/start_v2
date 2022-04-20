@@ -1,0 +1,183 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title"><h3 class="card-label">{{'CONSTRUCTOR.APPLICATIONS_USERS.TITLE' | translate}}</h3></div>
+        <div class="card-toolbar">
+            <a type="button" class="btn btn-primary" routerLink="add">{{'CONSTRUCTOR.APPLICATIONS_USERS.ADD_NEW' | translate}}</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <!-- begin: Filtration form -->
+        <div class="form form-label-right">
+            <div class="form-group row">
+                <div class="col-lg-3">
+                    <div class="row" [formGroup]="filterGroup">
+                        <div class="col-lg-12">
+                            <select class="form-control" name="blocked" placeholder="Filter by Status"
+                                    formControlName="blocked">
+                                <option value="">{{'CONSTRUCTOR.APPLICATIONS_USERS.ALL' | translate}}</option>
+                                <option value="1">{{'CONSTRUCTOR.APPLICATIONS_USERS.BLOCKED' | translate}}</option>
+                                <option value="0">{{'CONSTRUCTOR.APPLICATIONS_USERS.ACTIVE' | translate}}</option>
+                            </select>
+                            <small class="form-text text-muted">{{'CONSTRUCTOR.APPLICATIONS_USERS.FILTER_BY_STATUS' | translate}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2" [formGroup]="searchGroup">
+                    <input type="text" class="form-control" name="searchText" placeholder="Search" value=""
+                           formControlName="searchTerm"/>
+                    <small class="form-text text-muted">{{'CONSTRUCTOR.APPLICATIONS_USERS.SEARCH' | translate}}</small>
+                </div>
+            </div>
+        </div>
+        <!-- end: Filtration form -->
+
+        <!-- begin: Grouping -->
+        <ng-container *ngIf="grouping.getSelectedRowsCount()">
+            <div class="form">
+                <div class="row align-items-center form-group-actions margin-top-20 margin-bottom-20">
+                    <div class="col-xl-12">
+                        <div class="form-group form-group-inline">
+                            <div class="form-label form-label-no-wrap">
+                                <label class="font-bold font-danger"><span>{{'CONSTRUCTOR.APPLICATIONS_USERS.SELECTED_COUNT' | translate}}:<b> {{ grouping.getSelectedRowsCount() }}</b></span></label>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-danger font-weight-bolder font-size-sm mr-1"
+                                        (click)="deleteSelected()">
+                                    <i class="fa fa-trash"></i> {{'CONSTRUCTOR.APPLICATIONS_USERS.DELETE_SELECTED' | translate}}
+                                </button>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <!-- end: Grouping -->
+
+
+        <!-- begin:Table -->
+        <div class="table-responsive angular-bootstrap-table">
+            <table class="table table-head-custom table-vertical-center overflow-hidden">
+                <thead>
+                <th class="selection-cell-header" data-row-selection="true"><label class="checkbox checkbox-single">
+                    <input type="checkbox" (click)="grouping.selectAllRows()"
+                           [checked]="grouping.checkAreAllRowsSelected()"/>
+                    <span></span></label>
+                </th>
+                <!--<th>
+                    APPLICATION ID (ID)
+                    <app-sort-icon column="app_id" [activeColumn]="sorting.column"
+                                   [activeDirection]="sorting.direction" (sort)="sort($event)">
+                    </app-sort-icon>
+                </th>-->
+                <th>
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.NAME' | translate}}
+                    <app-sort-icon column="name" [activeColumn]="sorting.column"
+                                   [activeDirection]="sorting.direction" (sort)="sort($event)">
+                    </app-sort-icon>
+                </th>
+                <th>
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.MAIL' | translate}}
+                    <app-sort-icon column="mail" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+                                   (sort)="sort($event)">
+                    </app-sort-icon>
+                </th>
+                <th>
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.PHONE' | translate}}
+                    <app-sort-icon column="phone" [activeColumn]="sorting.column"
+                                   [activeDirection]="sorting.direction" (sort)="sort($event)">
+                    </app-sort-icon>
+                </th>
+                <!--<th>
+                    BALANCE
+                    <app-sort-icon column="balance" [activeColumn]="sorting.column"
+                                   [activeDirection]="sorting.direction"
+                                   (sort)="sort($event)">
+
+                    </app-sort-icon>
+                </th>
+                <th>
+                    ROLE
+                    <app-sort-icon column="role" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+                                   (sort)="sort($event)">
+
+                    </app-sort-icon>
+                </th>-->
+                <th>
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.AVATAR' | translate}}
+                    <app-sort-icon column="avatar" [activeColumn]="sorting.column" [activeDirection]="sorting.direction"
+                                   (sort)="sort($event)">
+
+                    </app-sort-icon>
+                </th>
+                <th>
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.STATUS' | translate}}
+                    <app-sort-icon column="blocked" [activeColumn]="sorting.column"
+                                   [activeDirection]="sorting.direction"
+                                   (sort)="sort($event)">
+
+                    </app-sort-icon>
+                </th>
+                <th>
+                    {{'CONSTRUCTOR.APPLICATIONS_USERS.LAST_DATE' | translate}}
+                    <app-sort-icon column="last_date" [activeColumn]="sorting.column"
+                                   [activeDirection]="sorting.direction"
+                                   (sort)="sort($event)">
+
+                    </app-sort-icon>
+                </th>
+                <th>{{'CONSTRUCTOR.APPLICATIONS_USERS.ACTIONS' | translate}}</th>
+                </thead>
+                <tbody>
+                <tr *ngFor="let user of applicationUsersService.items$ | async">
+                    <td class="selection-cell">
+                        <label class="checkbox checkbox-single">
+                            <input type="checkbox" (click)="grouping.selectRow(user.id)"
+                                   [checked]="grouping.isRowSelected(user.id)"/>
+                            <span></span>
+                        </label>
+                    </td>
+                    <!--<td>{{ user.app_id }}</td>-->
+                    <td>{{ user.name }} {{user.lastname ? (' ' + user.lastname) : ''}}</td>
+                    <td>{{ user.mail }}</td>
+                    <td>{{ user.phone }}</td>
+                    <!--<td>{{ user.balance }}</td>
+                    <td>{{ user.role }}</td>-->
+                    <td>{{ user.avatar }}</td>
+                     <td>
+                        <span class="label label-lg label-inline" [class.label-light-success]="user.blocked === 0"
+                              [class.label-light-danger]="user.blocked === 1">
+                            <ng-container *ngIf="user.blocked === 0">{{'CONSTRUCTOR.APPLICATIONS_USERS.ACTIVE' | translate}}</ng-container>
+                            <ng-container *ngIf="user.blocked === 1">{{'CONSTRUCTOR.APPLICATIONS_USERS.BLOCKED' | translate}}</ng-container>
+                        </span>
+                    </td>
+                    <td>{{ user.last_date }}</td>
+                    <td>
+                        <a title="Edit product" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3"
+                           [routerLink]="'edit/' + user.id">
+                            <span [inlineSVG]="'./assets/media/svg/icons/Communication/Write.svg'" cacheSVG="true"
+                                  class="svg-icon svg-icon-md svg-icon-primary">
+                            </span>
+                        </a>
+                        <a title="Delete product" class="btn btn-icon btn-light btn-hover-danger btn-sm"
+                           (click)="delete(user.id)">
+                            <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                                  class="svg-icon svg-icon-md svg-icon-danger">
+                            </span>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end: Table -->
+
+
+        <app-paginator
+                class="d-flex justify-content-between align-items-center flex-wrap"
+                [paginator]="paginator"
+                [isLoading]="isLoading"
+                [pageSizes]="pageSizes"
+                (paginate)="paginate($event)"
+        ></app-paginator>
+    </div>
+</div>

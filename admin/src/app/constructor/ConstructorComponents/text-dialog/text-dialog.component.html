@@ -1,0 +1,28 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+    <div *ngIf="!page_loaded" class="w-100"><div class="spinner"></div></div>
+
+    <ng-container *ngIf="page_loaded" [formGroup]="formGroup">
+        <ul class="nav nav-tabs nav-tabs-line" id="textTabs">
+            <li *ngFor="let lang of appLanguages; let i = index" class="nav-item">
+                <a class="nav-link" [ngClass]="selectedTab == i ? 'active' : ''" (click)="selectTab($event, i)">{{lang.name}}</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-5" id="myTabContent">
+            <div *ngFor="let lang of appLanguages; let i = index" class="tab-pane" [ngClass]="{'show': selectedTab == i, 'active': selectedTab == i}" >
+                <ckeditor [config]="config" [formControlName]="lang.code"></ckeditor>
+            </div>
+        </div>
+    </ng-container>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="save()">{{'GENERAL.LANGUAGES.SAVE' | translate}}</button>
+</div>

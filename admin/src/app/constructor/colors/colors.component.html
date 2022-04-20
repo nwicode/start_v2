@@ -1,0 +1,113 @@
+
+
+<div class="alert alert-custom alert-warning pb-3 pt-3" role="alert">
+    <div class="alert-icon">
+        <i class="flaticon-danger"></i>
+    </div>
+    <div class="alert-text">{{'CONSTRUCTOR.COLORS.REBUILD_AFTER_SAVE' | translate}}</div>
+</div>
+
+
+<!--begin::Profile Overview-->
+<div class="d-flex flex-row" >
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+<!--begin::Profile Card-->
+<div class="card card-custom card-stretch" >
+    <!--begin::Body-->
+    <div class="card-body pt-4">
+      <!--begin::Toolbar-->
+      <!--
+      <div class="d-flex justify-content-end">
+        <div class="dropdown dropdown-inline" ngbDropdown>
+          <a class="btn btn-clean btn-hover-light-primary btn-sm btn-icon cursor-pointer" ngbDropdownToggle>
+            <i class="ki ki-bold-more-hor"></i>
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+            <app-dropdown-menu4></app-dropdown-menu4>
+          </div>
+        </div>
+      </div>
+    -->
+      <!--end::Toolbar-->
+  
+ 
+ 
+      <!--begin::Nav-->
+      <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+      <!--  <div class="navi-item mb-2">
+          <a class="navi-link py-4" routerLink="/user-profile/profile-overview" routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/Design/Layers.svg'" cacheSVG="true" class="svg-icon"></span>
+            </span>
+            <span class="navi-text font-size-lg">
+              Profile Overview
+            </span>
+          </a>
+        </div>
+      -->
+      <div class="navi-section mt-7 mb-2 pb-0">
+        <p>
+          {{'CONSTRUCTOR.COLORS.COLOR_SETTINGS' | translate}}
+        </p>
+      </div>
+
+        <div class="navi-item mb-2">
+          <a class="navi-link py-4" routerLink="main-color" routerLinkActive="active">
+            <span class="navi-icon mr-4">
+              <span [inlineSVG]="'./assets/media/svg/icons/Design/Color.svg'" cacheSVG="true" class="svg-icon"></span>
+            </span>
+            <span class="navi-text font-size-lg">
+              {{'CONSTRUCTOR.COLORS.MAIN_COLORS' | translate}}
+            </span>
+          </a>
+        </div>
+
+        <div class="navi-item mb-2">
+          <a class="navi-link py-4" routerLink="system-color" routerLinkActive="active">
+            <span class="navi-icon mr-4">
+                <span [inlineSVG]="'./assets/media/svg/icons/Design/Color.svg'" cacheSVG="true" class="svg-icon"></span>
+              </span>
+            <span class="navi-text font-size-lg">
+              {{'CONSTRUCTOR.COLORS.SYSTEM_COLORS' | translate}}
+            </span>
+          </a>
+        </div>
+
+        <div class="navi-item mb-2">
+          <a class="navi-link py-4" routerLink="user-color" routerLinkActive="active">
+            <span class="navi-icon mr-4">
+                <span [inlineSVG]="'./assets/media/svg/icons/Design/Color.svg'" cacheSVG="true" class="svg-icon"></span>
+              </span>
+            <span class="navi-text font-size-lg">
+              {{'CONSTRUCTOR.COLORS.USER_COLORS' | translate}}
+            </span>
+          </a>
+        </div>
+
+        <div class="navi-item mb-2">
+          <a class="navi-link py-4" routerLink="additional-color" routerLinkActive="active">
+            <span class="navi-icon mr-4">
+                <span [inlineSVG]="'./assets/media/svg/icons/Design/Color.svg'" cacheSVG="true" class="svg-icon"></span>
+              </span>
+            <span class="navi-text font-size-lg">
+              {{'CONSTRUCTOR.COLORS.ADDITIONAL_COLORS' | translate}}
+            </span>
+          </a>
+        </div>
+      </div>
+      <!--end::Nav-->
+    </div>
+    <!--end::Body-->
+  </div>
+  <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+  
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+      <router-outlet></router-outlet>
+    </div>
+    <!--end::Content-->
+  </div>
+  <!--end::Profile Overview-->

@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "header-mobile.component.scss"
+    ],
+    "names": [],
+    "file": "header-mobile.component.css"
+}

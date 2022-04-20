@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACE,KADG,CACH,KAAK,CAAC;EACJ,UAAU,EAAE,sBAAsB;CACnC",
+    "sources": [
+        "builder.component.scss"
+    ],
+    "names": [],
+    "file": "builder.component.css"
+}

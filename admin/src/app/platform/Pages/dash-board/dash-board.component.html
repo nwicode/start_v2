@@ -1,0 +1,62 @@
+<!-- begin::Loading -->
+<ng-container *ngIf="isLoading$ | async">
+    <div class="progress progress-modal">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+            style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</ng-container>
+<!-- end::Loading -->
+
+<ng-container *ngIf="page_loaded">
+    
+    <div *ngIf="has_new_version" class="alert alert-custom alert-notice alert-light-primary fade show p-1 pl-5" role="alert">
+        <div class="alert-icon"><i class="flaticon-warning"></i></div>
+        <div class="alert-text">{{'DASHBOARD.NEW_VERSION' | translate}} {{version + '. '}} <a class="alert-text text-secondary" routerLink="/marketplace/platform-update">{{'DASHBOARD.CAME_TO_LINK_DOWNLOAD' | translate}}</a></div>
+    </div>
+    
+    <div *ngIf="sdk_errors" class="row">
+        <div class="col-xl-12">
+            <div class="alert alert-custom alert-danger fade show mb-5" role="alert">
+                <div class="alert-icon">
+                    <i class="flaticon2-exclamation"></i>
+                </div>
+                <div class="alert-text font-weight"><a routerLink="/settings-sdk" class="text-inverse-success font-weight-bold font-size-lg mt-1">{{'DASHBOARD.SDK_ERROR' | translate}} </a></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+
+        <div class="col-xl-2">
+            <div class="card card-custom bg-success gutter-b" style="height: 150px"  >
+                <div class="card-body">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Communication/Group.svg'" cacheSVG="true" class="svg-icon svg-icon-3x svg-icon-white ml-n2"></span>
+                    <div class="text-inverse-success font-weight-bolder font-size-h2 mt-3">{{dashboard.user_count}}</div>
+                    <a routerLink="/users" class="text-inverse-success font-weight-bold font-size-lg mt-1">{{'DASHBOARD.TOTAL_CUSTOMERS' | translate}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-2">
+            <div class="card card-custom bg-primary gutter-b" style="height: 150px"  >
+                <div class="card-body">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-4-blocks.svg'" cacheSVG="true" class="svg-icon svg-icon-3x svg-icon-white ml-n2"></span>
+                    <div class="text-inverse-success font-weight-bolder font-size-h2 mt-3">{{dashboard.app_count}}</div>
+                    <a routerLink="/users" class="text-inverse-success font-weight-bold font-size-lg mt-1">{{'DASHBOARD.TOTAL_APPS' | translate}}</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-2">
+            <div class="card card-custom bg-secondary wave wave-animate-fast wave-success gutter-b" style="height: 150px"  >
+                <div class="card-body">
+                    <span [inlineSVG]="'./assets/media/svg/icons/General/Settings-2.svg'" cacheSVG="true" class="svg-icon svg-icon-3x svg-icon-dark ml-n2"></span>
+                    <div class="text-inverse-secondary font-weight-bolder font-size-h2 mt-3">{{dashboard.build_queue}}</div>
+                    <a routerLink="/build-queue" class="text-inverse-secondary font-weight-bold font-size-lg mt-1">{{'DASHBOARD.BUILD_QUEUE' | translate}}</a>
+                </div>
+            </div>
+        </div>        
+    </div>
+</ng-container>
+

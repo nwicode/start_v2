@@ -1,0 +1,26 @@
+div.card-component-panel {
+    height: 100%;
+}
+
+div.pages-list {
+    overflow: scroll;
+    height: 100vh;
+    display: flex;
+    padding-bottom: 100px;
+    align-content: start;
+}
+
+div.page-block {
+    height: 150px;
+    img {
+        width: 100px;
+    }
+}
+
+div.component-block1 {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    
+}
+
+

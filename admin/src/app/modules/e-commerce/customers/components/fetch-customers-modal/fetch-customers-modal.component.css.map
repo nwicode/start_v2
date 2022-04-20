@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "fetch-customers-modal.component.scss"
+    ],
+    "names": [],
+    "file": "fetch-customers-modal.component.css"
+}

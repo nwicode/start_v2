@@ -1,0 +1,38 @@
+div.android1 {
+
+  div.mockup {
+    position: absolute;
+    width: 1280px;
+    height: 854px;
+    z-index: 10;
+    img {
+      width: 100%;
+    }
+  }
+
+  width: 1280px;
+  height: 854px;
+  background-size: cover;
+
+  .frame_dummy{
+    position: relative;
+    left: 77px;
+    top: 73px;
+    width: 1126px;
+    height: 708px;
+    border: 0px;
+    z-index: 11;
+
+
+  }
+  iframe{
+    position: relative;
+    left: 77px;
+    top: 73px;
+    width: 1126px;
+    height: 708px;
+    border: 0px;
+    z-index: 11;
+
+  }
+}

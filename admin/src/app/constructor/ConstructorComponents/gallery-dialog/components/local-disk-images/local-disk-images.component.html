@@ -1,0 +1,32 @@
+<input type="file" #file style="display: none" (change)="onFileSelected()" [accept]="galleryDialog.fileTypes" multiple/>
+<div mat-dialog-content>
+    <ng-container>
+        <button class="btn btn-primary mr-2" (click)="selectFile()">{{'GALLERY.UPLOAD_FILES' | translate}}</button>
+    </ng-container>
+    <p>{{'GALLERY.ADOBE_SELECTED_ELEMENTS' | translate}} ({{getSelectedImages().length}})</p>
+    <div class="row" style="padding: 10px; text-align: center; display: flex; overflow-y: scroll; max-height: 300px">
+        <div class="col-sm-2" style="margin: 10px" *ngFor="let myImage of myImages">
+            <div class="card" [ngClass]="myImage.isSelected? 'select': ''" (click)="selectImage(myImage)">
+                <mat-progress-spinner *ngIf="myImage.progress > 0 && myImage.isUploaded == false"
+                                      class="progress_indicator"
+                                      [color]="'primary'"
+                                      [mode]="mode"
+                                      [value]="myImage.progress">
+                </mat-progress-spinner>
+                <mat-spinner *ngIf="myImage.progress == 0 && myImage.isUploaded == false"
+                             class="progress_indicator"></mat-spinner>
+
+                <div class="portrait" *ngIf="myImage.isUploaded == true">
+                    <img src="{{myImage.isFile? myImage.imageUrl: 'assets/images/folder.png'}}" alt="Avatar">
+                </div>
+                <div class="container"> 
+                    <strong><a>{{myImage.title}}</a></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button class="btn btn-primary mr-2" (click)="selectImages()">{{'GALLERY.SELECT' | translate}}</button>
+        <button class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    </div>
+</div>

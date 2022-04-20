@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "logout.component.scss"
+    ],
+    "names": [],
+    "file": "logout.component.css"
+}

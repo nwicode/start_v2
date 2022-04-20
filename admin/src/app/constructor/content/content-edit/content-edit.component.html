@@ -1,0 +1,140 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.CONTENT_EDIT.'+title | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.CONTENT_EDIT.'+title_text | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup && formGroup.invalid && formGroup.touched">{{'PAGE.LANGUAGES.FILL_REQUIRED_FIELDS' | translate}}!</span>
+                <button type="submit" class="btn btn-success mr-2" [disabled]="formGroup && formGroup.invalid && formGroup.touched"  (click)="save()">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+                <button type="button" class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+                <button type="button" class="btn btn-secondary" [routerLink]="'/constructor/' + applicationId + '/content/content-list/' + contentTypeId">{{'GENERAL.LANGUAGES.BACK' | translate}}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div class="form" *ngIf="formGroup" [formGroup]="formGroup">
+            <div class="card-body">
+                <div *ngFor="let field of fields">
+                    <ng-container>
+                        <div *ngIf="field.db_field.startsWith('column_title')">
+                            <ng-container *ngIf="field.multilang == 0">
+                                <div class="form-group">
+                                    <label>{{field.name}}</label>
+                                    <input type="text" class="form-control form-control-solid"
+                                           [formControlName]="field.db_field + '_' + defaultLanguage"
+                                           [class.is-invalid]="isControlInvalid(field.db_field + '_' + defaultLanguage)"
+                                           [class.is-valid]="isControlValid(field.db_field + '_' + defaultLanguage)">
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="field.multilang == 1">
+                                <div class="form-group">
+                                    <ng-container *ngFor="let language of languages">
+                                        <label class="m-1">{{field.name}}{{' (' + (('GENERAL.LANGUAGES.' + language.code) | translate) + ')'}}</label>
+                                        <input type="text" class="form-control form-control-solid"
+                                               [formControlName]="field.db_field + '_' + language.code"
+                                               [class.is-invalid]="isControlInvalid(field.db_field + '_' + language.code)"
+                                               [class.is-valid]="isControlValid(field.db_field + '_' + language.code)">
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div *ngIf="field.db_field.startsWith('column_image')">
+                            <div class="form-group">
+                                <label>{{field.name}}</label>
+                                <div>
+                                    <div>
+                                        <div class="icon_box p-1">
+                                            <img class="max-w-100px max-h-100px" *ngIf="formGroup['controls'][field.db_field].value && formGroup['controls'][field.db_field].value!=''" src="{{platform_url}}{{resources_dir}}{{formGroup['controls'][field.db_field].value}}">
+                                        </div>
+                                        <button class="btn btn-secondary mr-2" (click)="openGalleryDialog(field.db_field)">{{'CONSTRUCTOR.CREATE_CONTENT_TYPE.CHOOSE_IMAGE' | translate}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="field.db_field.startsWith('column_string')">
+                            <ng-container *ngIf="field.multilang == 0">
+                                <div class="form-group">
+                                    <label>{{field.name}}</label>
+                                    <input type="text" class="form-control form-control-solid"
+                                           [formControlName]="field.db_field + '_' + defaultLanguage"
+                                           [class.is-invalid]="isControlInvalid(field.db_field + '_' + defaultLanguage)"
+                                           [class.is-valid]="isControlValid(field.db_field + '_' + defaultLanguage)">
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="field.multilang == 1">
+                                <div class="form-group">
+                                    <ng-container *ngFor="let language of languages">
+                                    <label class="m-1">{{field.name}}{{' (' + (('GENERAL.LANGUAGES.' + language.code) | translate) + ')'}}</label>
+                                    <input type="text" class="form-control form-control-solid"
+                                           [formControlName]="field.db_field + '_' + language.code">
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div *ngIf="field.db_field.startsWith('column_text')">
+                            <ng-container *ngIf="field.multilang == 0">
+                                <div class="form-group">
+                                    <label>{{field.name}}</label>
+                                    <ckeditor [config]="{ language: currentLanguage }" [formControlName]="field.db_field + '_' + defaultLanguage"></ckeditor>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="field.multilang == 1">
+                                <div class="form-group">
+                                    <ng-container *ngFor="let language of languages">
+                                        <label class="m-1">{{field.name}}{{' (' + (('GENERAL.LANGUAGES.' + language.code) | translate) + ')'}}</label>
+                                        <ckeditor [config]="{ language: currentLanguage }" [formControlName]="field.db_field + '_' + language.code"></ckeditor>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                        <div *ngIf="field.db_field.startsWith('column_date')">
+                            <div class="form-group">
+                                <label>{{field.name}}</label>
+                                <div>
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>{{'CONSTRUCTOR.CONTENT_EDIT.CHOOSE_DATE' | translate}}</mat-label>
+                                        <input matInput [matDatepicker]="picker" [formControlName]="field.db_field">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="field.db_field.startsWith('column_number')">
+                            <div class="form-group">
+                                <label>{{field.name}}</label>
+                                <input type="number" class="form-control form-control-solid" [formControlName]="field.db_field"
+                                       [class.is-invalid]="isControlInvalid(field.db_field)" [class.is-valid]="isControlValid(field.db_field)">
+                            </div>
+                        </div>
+                        <div *ngIf="field.db_field.startsWith('column_logical')">
+                            <div class="form-group">
+                                <label>{{field.name}}</label>
+                                <div class="checkbox-inline">
+                                    <label class="checkbox checkbox-lg">
+                                        <input type="checkbox" [formControlName]="field.db_field"/>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>
+

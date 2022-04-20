@@ -1,0 +1,23 @@
+:host ::ng-deep .loading-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+:host ::ng-deep .loading-bar .progress-bar {
+  background-color: #5d78ff;
+}
+
+:host ::ng-deep .topbar-item {
+  height: 100%;
+}
+
+@media (min-width: 1025px) {
+  :host ::ng-deep .topbar,
+  :host ::ng-deep .topbar-item-wrapper {
+    height: 100%;
+  }
+}
+/*# sourceMappingURL=header.component.css.map */

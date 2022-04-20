@@ -1,0 +1,75 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div *ngIf="formGroup" class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.RECORD_EDIT.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.RECORD_EDIT.TITLE_TEXT' | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup.invalid && this.formGroup.touched">{{ 'GENERAL.LANGUAGES.FORM_NOT_FILL' | translate}}</span>
+                <button type="submit" class="btn btn-success mr-2" [disabled]="formGroup.invalid && this.formGroup.touched" (click)="save()">{{ 'GENERAL.LANGUAGES.SAVE_CHANGES' | translate }}</button>
+                <button type="reset" class="btn btn-secondary mr-2" (click)="cancel()">{{ 'GENERAL.LANGUAGES.CANCEL' | translate }}</button>
+                <button type="button" class="btn btn-secondary" [routerLink]="'/constructor/' + this.applicationId + '/collections/record-list/' + collectionId">{{'GENERAL.LANGUAGES.BACK' | translate}}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div *ngIf="formGroup" class="form" [formGroup]="formGroup">
+            <div class="card-body">
+
+
+                <div *ngFor="let field of collectionFields" class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{field['field_name_' + app.default_language]}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <input *ngIf="field.field_type == 'string'" type="text" class="form-control form-control-solid" [formControlName]="field['fieldId']"
+                               [class.is-invalid]="field['fieldId'].invalid && (field['fieldId'].dirty || field['fieldId'].touched)"
+                               [class.is-valid]="field['fieldId'].valid && (field['fieldId'].dirty || field['fieldId'].touched)">
+
+                        <label *ngIf="field.field_type == 'logical'" class="checkbox checkbox-lg align-self-center">
+                            <input type="checkbox" [formControlName]="field['fieldId']"/>
+                            <span></span>
+                        </label>
+
+                        <input *ngIf="field.field_type == 'number'" type="number" class="form-control form-control-solid" [formControlName]="field['fieldId']"
+                               [class.is-invalid]="field['fieldId'].invalid && (field['fieldId'].dirty || field['fieldId'].touched)"
+                               [class.is-valid]="field['fieldId'].valid && (field['fieldId'].dirty || field['fieldId'].touched)">
+
+                        <input *ngIf="field.field_type == 'date_time'" [formControlName]="field['fieldId']" type="datetime-local" placeholder="Start Date">
+                        <input *ngIf="field.field_type == 'date'" [formControlName]="field['fieldId']" type="date" placeholder="Start Date">
+
+                        <div *ngIf="field.field_type == 'image'">
+                            <div class="icon_box p-1">
+                                <img class="max-w-100px max-h-100px" *ngIf="formGroup['controls'][field.fieldId].value && formGroup['controls'][field.fieldId].value!=''" src="{{platform_url}}{{resources_dir}}{{formGroup['controls'][field.fieldId].value}}">
+                            </div>
+                            <button class="btn btn-secondary mr-2" (click)="openGalleryDialog(field.fieldId, '.jpg,.png,.jpeg,.ico,.svg')">{{'CONSTRUCTOR.RECORD_EDIT.CHOOSE_IMAGE' | translate}}</button>
+                        </div>
+
+                        <div *ngIf="field.field_type == 'file'">
+                            <div class="p-1">
+
+                                <input type="text" class="form-control form-control-solid" [formControlName]="field['fieldId']" disabled
+                                       [class.is-invalid]="field['fieldId'].invalid && (field['fieldId'].dirty || field['fieldId'].touched)"
+                                       [class.is-valid]="field['fieldId'].valid && (field['fieldId'].dirty || field['fieldId'].touched)">
+                            </div>
+                            <button class="btn btn-secondary mr-2" (click)="openGalleryDialog(field.fieldId, '.*')">{{'CONSTRUCTOR.RECORD_EDIT.CHOOSE_FILE' | translate}}</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>
+
+
+

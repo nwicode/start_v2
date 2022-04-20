@@ -1,0 +1,56 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div *ngIf="formGroup" class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.FIREBASE_SETTINGS.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.FIREBASE_SETTINGS.TITLE_TEXT' | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup.invalid && this.formGroup.touched">{{ 'GENERAL.LANGUAGES.FORM_NOT_FILL' | translate}}</span>
+                <button type="submit" class="btn btn-success mr-2" [disabled]="formGroup.invalid && this.formGroup.touched" (click)="save()">{{ 'GENERAL.LANGUAGES.SAVE_CHANGES' | translate }}</button>
+                <button type="reset" class="btn btn-secondary" (click)="cancel()">{{ 'GENERAL.LANGUAGES.CANCEL' | translate }}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div class="form">
+            <div class="card-body">
+                <h5 class="font-weight-bold mb-6">google-services.json</h5>
+                <div id="containerJSONEditor">
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h5 class="font-weight-bold mb-6">GoogleService-info.plist</h5>
+                <div id="containerXMLEditor">
+                </div>
+            </div>
+
+            <div *ngIf="formGroup" class="card-body" [formGroup]="formGroup">
+                <div class="form-group">
+                    <label>{{'CONSTRUCTOR.FIREBASE_SETTINGS.USE' | translate}} Crashlytics</label>
+                    <div class="checkbox-inline">
+                        <label class="checkbox checkbox-lg">
+                            <input type="checkbox" formControlName="use_crashlytics" name="use_crashlytics"/>
+                            <span></span>
+                            {{(formGroup.controls['use_crashlytics'].value ? 'CONSTRUCTOR.FIREBASE_SETTINGS.ENABLED' : 'CONSTRUCTOR.FIREBASE_SETTINGS.DISABLED') | translate}}&nbsp;
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>
+
+

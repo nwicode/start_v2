@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "paginator.component.scss"
+    ],
+    "names": [],
+    "file": "paginator.component.css"
+}

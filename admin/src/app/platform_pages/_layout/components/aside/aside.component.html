@@ -1,0 +1,49 @@
+<!--begin::Brand-->
+<div class="brand flex-column-auto" id="kt_brand" [ngClass]="brandClasses">
+  <!--begin::Logo-->
+  <a routerLink="/" class="brand-logo">
+    <img alt="Logo" [attr.src]="headerLogo" />
+  </a>
+  <!--end::Logo-->
+
+  <ng-container *ngIf="asideSelfMinimizeToggle">
+    <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+      <span
+        [inlineSVG]="
+          './assets/media/svg/icons/Navigation/Angle-double-left.svg'
+        "
+        cacheSVG="true"
+        class="svg-icon svg-icon-xl"
+      ></span>
+    </button>
+  </ng-container>
+</div>
+<!--end::Brand-->
+
+<!--begin::Aside Menu-->
+<div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+  <ng-container *ngIf="disableAsideSelfDisplay">
+    <!--begin::Header Logo-->
+    <a routerLink="/">
+      <img alt="Logo" [attr.src]="headerLogo" />
+    </a>
+    <!--end::Header Logo-->
+  </ng-container>
+  <!--begin::Menu Container-->
+  <div
+    id="kt_aside_menu"
+    class="aside-menu"
+    [ngClass]="asideMenuCSSClasses"
+    data-menu-vertical="1"
+    [attr.data-menu-scroll]="asideMenuScroll"
+    [attr.data-menu-dropdown]="asideMenuDropdown"
+    data-menu-dropdown-timeout="500"
+  >
+    <!-- begin::Menu Nav -->
+    <ul class="menu-nav" [ngClass]="ulCSSClasses">
+    </ul>
+    <!-- end::Menu Nav -->
+  </div>
+  <!--end::Menu Container-->
+</div>
+<!--end::Aside Menu-->

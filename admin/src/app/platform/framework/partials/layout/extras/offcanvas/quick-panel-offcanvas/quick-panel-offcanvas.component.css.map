@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "quick-panel-offcanvas.component.scss"
+    ],
+    "names": [],
+    "file": "quick-panel-offcanvas.component.css"
+}

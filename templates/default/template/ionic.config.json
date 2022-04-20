@@ -1,0 +1,7 @@
+{
+  "name": "com.application.template",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

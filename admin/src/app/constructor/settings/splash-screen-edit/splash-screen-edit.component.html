@@ -1,0 +1,74 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.EDIT_SPLASHSCREEN.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.EDIT_SPLASHSCREEN.TITLE_TEXT' | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <button type="submit" class="btn btn-success mr-2" [disabled]="!isLoadNewImage" (click)="save()">{{ 'GENERAL.LANGUAGES.SAVE_CHANGES' | translate }}</button>
+                <button type="reset" class="btn btn-secondary" (click)="cancel()">{{ 'GENERAL.LANGUAGES.CANCEL' | translate }}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div class="form" *ngIf="formGroup" [formGroup]="formGroup">
+            <div class="card-body">
+
+                <div class="fv-plugins-icon-container">
+                    <label class="font-size-h6 font-weight-bolder">{{'CONSTRUCTOR.EDIT_SPLASHSCREEN.SPLASHSCREEN' | translate}}</label>
+                    <div class="d-flex flex-row align-items-start justify-content-center mb-3">
+                        <img [src]="isLoadNewImage ? newImage : originalImage + noCacheString" [style.background-color]="newBackgroundColorValue" id="splashImage" class="max-h-200px max-w-200px" alt="application splashscreen">
+                        <a class="btn btn-icon btn-light ml-2 btn-xs" (click)="displayBackgroundColorPicker=true">
+                            <i class="fas fa-paint-brush"></i>
+                        </a>
+                        <app-color-picker id="backgroundColorPicker" [disableAlpha]="true" *ngIf="displayBackgroundColorPicker" [color]="newBackgroundColorValue" (onClose)="displayBackgroundColorPicker=false" (onChange)="changeColorEvent($event)"></app-color-picker>
+                    </div>
+                    <div class="custom-file">
+                        <input id="inputImage" type="file" class="custom-file-input" accept=".png" formControlName="inputImage" (change)="onLoadImage()">
+                        <label class="custom-file-label form-control form-control-lg" for="inputImage">{{inputText ? inputText : 'GENERAL.LANGUAGES.CHOOSE_FILE' | translate}}</label>
+                    </div>
+                    <span class="form-text text-muted mb-7">{{'CONSTRUCTOR.EDIT_SPLASHSCREEN.SPLASHSCREEN_COMMENT' | translate}}</span>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.EDIT_SPLASHSCREEN.SHOW_SPINNER' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6 col-form-label">
+                        <label class="checkbox checkbox-lg">
+                            <input type="checkbox" formControlName="showSpinner" name="showSpinner"/>
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.EDIT_SPLASHSCREEN.COLOR_SPINNER' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6 col-form-label">
+                            <div class="symbol symbol-25 cursor-pointer" (click)="displaySpinnerColorPicker=true">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Design/Color.svg'" cacheSVG="true" class="color-square symbol-label svg-icon" [style.background-color]="newSpinnerColorValue"></span>
+                            </div>
+                            <app-color-picker id="spinnerColorPicker" [disableAlpha]="true" *ngIf="displaySpinnerColorPicker" [color]="newSpinnerColorValue" (onClose)="displaySpinnerColorPicker=false" (onChange)="changeColorEvent($event)"></app-color-picker>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-xl-3 col-lg-3 col-form-label">{{'CONSTRUCTOR.EDIT_SPLASHSCREEN.TIMEOUT' | translate}}</label>
+                    <div class="col-lg-9 col-xl-6">
+                        <input class="form-control form-control-lg form-control-solid" type="text" formControlName="timeout" name="timeout"
+                               [class.is-invalid]="isControlInvalid('timeout')" [class.is-valid]="isControlValid('timeout')"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>
+
+

@@ -1,0 +1,43 @@
+div.android1 {
+    
+    div.mockup {
+        position: absolute;
+        width: 514px;
+        height: 640px;
+        z-index: 10;
+        img {
+            width: 100%;
+        }
+    }
+    
+    width: 375px;
+    height: 640px;
+    background-size: cover;
+
+    .frame_dummy{
+        position: relative;
+        left: 48px;
+        top: 30px;
+        width: 262px;
+        height: 548px;
+        border: 0px;
+        z-index: 11;
+        border-radius: 10px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+
+    }
+    iframe{
+        position: relative;
+        left: 68px;
+        top: 41px;
+        width: 375px;
+        height: 785px;
+        border: 0px;
+        z-index: 11;
+        border-radius: 10px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+
+    }
+}

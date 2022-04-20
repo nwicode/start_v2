@@ -1,0 +1,185 @@
+<router-outlet></router-outlet>
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.PUSH_MESSAGES.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.PUSH_MESSAGES.TITLE_TEXT' | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <button type="button" class="btn btn-primary mr-2" [disabled]="isOneSignalOff" (click)="initAddMessageForm();isShowAddMessageForm = true"><i class="fas fa-plus"></i> {{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGES_ADD_NEW' | translate}}</button>
+                <button [routerLink]="'topics'" type="button" class="btn btn-primary mr-2" [disabled]="isOneSignalOff"><i class="fas fa-plus"></i> {{'CONSTRUCTOR.PUSH_MESSAGES.TOPICS' | translate}}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+
+        <!--begin::New message form-->
+        <div *ngIf="isShowAddMessageForm" class="form" [formGroup]="addMessageForm">
+            <div class="card-body">
+
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.TITLE' | translate}}</h3>
+
+                <div class="form-group">
+                    <label class="font-weight-bold font-size-h4-lg">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.MESSAGE_TITLE' | translate}}</label>
+                    <input class="form-control form-control-lg form-control-solid" type="text" name="title" formControlName="title"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold font-size-h4-lg">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.MESSAGE' | translate}}</label>
+                    <input class="form-control form-control-lg form-control-solid" type="text" name="message" formControlName="message"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold font-size-h4-lg">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.LARGE_TEXT' | translate}}</label>
+                    <input type="text" class="form-control form-control-lg form-control-solid" name="largeText" formControlName="largeText">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold font-size-h4-lg">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.IMAGE_URL' | translate}}</label>
+                    <input type="text" class="form-control form-control-lg form-control-solid" name="image" formControlName="image">
+                </div>
+
+                <div class="form-group">
+                    <label class="font-weight-bold font-size-h4-lg">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.WHEN_SEND' | translate}}?</label>
+                    <div>
+                        <mat-radio-group formControlName="sendAfter">
+                            <mat-radio-button value="0" [checked]="true">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.IMMEDIATELY' | translate}}</mat-radio-button>
+                            <mat-radio-button value="1">{{'CONSTRUCTOR.PUSH_MESSAGES.ADD_MESSAGE_FORM.SPECIFIC_TIME' | translate}}</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-form-field>
+                            <input matInput type="datetime-local" placeholder="" formControlName="sendAfterTime">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="form-group d-flex flex-wrap pb-lg-0 pb-3">
+                    <button type="button" class="btn btn-success font-size-h6 px-8 py-4 my-3 mr-4" (click)="createPush()">{{ "GENERAL.LANGUAGES.SUBMIT" | translate }}</button>
+                    <button type="button" class="btn btn-secondary font-size-h6 px-8 py-4 my-3" (click)="isShowAddMessageForm = false">{{ "GENERAL.LANGUAGES.CANCEL" | translate }}</button>
+                </div>
+                <div class="border-bottom"></div>
+            </div>
+        </div>
+        <!--end::New message form-->
+
+        <!--begin::Messages list-->
+        <div *ngIf="!isShowAddMessageForm" class="form">
+            <div class="card-body">
+                <h1 *ngIf="(isOneSignalOff || !oneSignalId || !oneSignalApiKey) && isLoadOneSignalSettings">{{'CONSTRUCTOR.PUSH_MESSAGES.ONE_SIGNAL_OFF' | translate}} <a [routerLink]="'/constructor/' + applicationId + '/onesignal'">{{'CONSTRUCTOR.PUSH_MESSAGES.GO_TO_CONFIGURATION' | translate}} >>></a></h1>
+
+                <table *ngIf="!isOneSignalOff && messages && messages.length > 0" class="table">
+                    <caption>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGES_LIST' | translate}}</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">#</th>
+                            <th scope="col" class="text-center">{{'CONSTRUCTOR.PUSH_MESSAGES.COLUMN_DATE' | translate}}</th>
+                            <th scope="col" class="text-center">{{'CONSTRUCTOR.PUSH_MESSAGES.COLUMN_MESSAGE' | translate}}</th>
+                            <th scope="col" class="text-center">{{'CONSTRUCTOR.PUSH_MESSAGES.COLUMN_STATUS' | translate}}</th>
+                            <th scope="col" class="text-center">{{'CONSTRUCTOR.PUSH_MESSAGES.COLUMN_DETAILS' | translate}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    <tr *ngFor="let message of messages; index as i;">
+                        <th scope="row" class="text-center">{{i + 1}}</th>
+                        <td class="text-center">{{message.sent_date | date:'HH:mm dd/MM/yyyy'}}</td>
+                        <td class="text-center"><span class="font-weight-bold">{{message.header}}</span><div>{{message.preview_text}}</div></td>
+                        <td class="text-center">{{(message.status ? 'CONSTRUCTOR.PUSH_MESSAGES.SENT' : 'CONSTRUCTOR.PUSH_MESSAGES.DONT_SENT') | translate}}</td>
+                        <td class="text-center">
+                            <a class="btn btn-icon btn-light btn-hover-primary btn-sm" (click)="openMessageDetails(message, content)">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-opened.svg'" cacheSVG="true" class="svg-icon svg-icon-md svg-icon-primary"></span>
+                            </a>
+                        </td>
+                    </tr>
+
+
+                    </tbody>
+                </table>
+
+                <h1 *ngIf="isLoadOneSignalSettings && messages && messages.length == 0">{{'CONSTRUCTOR.PUSH_MESSAGES.NO_MESSAGES' | translate}}</h1>
+            </div>
+
+            <div *ngIf="totalMessages > itemsPerPage" class="card-body py-5">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <!-- pagination select-->
+                    <div class="d-flex flex-wrap mr-3 align-items-center">
+                        <ngb-pagination class="d-flex flex-wrap justify-content-end mr-3"
+                                        (pageChange)="pageChange($event)"
+                                        [collectionSize]="totalMessages" [(page)]="currentPage"
+                                        [pageSize]="itemsPerPage"
+                                        [maxSize]="5" [rotate]="true"></ngb-pagination>
+                        <div class="d-flex justify-content-end">
+                            {{paginationString()}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Messages list-->
+
+        <ng-template #content let-modal>
+            <div class="modal-header">
+                <h4>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGE_DETAILS' | translate}}</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.close()">
+                    <span style="display: block" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-lg-2">
+                        <p>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGE_ID' | translate}}:</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <p>{{inspectMessage.push_id}}</p>
+                    </div>
+                    <div class="col-lg-2">
+                        <p>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGE_APP_ID' | translate}}:</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <p>{{inspectMessage.app_id}}</p>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <p>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGE_SEND_AFTER' | translate}}:</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <p>{{inspectMessage.sent_date | date:'HH:mm dd/MM/yyyy'}}</p>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <p>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGE_TITLE' | translate}}:</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <p>{{inspectMessage.header}}</p>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <p>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGE_PREVIEW_TEXT' | translate}}:</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <p>{{inspectMessage.preview_text}}</p>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <p>{{'CONSTRUCTOR.PUSH_MESSAGES.MESSAGE_TEXT' | translate}}:</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <p>{{inspectMessage.full_text}}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modal.close('cancel')">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+            </div>
+        </ng-template>
+    </div>
+</ng-container>

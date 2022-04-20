@@ -1,0 +1,14 @@
+div.symbol.active span.symbol-label {
+    border: 3px solid var(--danger);
+}
+
+
+div.color-picker {
+    position: relative;
+    width: 100%;
+    left:0px;
+}
+
+.symbol-list .symbol {
+    max-width: 75px;
+}

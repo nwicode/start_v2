@@ -1,0 +1,32 @@
+<div class="slide-panel">
+    <div class="card card-custom card-component-panel">
+        <div class="card-header">
+
+            <div class="card-title">
+                <h3 class="card-label">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_DELETE_CONFIRM' | translate }} {{page_name}}?
+                <br><small>{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_DELETE_CONFIRM_TEXT' | translate }} </small></h3>
+            </div>
+
+            <div class="card-toolbar">
+                <a class="btn btn-sm btn-icon btn-text-dark btn-hover-light-dark" (click)="closeForm()"><i class="flaticon2-delete icon-sm"></i></a>
+            </div>
+
+        </div>
+        <div class="card-body">
+            <div class="row">
+
+
+                <div class="col-xl-12">
+                    <p class=" font-weight-bold ">{{'GENERAL.LANGUAGES.ARE_YOU_SURE' | translate}}</p>
+                    <a class="btn btn-danger font-weight-bold mr-2" (click)="confirmDeleteForm()">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</a>
+                    <a class="btn btn-light font-weight-bold mr-2"  (click)="closeForm()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+                        
+                        

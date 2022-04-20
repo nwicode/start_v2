@@ -1,0 +1,87 @@
+            <!-- preview -->
+            <app-preview-layer *ngIf="generatePrreview"></app-preview-layer>
+
+
+<!--begin::Main-->
+<ng-container>
+
+  <!-- begin:: Header Mobile -->
+    <app-header-mobile #ktHeaderMobile id="kt_header_mobile" class="header-mobile align-items-center" [ngClass]="headerMobileClasses" ></app-header-mobile>
+    <!-- end:: Header Mobile -->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Page-->
+
+        <div class="d-flex flex-row flex-column-fluid page">
+            <ng-container *ngIf="asideSelfDisplay">
+            <!-- begin:: Aside Left -->
+              <!--begin::STATIC Aside-->
+                <app-constructor-aside #ktAside id="kt_aside" class="aside aside-left d-flex flex-column flex-row-auto" [ngClass]="asideCSSClasses" ></app-constructor-aside>
+              <!--end::STATIC Aside-->
+              <!--begin::DYNAMIC Aside-->
+                <app-constructor-aside-dynamic #ktAside id="kt_aside" class="aside aside-left d-flex flex-column flex-row-auto" [ngClass]="asideCSSClasses" ></app-constructor-aside-dynamic>
+              <!--end::DYNAMIC Aside-->
+            <!-- end:: Aside Left -->
+            </ng-container>
+            <!--begin::Wrapper-->
+
+            
+
+
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                <!-- begin:: Header -->
+                <app-header #ktHeader id="kt_header" class="header" [ngClass]="headerCSSClasses" ></app-header>
+                <!-- end:: Header -->
+
+                <!-- begin:: Content -->
+                <div class="content d-flex flex-column flex-column-fluid" id="kt_content" [ngClass]="contentClasses" >
+                    <!-- begin:: Content Head -->
+                    <app-subheader-wrapper></app-subheader-wrapper>
+                    <!-- end:: Content Head -->
+
+                    <!-- begin:: Content Body -->
+                    <ng-container *ngIf="contentExtended">
+                        <router-outlet></router-outlet>
+                      </ng-container>
+
+                      <ng-container *ngIf="!contentExtended">
+                        <!--begin::Entry-->
+                        <div class="d-flex flex-column-fluid">
+                          <!--begin::Container-->
+                          <div [ngClass]="contentContainerClasses">
+                            <router-outlet></router-outlet>
+                            <!--end::Container-->
+                          </div>
+                        </div>
+                        <!--end::Entry-->
+                      </ng-container>
+                    <!-- end:: Content Body -->
+
+                </div>
+                <!-- end:: Content -->
+
+                <!--begin::Footer-->
+                <app-footer class="footer bg-white py-4 d-flex flex-lg-column w-100" id="kt_footer" [ngClass]="footerCSSClasses" ></app-footer>
+                <!--end::Footer-->
+
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Page-->
+
+        <ng-container *ngIf="extrasNotificationsOffcanvasDisplay">
+          <app-notifications-offcanvas></app-notifications-offcanvas>
+        </ng-container>
+        
+
+        <ng-container *ngIf="extrasUserOffcanvasDisplay">
+          <app-user-offcanvas></app-user-offcanvas>
+        </ng-container>        
+
+        <ng-container *ngIf="extrasScrollTopDisplay">
+          <app-scroll-top></app-scroll-top>
+        </ng-container>
+    </div>
+
+</ng-container>
+<app-scripts-init></app-scripts-init>
+<!-- end::Main-->
