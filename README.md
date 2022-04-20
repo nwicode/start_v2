@@ -1,4 +1,5 @@
 # NWICODEv2 platform (START version 1.0.6)
+![](https://nwicode.com/upload/CMax/5a4/i6dfl567pl5yq3krn7d0m8g72jq1226f/nwcode_500x150-Logo_p-_1_.png)
 ## Links & Stuff
 
 - [User documentation](https://docs.nwcode.io/ "User documentation")
