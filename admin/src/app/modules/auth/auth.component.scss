@@ -1,0 +1,16 @@
+@import "../../../assets/sass/pages/login/login-1.scss";
+
+:host {
+  height: 100%;
+}
+
+div.languages {
+  text-align: right;
+  a {
+    padding-left: 20px;
+    cursor: pointer;
+    img {
+      width:24px;
+    }
+  }
+}

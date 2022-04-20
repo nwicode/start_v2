@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAEI,KAFC,CACH,SAAS,CACP,UAAU,GAAG,SAAS,CAAC;EACrB,OAAO,EAAE,IAAI;CACd;;AAJL,AAOE,KAPG,CAOH,KAAK,CAAC;EACJ,UAAU,EAAE,sBAAsB;CACnC",
+    "sources": [
+        "code-preview.component.scss"
+    ],
+    "names": [],
+    "file": "code-preview.component.css"
+}

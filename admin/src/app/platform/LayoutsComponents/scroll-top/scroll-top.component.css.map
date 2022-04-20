@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "scroll-top.component.scss"
+    ],
+    "names": [],
+    "file": "scroll-top.component.css"
+}

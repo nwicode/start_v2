@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" mode="md">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>#<!-- page_id --> <!-- page_name --></title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <style>
+      :root {
+        --ion-safe-area-top: 20px;
+        --ion-safe-area-bottom: 22px;
+      }
+
+	ion-content::-webkit-scrollbar {
+	  display: none;
+	}
+
+ion-content {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+	<!-- ion_css -->
+    </style>
+    <script type="module">
+      import { menuController } from 'https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/index.esm.js';
+      window.menuController = menuController;	
+        <!-- scripts_module -->
+    </script>
+  </head>
+  <body>
+    <ion-app ng-app="app" ng-controller="appController">
+        <!-- ion_content -->
+    </ion-app>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+      //angularjs services
+      var app = angular.module("app", []);
+
+		angular.module('app').filter('to_trusted', ['$sce', function($sce){
+			return function(text) {
+				return $sce.trustAsHtml(text);
+			};
+		}]);
+
+      app.controller('appController', function($scope, /* module includes */) {
+        $scope.navigateService = NavigateService;
+        $scope.contentService = ContentService;
+        $scope.systemSettingsService = SystemSettingsService;
+		
+		$scope.dummyClick = function () {
+			console.log("Dummy clicked, why?");
+		}
+		
+		$scope.openMenu = async function () {
+			console.log("openMenu clicked");
+			await menuController.open();
+		}		
+		
+		
+		/* module functions */
+		
+      });      
+
+
+	    async function openMenu() {await menuController.open();}	
+	
+        
+    </script>
+	<!-- scripts_bottom_module -->
+  </body>
+</html>

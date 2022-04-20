@@ -1,0 +1,51 @@
+<div ngxStripeCardGroup [elementsOptions]="elementsOptions" [formGroup]="stripeForm">
+    <div class="card-header">
+        <h2>Checkout</h2>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoading">
+            <div class="progress progress-modal">
+                <div
+                        class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                        role="progressbar"
+                        style="width: 100%"
+                        aria-valuenow="100"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                ></div>
+            </div>
+        </ng-container>
+
+        <div class="alert alert-danger pt-3" role="alert" *ngIf="error_message!=''">{{error_message}}</div>
+
+        <div class="form-group">
+            <label for="exampleSelect1">Select Payment Method<span class="text-danger">*</span></label>
+            <select class="form-control" id="exampleSelect1" [disabled]="isLoading">
+                <option>Stripe</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Email</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Email"
+                   formControlName="email" disabled>
+        </div>
+        <div class="form-group">
+            <label>Card Number<span class="text-danger">*</span></label>
+            <ngx-stripe-card-number class="form-control" [options]="cardOptions"></ngx-stripe-card-number>
+            <!--<span class="form-text text-muted">Type your card number here</span>-->
+        </div>
+        <div class="form-group">
+            <label>Expire Date<span class="text-danger">*</span></label>
+            <ngx-stripe-card-expiry class="form-control" [options]="cardOptions"></ngx-stripe-card-expiry>
+            <!--<span class="form-text text-muted">Card expire date</span>-->
+        </div>
+        <div class="form-group">
+            <label>CVV<span class="text-danger">*</span></label>
+            <ngx-stripe-card-cvc class="form-control" [options]="cardOptions"></ngx-stripe-card-cvc>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button type="reset" (click)="checkout()" [disabled]="isLoading" class="btn btn-primary mr-2">Checkout</button>
+        <button type="reset" (click)="cancel()" [disabled]="isLoading" class="btn btn-secondary">Cancel</button>
+    </div>
+</div>

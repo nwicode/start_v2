@@ -1,0 +1,172 @@
+<!--begin::Profile Overview-->
+<div class="d-flex flex-row">
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+
+        <div class="card card-custom gutter-b">
+            <div class="card-header h-auto py-3 border-0">
+                <div class="card-title">
+                    <h3 class="card-label text-dark">{{'PAGE.SETTINGS_ASSETS.TITLE' | translate}}</h3>
+                </div>
+            </div>
+            <div class="card-body pt-2">
+                <p class="text-dark-50">{{'PAGE.SETTINGS_ASSETS.TITLE_TEXT' | translate}}</p>
+            </div>
+        </div>
+
+        <!--begin::Profile Card-->
+        <div class="card card-custom card-stretch" >
+            <!--begin::Body-->
+            <div class="card-body pt-4">
+            <!--begin::Toolbar-->
+            <!--
+            <div class="d-flex justify-content-end">
+                <div class="dropdown dropdown-inline" ngbDropdown>
+                <a class="btn btn-clean btn-hover-light-primary btn-sm btn-icon cursor-pointer" ngbDropdownToggle>
+                    <i class="ki ki-bold-more-hor"></i>
+                </a>
+                <div ngbDropdownMenu class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                    <app-dropdown-menu4></app-dropdown-menu4>
+                </div>
+                </div>
+            </div>
+            -->
+            <!--end::Toolbar-->
+        
+        
+        
+            <!--begin::Nav-->
+            <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+            <!--  <div class="navi-item mb-2">
+                <a class="navi-link py-4" routerLink="/user-profile/profile-overview" routerLinkActive="active">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Design/Layers.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">
+                    Profile Overview
+                    </span>
+                </a>
+                </div>
+            -->
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4" routerLink="/settings-assets/spinner-edit" routerLinkActive="active">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Design/Image.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">
+                    {{'PAGE.SETTINGS_ASSETS.SPINNER_IMAGE' | translate}}
+                    </span>
+                </a>
+                </div>
+                
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4" routerLink="/settings-assets/inner-logo-edit" routerLinkActive="active">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Design/Image.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">
+                    {{'PAGE.SETTINGS_ASSETS.MENU_IMAGE' | translate}}
+                    </span>
+                </a>
+                </div>
+                
+                
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4" routerLink="/settings-assets/auth-background-image-edit" routerLinkActive="active">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Design/Image.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">
+                    {{'PAGE.SETTINGS_ASSETS.AUTH_BACKGROUND_IMAGE' | translate}}
+                    </span>
+                </a>
+                </div>
+                
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4" routerLink="/settings-assets/auth-logo-image-edit" routerLinkActive="active">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Design/Image.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">
+                    {{'PAGE.SETTINGS_ASSETS.AUTH_LOGO_IMAGE' | translate}}
+                    </span>
+                </a>
+                </div>
+
+                <div class="navi-item mb-2">
+                    <a class="navi-link py-4" routerLink="/settings-assets/favicon-edit" routerLinkActive="active">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Design/Image.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                        <span class="navi-text font-size-lg">
+                    {{'PAGE.SETTINGS_ASSETS.LOAD_FAVICON' | translate}}
+                    </span>
+                    </a>
+                </div>
+                
+
+                <!--
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4" routerLink="/user-profile/email-settings" routerLinkActive="active">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-opened.svg'" cacheSVG="true"
+                        class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">
+                    Email settings
+                    </span>
+                </a>
+                </div>-->
+                <!--
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4 cursor-pointer" 
+                    (click)="t.open()" placement="right">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-top-panel-6.svg'" cacheSVG="true"
+                        class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">
+                    Saved Credit Cards
+                    </span>
+                </a>
+                </div>
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4 cursor-pointer" 
+                    (click)="t2.open()" placement="right">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Files/File.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text font-size-lg">Tax information</span>
+                    <span class="navi-label">
+                    <span class="label label-light-primary label-inline font-weight-bold">new</span>
+                    </span>
+                </a>
+                </div>
+                <div class="navi-item mb-2">
+                <a class="navi-link py-4 cursor-pointer" 
+                    (click)="t3.open()" placement="right">
+                    <span class="navi-icon mr-2">
+                    <span [inlineSVG]="'./assets/media/svg/icons/Text/Article.svg'" cacheSVG="true" class="svg-icon"></span>
+                    </span>
+                    <span class="navi-text">
+                    Statements
+                    </span>
+                </a>
+                </div>
+                -->
+            </div>
+            <!--end::Nav-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+  
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+      <router-outlet></router-outlet>
+    </div>
+    <!--end::Content-->
+  </div>
+  <!--end::Profile Overview-->

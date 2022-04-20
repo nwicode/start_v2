@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h3>{{ header | translate }}</h3>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+        <span style="display: block" aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="d-flex flex-column flex-grow-1">
+        <!--begin::Row-->
+        <div class="row">
+            <!--begin::Col-->
+            <div *ngFor="let avatarPath of content" class="col-xl-3 col-lg-6 col-md-6 col-sm-6">
+                <!--begin::Card-->
+                <div class="card card-custom card-stretch">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center">
+                            <!--begin: Icon-->
+                            <img alt="" id="{{ avatarPath }}" class="max-h-150px" src="{{ avatarPath }}" (click)="selectAvatar(avatarPath)" [class.bg-primary]="avatarPath==currentReturnResult">
+                            <!--end: Icon-->
+                        </div>
+                    </div>
+                </div>
+                <!--end:: Card-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="closeModalWindow()">
+        {{'GENERAL.LANGUAGES.CHOOSE' | translate}}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+        {{'GENERAL.LANGUAGES.CLOSE' | translate}}
+    </button>
+</div>

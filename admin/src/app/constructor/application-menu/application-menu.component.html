@@ -1,0 +1,141 @@
+<ng-container>
+
+    <div class="card card-custom  gutter-b">
+
+
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+    
+            <!--begin::Header-->
+            <div class="card-header py-3">
+                <div class="card-title align-items-start flex-column">
+                    <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.APP_MENU.TITLE' | translate}}</h3>
+                    <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.APP_MENU.TITLE_TEXT' | translate}}</span>
+                </div>
+                <div class="card-toolbar">
+                    <span class="label label-warning label-pill label-inline mr-2" *ngIf="was_changed" >{{'CONSTRUCTOR.COLORS.SAVE_TO_STORE' | translate}}</span>
+                    <button type="submit"  class="btn btn-success mr-2" (click)="save()">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+                    <button type="reset" class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+                </div>
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Form-->
+            <div class="form card-body mt-2">
+
+
+
+                <div class="alert alert-custom alert-light-primary fade show mb-5 p-1 pl-3" role="alert" >
+                    <div class="alert-icon">
+                        <i class="flaticon-warning"></i>
+                    </div>
+                    <div class="alert-text">
+                       {{'CONSTRUCTOR.APP_MENU.TITLE_TEXT_FULL'|translate}}
+                    </div>
+                </div>
+
+                <!-- new lagn form -->
+                <div class="gutter-b">
+                    <button type="button" class="btn btn-primary btn-sm" (click)="addItem()"> <i class="fas fa-plus"></i> {{'CONSTRUCTOR.APP_MENU.ADD' | translate}}</button>
+                </div>
+
+
+                <div *ngIf="was_loaded">
+                    <div *ngIf="menu.length==0" class="font-size-lg font-dark font-bold">
+                        {{ 'CONSTRUCTOR.APP_MENU.LIST_EMPTY' | translate}}
+                    </div>
+
+                    <div cdkDropList class="menu-list" (cdkDropListDropped)="drop($event)" *ngIf="menu.length>0">
+                        <div *ngFor="let item of menu; index as item_index" cdkDrag class="menu_item">
+                            <div class="menu-box d-flex flex-wrap align-items-center">
+                            <div class="symbol symbol-25 mr-2" cdkDragHandle><i class="fas fa-arrows-alt"></i></div>
+                            <div class="menu-custom-placeholder" *cdkDragPlaceholder></div>
+                                
+
+                                <div class="symbol symbol-50 mr-2">
+                                    <div class="symbol-label" style="background-image: url('{{platform_url}}{{resources_dir}}{{item.image}}')"></div>
+                                </div>
+                                <div class="d-flex flex-column flex-grow-1 my-lg-0 my-2 mr-2">
+                                    <p class="text-dark-75 font-weight-bold font-size-lg mb-1">{{item.name}}</p>
+                                    <span class="text-muted font-weight-bold">{{'CONSTRUCTOR.APP_MENU.ACTION' | translate}} <i class="flaticon2-arrow"></i> {{item.action_text | translate}} {{item.action_name}}</span>
+                                </div>
+
+
+
+                                <a *ngIf="!item.show_editor && !item.show_confirm" (click)="openEditor(item)" class="btn btn-icon btn-light btn-sm mr-1">
+                                    <span class="svg-icon svg-icon-primary">
+                                            <span [inlineSVG]="'./assets/media/svg/icons/Design/Edit.svg'" cacheSVG="true" class="svg-icon svg-icon-md"></span>
+                                    </span>
+                                </a>
+
+                                <a *ngIf="!item.show_editor && !item.show_confirm" (click)="item.show_confirm=true" class="btn btn-icon btn-light btn-sm">
+                                    <span class="svg-icon svg-icon-danger">
+                                            <span [inlineSVG]="'./assets/media/svg/icons/Home/Trash.svg'" cacheSVG="true" class="svg-icon svg-icon-md"></span>
+                                    </span>
+                                </a>
+
+                            </div>
+
+                            <div  *ngIf="item.show_confirm && !item.show_editor" class="pl-1 pt-2 ml-3">
+                                    {{'GENERAL.LANGUAGES.ARE_YOU_SURE' | translate}}
+                                    <a (click)="item.show_confirm=false" class="btn btn-text-dark btn-hover-light-dark  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                    <a (click)="removeItem(item,item_index)" class="btn btn-text-danger btn-hover-light-danger  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</a>
+                            </div>
+
+                            <!-- editor-->
+                            <div *ngIf="item.show_editor && !item.show_confirm" class="pl-1 pt-2 pb-1">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="form-group" *ngFor="let lang_item of object_in_editor.name_translations">
+                                            <label>{{lang_item.language_name}} ({{lang_item.language_code}}) <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" [(ngModel)]="lang_item.language_value">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                        <div>
+                                            <mat-form-field appearance="fill">
+                                                <mat-select matNativeControl  placeholder="{{'CONSTRUCTOR.APP_MENU.ACTION' | translate}}" name="action" [(value)]="object_in_editor.action" (selectionChange)="actionChange($event.value)" >
+                                                    <mat-option [value]="action.target" *ngFor="let action of actions">{{action.text | translate}} {{action.name}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div>
+                                            <div class="form-group">
+                                                <label>{{'CONSTRUCTOR.APP_MENU.ICON' | translate}}</label>
+                                                <div class="icon_box p-1">
+                                                    <img *ngIf="object_in_editor.image && object_in_editor.image!=''" src="{{platform_url}}{{resources_dir}}{{object_in_editor.image}}">
+                                                    <a *ngIf="object_in_editor.image && object_in_editor.image!=''" (click)="clearImage()" class="btn btn-icon btn-light-danger btn-sm m-2">
+                                                        <i class="flaticon2-trash"></i>
+                                                    </a>
+                                                </div>
+                                                <button class="btn btn-secondary mr-2" (click)="openGalleryDialog()">{{'CONSTRUCTOR.APP_MENU.ICON_CHANGE' | translate}}</button>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-sm-4 text-center">
+                                        <a (click)="applyChanges(item,item_index)" class="btn  btn-light-success font-weight-bold m-2">{{'GENERAL.LANGUAGES.APPLY' | translate}}</a>
+                                        <a (click)="item.show_editor = false" class="btn  btn-light-dark font-weight-bold m-2">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  
+
+            </div>
+            <!--end::Form--> 
+
+    </div>
+
+
+</ng-container>

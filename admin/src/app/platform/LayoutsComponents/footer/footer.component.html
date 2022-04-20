@@ -1,0 +1,14 @@
+<!--begin::Container-->
+<div [ngClass]="footerContainerCSSClasses" class="d-flex flex-column flex-md-row align-items-center justify-content-between">
+  <!--begin::Nav-->
+  <div class="nav nav-dark">
+    <!--begin::Copyright-->
+    <span class="text-muted font-weight-bold mr-2">{{ currentYear }} &copy;</span >
+    <!--end::Copyright-->
+    <a href="{{ footerDomain }}" target="_blank" class="text-dark-75 text-hover-primary" >{{ footerDomain }}</a>
+
+    <span class="label label-md label-dark label-inline mr-2  ml-5"> {{ currentPlatform }} {{ currentVersion }} </span>
+  </div>
+  <!--end::Nav-->
+</div>
+<!--end::Container-->

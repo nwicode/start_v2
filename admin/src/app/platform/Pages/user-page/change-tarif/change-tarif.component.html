@@ -1,0 +1,159 @@
+<ng-container *ngIf="user">
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card card-custom gutter-b">
+                <!-- begin::Loading -->
+                <ng-container *ngIf="isLoading$ | async">
+                    <div class="progress progress-modal">
+                        <div
+                                class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                                role="progressbar"
+                                style="width: 100%"
+                                aria-valuenow="100"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                        ></div>
+                    </div>
+                </ng-container>
+                <!-- end::Loading -->
+                <!--begin::Header-->
+                <div class="card-header py-3">
+                    <div class="card-title align-items-start flex-column">
+                        <h3 class="card-label font-weight-bolder text-dark">{{'PROFILE.FULL.CHANGE_TARIF' |
+                            translate}}</h3>
+                        <span class="text-muted font-weight-bold font-size-sm mt-1">{{'PROFILE.FULL.CHANGE_TARIF_TEXT' | translate}}</span>
+                    </div>
+
+                    <div class="card-toolbar">
+                      <button *ngIf="user.user_type_id > 1" type="reset" class="btn btn-secondary mr-2" (click)="cancel()"><i class="fas fa-backspace icon-md mr-1"></i>{{'GENERAL.LANGUAGES.CANCEL' |
+                          translate}}</button>
+                      </div>                    
+
+                </div>
+                <!--end::Header-->
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="currentTarif && currentTarif.active" class="row  gutter-b">
+        <div class="col-lg-12">
+            <!--begin::Callout-->
+            <div class="card card-custom p-6 mb-8 mb-lg-0 bg-success-o-50">
+                <div class="card-body">
+                    <div class="row">
+                        <!--begin::Content-->
+                        <div class="col-sm-7">
+                            <h2 class="text-dark mb-4">
+                                {{this.currentTarif.tarifTextData[0].name}}
+                                <span class="label label-pill label-inline label-success mr-2 ml-2 p-2">{{'PROFILE.FULL.TARIF_CURRENT' | translate}}</span>
+                            </h2>
+                            <p class="text-dark-50 line-height-lg"
+                               [innerHTML]="this.currentTarif.tarifTextData[0].description"></p>
+                        </div>
+                        <!--end::Content-->
+
+
+                        <!--begin::Button confirm-->
+                        <div class="col-sm-5 d-flex align-items-center justify-content-sm-end"
+                             *ngIf="!isCancelSubscription">
+                            <a class="btn font-weight-bolder text-uppercase btn-light py-3 px-6" (click)="isCancelSubscription = true">
+                                {{'GENERAL.LANGUAGES.CANCEL_SUBSCRIPTION' | translate}}
+                            </a>
+                        </div>
+                        <!--end::Button confirm-->
+
+                        <!--begin::Button confirm-->
+                        <div class="col-sm-5 d-flex align-items-center justify-content-sm-end"
+                             *ngIf="isCancelSubscription">
+                            <p class="text-dark font-weight-bold line-height-lg mr-2">{{'PROFILE.FULL.ARE_YOU_SURE'
+                                | translate}}?</p>
+                            <a class="btn font-weight-bolder text-uppercase btn-primary py-3 px-6 mr-2"
+                               (click)="cancelSubscription()">
+                                {{'GENERAL.LANGUAGES.UNSUBSCRIBE' | translate}}
+                            </a>
+                            <a class="btn font-weight-bolder text-uppercase btn-light py-3 px-6"
+                               (click)="isCancelSubscription = false">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                        </div>
+                        <!--end::Button confirm-->
+                    </div>
+                </div>
+            </div>
+            <!--end::Callout-->
+        </div>
+    </div>
+
+    <div *ngIf="currentTarif && !currentTarif.active" class="row  gutter-b">
+        <div class="col-lg-12">
+            <!--begin::Callout-->
+            <div class="card card-custom p-6 mb-8 mb-lg-0 bg-danger-o-20">
+                <div class="card-body">
+                    <div class="row">
+                        <!--begin::Content-->
+                        <div class="col-sm-7">
+                            <h2 class="text-dark mb-4">
+                                {{this.currentTarif.tarifTextData[0].name}}
+                                <span class="label label-pill label-inline label-success mr-2 ml-2 p-2">{{'PROFILE.FULL.TARIF_CURRENT' | translate}}</span>
+                                <span class="label label-pill label-inline label-danger mr-2 ml-2 p-2">{{'PROFILE.FULL.TARIF_ARCHIVE' | translate}}</span>
+                            </h2>
+                            <p class="text-dark-50 line-height-lg"
+                               [innerHTML]="this.currentTarif.tarifTextData[0].description"></p>
+                        </div>
+                        <!--end::Content-->
+                    </div>
+                </div>
+            </div>
+            <!--end::Callout-->
+        </div>
+    </div>
+
+    <ng-container *ngFor="let tarif of tarifs; let i = index">
+        <div *ngIf="tarif.active" class="row  gutter-b">
+            <div class="col-lg-12">
+                <!--begin::Callout-->
+                <div class="card card-custom p-6 mb-8 mb-lg-0">
+                    <div class="card-body">
+                        <div class="row">
+                            <!--begin::Content-->
+                            <div class="col-sm-7">
+                                <h2 class="text-dark mb-4">{{this.tarif.tarifTextData[0].name}}</h2>
+                                <p class="text-dark-50 line-height-lg"
+                                   [innerHTML]="this.tarif.tarifTextData[0].description"></p>
+                            </div>
+                            <!--end::Content-->
+
+                            <!--begin::Button-->
+                            <div class="col-sm-5 d-flex align-items-center justify-content-sm-end"
+                                 *ngIf="selectedTarifIndex !== i">
+                                <a class="btn font-weight-bolder text-uppercase btn-primary py-3 px-6 mr-2" *ngIf="tarif.cost_month>0" 
+                                   (click)="clickTarifMonth(i, tarif)">{{tarif.cost_month}}$ / {{'PROFILE.FULL.MONTH' |
+                                    translate}}</a><br>
+                                <a class="btn font-weight-bolder text-uppercase  btn-primary py-3 px-6" *ngIf="tarif.cost_year>0" 
+                                   (click)="clickTarifYear(i, tarif)">{{tarif.cost_year}}$ / {{'PROFILE.FULL.YEAR' |
+                                    translate}}</a>
+                                <a class="btn font-weight-bolder text-uppercase  btn-primary py-3 px-6" *ngIf="tarif.cost_year==0 && tarif.cost_month==0" 
+                                   (click)="clickTarifYear(i, tarif)"> {{'PAGE.SUBSCRIPTIONS.SUBSCRIBE' | translate}}</a>
+                            </div>
+                            <!--end::Button-->
+
+                            <!--begin::Button confirm-->
+                            <div class="col-sm-5 d-flex align-items-center justify-content-sm-end"
+                                 *ngIf="selectedTarifIndex === i">
+                                <p class="text-dark font-weight-bold line-height-lg mr-2">{{'PROFILE.FULL.ARE_YOU_SURE'
+                                    | translate}}?</p>
+                                <a class="btn font-weight-bolder text-uppercase btn-primary py-3 px-6 mr-2"
+                                   (click)="clickTarifConfirm(i, tarif)">{{'GENERAL.LANGUAGES.APPLY' | translate}}</a>
+                                <a class="btn font-weight-bolder text-uppercase btn-light py-3 px-6"
+                                   (click)="clickTarifCancel(i, tarif)">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                            </div>
+                            <!--end::Button confirm-->
+
+                        </div>
+                    </div>
+                </div>
+                <!--end::Callout-->
+            </div>
+        </div>
+    </ng-container>
+
+</ng-container>

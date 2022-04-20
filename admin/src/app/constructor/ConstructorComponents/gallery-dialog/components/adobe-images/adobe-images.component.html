@@ -1,0 +1,49 @@
+<div mat-dialog-content>
+    <ng-container *ngIf="isLoading">
+        <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                 style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </ng-container>
+    <div class="row">
+        <div class="col-sm-6" *ngIf="adobeAccess.accessToken!=''">
+            <mat-form-field>
+                <mat-label>{{'GALLERY.ADOBE_SELECT_LIB' | translate}}</mat-label>
+                <mat-select (selectionChange)="onLibraryChanged($event)" [disabled]="isLoading">
+                    <mat-option *ngFor="let library of adobeLibraries;" [value]="library.name">{{library.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+        <div class="col-sm-6">
+            <br>
+            <button class="btn btn-secondary mr-2" *ngIf="adobeAccess.accessToken == ''" (click)="connectAdobe()">
+                {{adobeAccess.accessToken != ''? 'Connected Adobe' : 'Connect Adobe'}}
+            </button>
+        </div>
+    </div>
+
+    <div *ngIf="adobeAccess.accessToken!=''">
+        <p>{{'GALLERY.ADOBE_SELECTED_ELEMENTS' | translate}} ({{getSelectedElements().length}})</p>
+        <div class="row" style="padding: 10px; text-align: center; display: flex; overflow-y: scroll; max-height: 300px">
+            <div class="col-sm-2" style="margin: 10px;"
+                *ngFor="let element of adobeLibraryElements; let x = index">
+                <div class="card" [ngClass]="element.isSelected? 'select': ''" (click)="selectImage(element)">
+                    <div class="portrait">
+                        <img src="{{getAdobeImageUrl(element)}}" alt="Avatar">
+                    </div>
+                    <div class="container">
+                        <strong><a>{{element.name}}</a></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div mat-dialog-actions>
+        <button  *ngIf="adobeAccess.accessToken!=''" class="btn btn-primary mr-2" (click)="selectImages()">{{'GALLERY.SELECT' | translate}} </button>
+        <button class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    </div>
+</div>

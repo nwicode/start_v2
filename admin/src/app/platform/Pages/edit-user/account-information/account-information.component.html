@@ -1,0 +1,94 @@
+<ng-container >
+  <div class="card card-custom">
+    <!-- begin::Loading -->
+    <ng-container *ngIf="isLoading$ | async">
+      <div class="progress progress-modal">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+          style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </ng-container>
+    <!-- end::Loading -->
+
+    <div  [formGroup]="formGroup">
+    <!--begin::Header-->
+    <div class="card-header py-3">
+      <div class="card-title align-items-start flex-column">
+        <h3 class="card-label font-weight-bolder text-dark">{{'EDIT.USER.ACCOUNT_INFORMATION' | translate}}</h3>
+        <span class="text-muted font-weight-bold font-size-sm mt-1">{{'EDIT.USER.CHANGE_ACCOUNT_SETTINGS' | translate}}</span>
+      </div>
+      <div class="card-toolbar"  *ngIf="is_load">
+        <span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup.invalid && this.formGroup.touched">{{'EDIT.USER.FILL_REQUIRED_FIELDS' | translate}}!</span>
+        <button type="button" routerLink="/users/list" class="btn btn-secondary mr-2"><i class="fas fa-backspace"></i> {{'GENERAL.LANGUAGES.BACK' |
+          translate}}</button>
+        <button type="reset" class="btn btn-light-warning mr-2" (click)="cancel()"><i class="fas fa-undo-alt icon-nm mr-1"></i>{{'GENERAL.LANGUAGES.RESET' | translate}}</button>
+        <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success" (click)="save()">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+      </div>
+    </div>
+    <!--end::Header-->
+    <!--begin::Form-->
+    <div class="form">
+      <div class="card-body"  [formGroup]="formGroup">
+        <!--begin::Heading-->
+        <div class="row">
+          <label class="col-xl-3"></label>
+          <div class="col-lg-9 col-xl-6">
+            <h5 class="font-weight-bold mb-6">{{'EDIT.USER.ACCOUNT' | translate}}:</h5>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">{{'PAGE.USERS.ROLE' | translate}}</label>
+            <div class="col-lg-9 col-xl-6">
+                <select class="form-control form-control-lg form-control-solid" formControlName="role" [class.is-invalid]="isControlInvalid('role')" [class.is-valid]="isControlValid('role')" >
+                    <option value="1">{{'PAGE.USERS.ROLE_ADMIN' | translate}}</option>
+                    <option value="2">{{'PAGE.USERS.ROLE_CUSTOMER' | translate}}</option>
+                </select>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">{{'EDIT.USER.EMAIL_ADDRESS' | translate}}</label>
+          <div class="col-lg-9 col-xl-6">
+            <div class="input-group input-group-lg input-group-solid">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="fa fa-at"></i>
+                </span>
+              </div>
+              <input type="email" class="form-control form-control-lg form-control-solid" placeholder="Email"
+                formControlName="email" [class.is-invalid]="isControlInvalid('email')"
+                [class.is-valid]="isControlValid('email')" />
+            </div>
+            <span class="form-text text-muted">{{'EDIT.USER.EMAIL_WILL_NOT_BE_PUBLICLY_DISPLAYED' | translate}}.
+              <a class="font-weight-bold">{{'EDIT.USER.LEARN_MORE' | translate}}</a>.</span>
+          </div>
+        </div>
+        <!--begin::Form Group-->
+        <div class="form-group row">
+          <label class="col-xl-3 col-lg-3 col-form-label">{{'EDIT.USER.LANGUAGE' | translate}}</label>
+          <div class="col-lg-9 col-xl-6">
+            <select class="form-control form-control-lg form-control-solid" formControlName="defaultLanguage">
+              <option *ngFor="let language of this.languages" value="{{language.code}}">{{"GENERAL.LANGUAGES." + language.code | translate }}</option>
+            </select>
+          </div>
+        </div>
+        <!--begin::Form Group-->
+        <div class="separator separator-dashed my-5"></div>
+        <!--begin::Form Group-->
+        <div class="row">
+          <label class="col-xl-3"></label>
+          <div class="col-lg-9 col-xl-6">
+            <h5 class="font-weight-bold mb-6">{{'EDIT.USER.SECURITY' | translate}}:</h5>
+          </div>
+        </div>
+        <div class="form-group row">
+          <button type="button" class="btn btn-light-danger font-weight-bold btn-sm" (click)="blockAccount()">{{'EDIT.USER.DEACTIVATE_ACCOUNT' | translate}}?</button>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!--end::Form-->
+  </div>
+</ng-container>

@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}}</h4>
+    <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+    <div *ngIf="!page_loaded" class="w-100"><div class="spinner"></div></div>
+
+    <ng-container *ngIf="page_loaded">
+        <ul class="nav nav-tabs nav-tabs-line" id="textTabs">
+            <li class="nav-item cursor-pointer">
+                <a class="nav-link" [ngClass]="selectedTab == 0 ? 'active' : ''" (click)="selectTab($event, 0)">{{'OR'}}</a>
+            </li>
+            <li class="nav-item cursor-pointer">
+                <a class="nav-link" [ngClass]="selectedTab == 1 ? 'active' : ''" (click)="selectTab($event, 1)">{{'AND'}}</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-5" id="myTabContent">
+            <div *ngIf="selectedTab === 0" [formGroup]="formGroupOR" class="tab-pane" [ngClass]="{'show': selectedTab == 0, 'active': selectedTab == 0}">
+                <div *ngFor="let visibility of visibility_list; let i = index">
+                    <div class="form-group">
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-lg">
+                                {{(i + 1) + '. ' + visibility.code}}&nbsp;
+                                <input type="checkbox" [formControlName]="visibility.code"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="selectedTab === 1" [formGroup]="formGroupAND" class="tab-pane" [ngClass]="{'show': selectedTab == 1, 'active': selectedTab == 1}">
+                <div *ngFor="let visibility of visibility_list; let i = index">
+                    <div class="form-group">
+                        <div class="checkbox-inline">
+                            <label class="checkbox checkbox-lg">
+                                {{(i + 1) + '. ' + visibility.code}}&nbsp;
+                                <input type="checkbox" [formControlName]="visibility.code"/>
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="save()">{{'GENERAL.LANGUAGES.SAVE' | translate}}</button>
+</div>
+

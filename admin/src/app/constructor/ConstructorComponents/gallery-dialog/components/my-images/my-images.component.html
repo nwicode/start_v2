@@ -1,0 +1,28 @@
+<div mat-dialog-content>
+    <ng-container *ngIf="isLoading">
+        <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                 style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </ng-container>
+    <p>{{'GALLERY.ADOBE_SELECTED_ELEMENTS' | translate}} ({{getSelectedImages().length}})</p>
+    <div class="row" style="padding: 10px; text-align: center; display: flex; overflow-y: scroll; max-height: 300px">
+        <div class="col-sm-2" style="margin: 10px"
+             *ngFor="let myImage of myImages; let x = index">
+            <div class="card" [ngClass]="myImage.isSelected? 'select': ''" (click)="selectImage(myImage)">
+                <div class="portrait">
+                    <img src="{{myImage.isFile? myImage.imageUrl: 'assets/images/folder.png'}}" alt="Avatar">
+                </div>
+                <div class="container">
+                    <strong><a>{{myImage.title}}</a></strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div mat-dialog-actions>
+        <button class="btn btn-primary mr-2" (click)="selectImages()">{{'GALLERY.SELECT' | translate}}</button>
+        <button class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    </div>
+</div>

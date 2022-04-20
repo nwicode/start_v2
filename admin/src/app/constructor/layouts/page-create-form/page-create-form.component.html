@@ -1,0 +1,13 @@
+<div class="row">
+    <div class="col-xl-12">
+        <div class="form-group">
+            <label for="exampleInputPassword1">{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_NAME' | translate }} 
+            <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" [(ngModel)]="form_name" name="form_name" id="exampleInputPassword1" placeholder="{{ 'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.PAGE_NAME' | translate }} ">
+        </div>
+    </div>
+    <div class="col-xl-12">
+        <button class="btn btn-success"  (click)="addPage()"><i class="flaticon2-check-mark icon-sm"></i> {{'GENERAL.LANGUAGES.SUBMIT' | translate}}</button>
+        <button class="btn btn-light ml-3" (click)="cancel()"><i class="flaticon2-delete icon-sm"></i> {{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    </div>
+</div>

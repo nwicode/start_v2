@@ -1,0 +1,6 @@
+<div class="overlay" (click)="overlayClick($event)"></div>
+<div class="color-picker">
+    
+    <color-sketch [color]="color" [presetColors]="presetColors " (onChange)="handleChange($event)" [disableAlpha]="disableAlpha" (onChangeComplete)="handleChangeComplete($event)"></color-sketch>
+
+</div>

@@ -1,0 +1,165 @@
+<ng-container >
+
+    <!-- begin::Loading -->
+    <ng-container *ngIf="isLoading$ | async">
+        <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                 style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </ng-container>
+    <!-- end::Loading -->
+
+
+
+    <div class="card card-custom gutter-b">
+        <div class="card-body" *ngIf="formGroup">
+            <button *ngIf="totalRecords > 0" type="button" class="btn btn-primary mr-2" (click)="deleteChecked()"> {{'PAGE.BUILD_QUEUE.DELETE_CHECKED' | translate}}</button>
+            <!--begin: Datatable-->
+<!--            <div class="table-responsive">-->
+                <table class="table table-vertical-center" [formGroup]="formGroup">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="text-center">
+                            <label class="checkbox checkbox-lg">
+                                <input (change)="changeAll()" type="checkbox" formControlName="checkbox_main" />
+                                <span></span>
+                            </label>
+                        </th>
+                        <th scope="col" class="text-center cursor-pointer" (click)="changeSort('app_name')">
+                                <span>{{ 'PAGE.BUILD_QUEUE.APP' | translate}}
+                                    <i *ngIf="orderField && 'app_name' == orderField && orderDirection === 1" class="flaticon2-arrow-up icon-sm text-primary"></i>
+                                    <i *ngIf="orderField && 'app_name' == orderField && orderDirection === 2" class="flaticon2-arrow-down icon-sm text-primary"></i>
+                                </span>
+                        </th>
+                        <th scope="col" class="text-center cursor-pointer" (click)="changeSort('user_name')">
+                                <span>{{ 'PAGE.BUILD_QUEUE.CLIENT' | translate}}
+                                    <i *ngIf="orderField && 'user_name' == orderField && orderDirection === 1" class="flaticon2-arrow-up icon-sm text-primary"></i>
+                                    <i *ngIf="orderField && 'user_name' == orderField && orderDirection === 2" class="flaticon2-arrow-down icon-sm text-primary"></i>
+                                </span>
+                        </th>
+                        <th scope="col" class="text-center cursor-pointer" (click)="changeSort('buld_start')">
+                                <span>{{ 'PAGE.BUILD_QUEUE.START_DATE' | translate}}
+                                    <i *ngIf="orderField && 'buld_start' == orderField && orderDirection === 1" class="flaticon2-arrow-up icon-sm text-primary"></i>
+                                    <i *ngIf="orderField && 'buld_start' == orderField && orderDirection === 2" class="flaticon2-arrow-down icon-sm text-primary"></i>
+                                </span>
+                        </th>
+                        <th scope="col" class="text-center cursor-pointer" (click)="changeSort('buld_end')">
+                                <span>{{ 'PAGE.BUILD_QUEUE.END_DATE' | translate}}
+                                    <i *ngIf="orderField && 'buld_end' == orderField && orderDirection === 1" class="flaticon2-arrow-up icon-sm text-primary"></i>
+                                    <i *ngIf="orderField && 'buld_end' == orderField && orderDirection === 2" class="flaticon2-arrow-down icon-sm text-primary"></i>
+                                </span>
+                        </th>
+                        <th scope="col" class="text-center cursor-pointer" (click)="changeSort('status')">
+                                <span>{{ 'PAGE.BUILD_QUEUE.STATUS' | translate}}
+                                    <i *ngIf="orderField && 'status' == orderField && orderDirection === 1" class="flaticon2-arrow-up icon-sm text-primary"></i>
+                                    <i *ngIf="orderField && 'status' == orderField && orderDirection === 2" class="flaticon2-arrow-down icon-sm text-primary"></i>
+                                </span>
+                        </th>
+
+                        <th scope="col" class="p-0 min-w-80px text-center">{{ 'PAGE.BUILD_QUEUE.ACTION' | translate}}</th>
+                    </tr>
+
+                    </thead>
+                    <tbody *ngIf="is_loaded && totalRecords>0">
+                    <tr *ngFor="let record of records">
+                        <th scope="row" class="text-center">
+                            <label class="checkbox checkbox-lg">
+                                <input type="checkbox" [formControlName]="'checkbox_' + record.id" />
+                                <span></span>
+                            </label>
+                        </th>
+
+                        <td class="text-left">
+                            <!--<img class="max-w-50px max-h-50px" *ngIf="record.unique_string_id" [src]="platform_url + 'storage/application/' + record.app_id + '-' + record.unique_string_id + '/resources/icon_100x100.png'">-->
+                            <div class="d-flex align-items-center">
+                                <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                    <img class="" [src]="platform_url + 'storage/application/' + record.app_id + '-' + record.unique_string_id + '/resources/icon_100x100.png'">
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-dark-75 font-weight-bolder font-size-lg mb-0"><a  [href]="'/constructor/' + record.app_id">{{record.app_name}}</a></div>
+                                    <a [href]="'/constructor/' + record.app_id" class="text-muted font-weight-bold text-hover-primary">{{record.type}}</a>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="text-left">
+                            <!--<img class="max-w-50px max-h-50px" *ngIf="record.unique_string_id" [src]="platform_url + 'storage/application/' + record.app_id + '-' + record.unique_string_id + '/resources/icon_100x100.png'">-->
+                            <div class="d-flex align-items-center">
+                                <div class="symbol symbol-40 symbol-sm flex-shrink-0" *ngIf="record.user_avatar!=''">
+                                    <img class="" [src]="'/storage/users/avatars/'+record.user_avatar">
+                                </div>
+                                <div class="symbol symbol-40 symbol-light-primary flex-shrink-0"  *ngIf="record.user_avatar==''">
+                                    <span class="symbol-label font-size-h4 font-weight-bold">{{ record.user_name | uppercase | slice:0:1 }}</span>
+                                </div>                                
+                                <div class="ml-4">
+                                    <div class="text-dark-75 font-weight-bolder font-size-lg mb-0"><a  [href]="'/edit-user/' + record.user_id">{{record.user_name + (record.user_lastname ? (' ' + record.user_lastname) : '')}}</a></div>
+                                    <a [href]="'/edit-user/' + record.user_id" class="text-muted font-weight-bold text-hover-primary">{{record.user_email}}</a>
+                                </div>
+                            </div>
+                        </td>                        
+                        
+                        <td class="text-center">{{record.buld_start | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="text-center">{{record.buld_end | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="text-center">
+                            <span *ngIf="record.ended" class="label font-weight-bold label-lg label-light-success label-inline">{{'PAGE.BUILD_QUEUE.ENDED' | translate}}</span>
+                            <span *ngIf="record.run" class="label font-weight-bold label-lg label-light-primary label-inline">{{'PAGE.BUILD_QUEUE.RUNNED' | translate}}</span>
+                            <span *ngIf="!record.run && !record.ended" class="label font-weight-bold label-lg label-light-warning label-inline">{{'PAGE.BUILD_QUEUE.WAITED' | translate}}</span>
+                        </td>
+
+                        <td class="text-center">
+                            <a class="btn btn-icon btn-light btn-hover-danger btn-sm mx-3" (click)="deleteRecord(record.id)">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true" class="svg-icon svg-icon-md svg-icon-danger"></span>
+                            </a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                    <tbody *ngIf="is_loaded && totalRecords<1">
+                        <tr>
+                            <td colspan="7">
+                                <p class="font-weight-bold text-muted">{{'PAGE.BUILD_QUEUE.NO_RECORDS' | translate}}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            <!--end: Datatable-->
+        </div>
+    </div>
+
+    <div *ngIf="totalRecords > 0" class="card-body py-5">
+        <div class="d-flex justify-content-between flex-wrap">
+            <!-- pagination select-->
+            <div class="d-flex flex-wrap mr-3 align-items-center">
+                <ngb-pagination class="d-flex flex-wrap justify-content-end mr-3"
+                                (pageChange)="pageChange($event)"
+                                [collectionSize]="totalRecords" [(page)]="currentPage"
+                                [pageSize]="itemsPerPage"
+                                [maxSize]="5" [rotate]="true"></ngb-pagination>
+                <div class="d-flex justify-content-end">
+                    {{paginationString()}}
+                </div>
+            </div>
+
+
+            <div class="d-flex align-items-center">
+                {{'GENERAL.LANGUAGES.ITMS_PER_PAGE' | translate}}:
+                <div ngbDropdown placement="top-right" class="d-inline-block ml-3">
+                    <button class="btn btn-sm btn-outline-secondary" id="dropdownBasic2"
+                            ngbDropdownToggle>{{itemsPerPage}}</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                        <button class="dropdown-item" (click)="itemsPerPageChange(10)">10</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(25)">25</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(50)">50</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(100)">100</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(250)">250</button>
+                        <button class="dropdown-item" (click)="itemsPerPageChange(1000)">1000</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</ng-container>
+
+

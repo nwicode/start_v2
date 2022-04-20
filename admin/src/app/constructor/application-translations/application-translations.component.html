@@ -1,0 +1,74 @@
+<ng-container>
+
+    <div class="card card-custom  gutter-b">
+
+
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+    
+            <!--begin::Header-->
+            <div class="card-header py-3">
+                <div class="card-title align-items-start flex-column">
+                    <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.TRANSLATIONS.TITLE' | translate}}</h3>
+                    <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.TRANSLATIONS.TITLE_TEXT' | translate}}</span>
+                </div>
+                <div class="card-toolbar">
+                    <span class="label label-warning label-pill label-inline mr-2" *ngIf="was_changed" >{{'CONSTRUCTOR.COLORS.SAVE_TO_STORE' | translate}}</span>
+                    <button type="submit"  class="btn btn-success mr-2" (click)="save()">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+                    <button type="reset" class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+                </div>
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Form-->
+            <div class="form card-body mt-2">
+
+
+
+                <div class="alert alert-custom alert-light-primary fade show mb-5 p-1 pl-3" role="alert" >
+                    <div class="alert-icon">
+                        <i class="flaticon-warning"></i>
+                    </div>
+                    <div class="alert-text">
+                       {{'CONSTRUCTOR.TRANSLATIONS.TITLE_TEXT_FULL'|translate}}
+                    </div>
+                </div>
+
+                <!-- new lagn form -->
+                <!--<div class="gutter-b">
+                    <button type="button" class="btn btn-primary btn-sm"> <i class="fas fa-plus"></i> {{'CONSTRUCTOR.TRANSLATIONS.ADD_PHRASE' | translate}}</button>
+                </div>-->
+
+                <div class="row">
+                    <div class="col text-center text-white font-size-h5 font-bold bg-gray-900">
+                        {{'CONSTRUCTOR.TRANSLATIONS.PHRASE' | translate}}
+                    </div>
+                    <div class="col text-center text-white font-size-h5 font-bold bg-gray-900" *ngFor="let translation of translations; index as i">
+                        {{translation.language}}
+                    </div>
+                </div>
+                <div class="row " *ngFor="let row of translationRows(); index as i" [ngClass]="{'bg-light': 0 === i % 2}"> 
+                    <div class="col text-dark text-right font-size-h5 align-self-center">
+                        {{row.code}}
+                    </div>
+                    <div class="col text-dark text-right font-size-h5 align-self-center" *ngFor="let item of row.items ; index as i1">
+                        <div class="form-group">
+                            <input type="email" class="form-control"  [value]="item" (change)="onChangeEvent($event,row.code, i1)">
+                            <span class="form-text text-muted">{{row.code}}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--end::Form--> 
+
+    </div>
+
+
+</ng-container>

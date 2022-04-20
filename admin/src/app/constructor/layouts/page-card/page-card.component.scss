@@ -1,0 +1,121 @@
+:root {
+    position: absolute;
+    left:0px;
+    top:0px;
+}
+div.page-card {
+//Ionic styles
+    margin: 10px;
+    z-index: 1;
+    div.controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        position: absolute;
+        top:-35px;        
+    }
+
+    .drag-reference {
+        border: 1px solid red;
+        height: 0;
+        position: absolute;
+        width: 0;
+    }
+
+    div.frame {
+        //border: 3px solid rgb(194, 194, 194);
+        outline:3px solid rgb(194, 194, 194);
+        box-sizing: border-box;
+        border-radius: 30px;
+        background-color: #fff;
+        background-position: center;
+        ion-footer {
+            ion-toolbar {
+                border-bottom-left-radius: 25px;
+                border-bottom-right-radius: 25px;
+            }
+        }
+        div.toolbar-background {
+            border-bottom-left-radius: 25px;
+            border-bottom-right-radius: 25px;
+        }
+
+    }
+
+    div.frame.active {
+        //border: 3px solid rgb(202, 115, 0);
+        outline:3px solid rgb(202, 115, 0);
+        box-sizing: border-box;        
+    } 
+    div.trash {
+        width: 20px;
+        margin-left: auto;
+    }
+    div.move {
+        width: 20px;
+    }
+    div.settings {
+        width: 40px;
+        text-align: center;
+    }
+
+    div.move:hover {
+        cursor: pointer;
+        i {
+            color: var(--primary);
+        }
+    }
+
+    div.trash:hover {
+        width: 20px;
+        cursor: pointer;
+        i {
+            color: var(--danger);
+        }
+    }
+
+    div.settings:hover {
+        width: 40px;
+        cursor: pointer;
+        i {
+            color: var(--danger);
+        }
+    }
+
+    div.controls-bottom {
+        padding-top: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        position: absolute;
+    }    
+
+    div.resize {
+        width: 20px;
+        margin-left: auto;
+    }   
+    div.resize:hover {
+        cursor: pointer;
+        i {
+            color: var(--primary);
+        }
+    }     
+
+}
+
+div.component-selectable:hover {
+    border: 1px solid rgb(255, 189, 113);
+    cursor: pointer;
+}
+
+.page-card-wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 13px;
+    bottom: 92px;
+    left: 13px;
+    right: 13px;
+}   

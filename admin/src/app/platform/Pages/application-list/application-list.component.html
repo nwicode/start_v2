@@ -1,0 +1,27 @@
+<ng-container >
+
+    <!-- begin::Loading -->
+    <ng-container *ngIf="isLoading$ | async">
+        <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                 style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </ng-container>
+    <!-- end::Loading -->
+
+
+    
+    <ng-container *ngIf="applications.length==0">
+        <div class="alert alert-custom alert-notice alert-light-dark fade show mb-5" role="alert">
+            <div class="alert-icon">
+                <i class="flaticon-warning"></i>
+            </div>
+            <div class="alert-text">{{'PAGE.APPLICATIONS_LIST.NO_APPS' | translate}}</div>
+        </div>
+    </ng-container>
+    <button *ngIf="applications.length==0" type="button" class="btn btn-primary btn-lg btn-block" routerLink="/create_app"><i class="fas fa-plus"></i> {{'PAGE.APPLICATIONS_LIST.ADD_APP' | translate}}</button>
+
+    
+
+</ng-container>
+

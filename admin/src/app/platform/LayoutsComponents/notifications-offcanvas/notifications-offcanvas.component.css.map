@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "notifications-offcanvas.component.scss"
+    ],
+    "names": [],
+    "file": "notifications-offcanvas.component.css"
+}

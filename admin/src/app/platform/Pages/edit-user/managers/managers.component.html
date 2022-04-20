@@ -1,0 +1,386 @@
+<ng-container>
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header border-0 pt-5">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label font-weight-bolder text-dark">{{ 'EDIT.USER.MANAGERS' | translate}}</span>
+                <span class="text-muted mt-3 font-weight-bold font-size-sm">{{ 'EDIT.USER.MANAGERS_TITLE' | translate}}</span>
+                <a class="btn btn-light-success btn-sm font-weight-bolder mt-3" (click)="showManagerForm()"><i class="fas fa-plus"></i>{{'EDIT.USER.ADD_MANAGER'|translate}}</a>
+            </h3>
+            <div class="card-toolbar">
+                <button type="button" routerLink="/users/list" class="btn btn-secondary mr-2"><i class="fas fa-backspace"></i> {{'GENERAL.LANGUAGES.BACK' | translate}}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Body-->
+
+        <!--begin::Managers list-->
+        <div *ngIf="!isShowManagerForm" class="card-body pt-3 pb-15 mt-n3">
+            <!--begin::Item-->
+            <div class="d-flex align-items-center mt-5 mb-10" *ngFor="let manager of managers">
+                <!--begin::Symbol-->
+                <div [routerLink]="'/edit-user/' + manager.id" class="flex-shrink-0 symbol symbol-40 mr-5 cursor-pointer">
+                    <img alt="user avatar" [src]="manager.avatar ? manager.avatar : './assets/media/users/blank.png'" class="h-75 align-self-end" />
+                </div>
+                <!--end::Symbol-->
+
+                <!--begin::Text-->
+                <div class="d-flex flex-column flex-grow-1 font-weight-bold">
+                    <a [routerLink]="'/edit-user/' + manager.id" class="text-dark text-hover-primary mb-1 font-size-lg cursor-pointer">{{manager.name + ' ' + manager.lastname}}</a>
+                    <span class="text-muted">{{manager.email}}</span>
+                </div>
+
+
+                <div ngbDropdown class="dropdown dropdown-inline" data-toggle="tooltip" title="Quick actions" data-placement="bottom" (openChange)="deleteManagerConfirm = null">
+                    <a ngbDropdownToggle class="btn btn-hover-light-primary btn-sm btn-icon dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><i class="ki ki-bold-more-hor"></i></a>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                        <a [routerLink]="'/edit-user/' + manager.id" target="_blank" class="dropdown-item">{{ "EDIT.USER.TO_PROFILE" | translate }}</a>
+                        <div *ngIf="deleteManagerConfirm != manager" class="dropdown-item-text dropdown-text-confirm" (click)="deleteManagerConfirm=manager">{{ "GENERAL.LANGUAGES.DELETE" | translate }}</div>
+                        <div *ngIf="deleteManagerConfirm == manager" class="dropdown-item">
+                            <div>
+                                {{'DASHBOARD.ARE_YOU_SURE' | translate}}?
+                                <a (click)="deleteManagerConfirm = null" class="btn btn-text-primary btn-hover-light-primary  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                <a (click)="deleteManager(manager)" class="btn btn-text-danger btn-hover-light-danger  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Text-->
+            </div>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <div *ngIf="managers && managers.length < 1" class="d-flex align-items-center mt-5 mb-10">
+                <!--begin::Text-->
+                <div class="d-flex flex-column flex-grow-1 font-weight-bold">
+                    <a class="text-dark text-hover-primary mb-1 font-size-lg">{{'EDIT.USER.NO_MANAGERS' | translate}}</a>
+                </div>
+                <!--end::Text-->
+            </div>
+            <!--end::Item-->
+        </div>
+        <!--end::Managers list-->
+
+        <!--begin::Manager form-->
+        <div *ngIf="isShowManagerForm" class="card-body pt-3 pb-0 mt-n3">
+            <!--begin::Form-->
+            <form class="form mt-5" [formGroup]="managerForm" (ngSubmit)="createManager()">
+                <!--begin::Title-->
+                <div class="pb-3 pt-lg-0 pt-3">
+                    <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">
+                        {{ "EDIT.USER.MANAGER_FORM.ADD_TITLE" | translate }}
+                    </h3>
+                </div>
+                <!--end::Title-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+                    <label class="font-size-h6 font-weight-bolder text-dark">
+                        {{'EDIT.USER.MANAGER_FORM.AVATAR' | translate}}
+                    </label>
+                    <div class="d-flex flex-column align-items-center justify-content">
+                        <app-image-uploader
+                                [imageSrc]="managerCurrentAvatar"
+                                placeholderSrc="./assets/media/users/blank.png"
+                                outWidth="300"
+                                outHeight="300"
+                                (onChange)="handleManagerAvatarChange($event)"
+                                (onReset)="handleManagerAvatarReset($event)">
+                        </app-image-uploader><br>
+                        <button type="button" class="btn  btn-link btn-sm" (click)="showPredefinedAvatars()">{{ 'EDIT.USER.MANAGER_FORM.PREDEFINED_AVATAR' | translate }}</button>
+                        <span class="form-text text-muted">{{'EDIT.USER.MANAGER_FORM.ALLOWED_FILE_TYPES' | translate}}</span>
+                        <span *ngIf="managerForm.valid && managerCurrentAvatar == ''" class="form-text text-danger">{{'EDIT.USER.MANAGER_FORM.AVATAR_REQUIRED' | translate}}</span>
+                    </div>
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+                    <label class="font-size-h6 font-weight-bolder text-dark">
+                        {{ "EDIT.USER.MANAGER_FORM.NAME" | translate }}
+                    </label>
+                    <input
+                            class="form-control form-control-solid h-auto font-size-h6"
+                            type="text"
+                            name="name"
+                            formControlName="name"
+                            placeholder="{{ 'EDIT.USER.MANAGER_FORM.NAME' | translate }}"
+                            autocomplete="off"
+                            [ngClass]="{'is-invalid': managerForm.controls['name'].invalid && managerForm.controls['name'].touched}"
+                    />
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: translate('ERROR.MESSAGES.Fullname is required'),
+                            control: managerForm.controls['name']
+                       }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: translate('ERROR.MESSAGES.Fullname should have at least 3 symbols'),
+                            control: managerForm.controls['name']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'maxLength',
+                            message: translate('ERROR.MESSAGES.Fullname should have maximum 100 symbols'),
+                            control: managerForm.controls['name']
+                        }"
+                    ></ng-container>
+                </div>
+                <!--end::Form group-->
+
+                <div class="form-group">
+                    <label class="font-size-h6 font-weight-bolder text-dark">
+                        {{ "EDIT.USER.MANAGER_FORM.LASTNAME" | translate }}
+                    </label>
+                    <input
+                            class="form-control form-control-solid h-auto font-size-h6"
+                            type="text"
+                            name="lastname"
+                            formControlName="lastname"
+                            placeholder="{{ 'EDIT.USER.MANAGER_FORM.LASTNAME' | translate }}"
+                            autocomplete="off"
+                            [ngClass]="{'is-invalid': managerForm.controls['lastname'].invalid && managerForm.controls['lastname'].touched}"
+                    />
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: translate('ERROR.MESSAGES.Fullname is required'),
+                            control: managerForm.controls['lastname']
+                       }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: translate('ERROR.MESSAGES.Fullname should have at least 3 symbols'),
+                            control: managerForm.controls['lastname']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'maxLength',
+                            message: translate('ERROR.MESSAGES.Fullname should have maximum 100 symbols'),
+                            control: managerForm.controls['lastname']
+                        }"
+                    ></ng-container>
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+                    <label class="font-size-h6 font-weight-bolder text-dark">
+                        {{ "EDIT.USER.MANAGER_FORM.EMAIL" | translate }}
+                    </label>
+                    <input
+                            class="form-control form-control-solid h-auto font-size-h6"
+                            type="email"
+                            placeholder="{{ 'EDIT.USER.MANAGER_FORM.EMAIL' | translate }}"
+                            name="email"
+                            formControlName="email"
+                            autocomplete="off"
+                            [ngClass]="{ 'is-invalid': managerForm.controls['email'].invalid && managerForm.controls['email'].touched}"
+                    />
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]=" {
+                            validation: 'required',
+                            message: translate('ERROR.MESSAGES.Email is required'),
+                            control: managerForm.controls['email']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'email',
+                            message: translate('ERROR.MESSAGES.Email is invalid'),
+                            control: managerForm.controls['email']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: translate('ERROR.MESSAGES.Email should have at least 3 symbols'),
+                            control: managerForm.controls['email']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'maxLength',
+                            message: translate('ERROR.MESSAGES.Email should have maximum 360 symbols'),
+                            control: managerForm.controls['email']
+                        }"
+                    ></ng-container>
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+                    <label class="font-size-h6 font-weight-bolder text-dark">
+                        {{ "EDIT.USER.MANAGER_FORM.PASSWORD" | translate }}
+                    </label>
+                    <input
+                            class="form-control form-control-solid h-auto font-size-h6"
+                            type="password"
+                            placeholder="{{ 'EDIT.USER.MANAGER_FORM.PASSWORD' | translate }}"
+                            name="password"
+                            formControlName="password"
+                            autocomplete="off"
+                            [ngClass]="{'is-invalid': managerForm.controls['password'].invalid && managerForm.controls['password'].touched}"
+                    />
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: translate('ERROR.MESSAGES.Password is required'),
+                            control: managerForm.controls['password']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: translate('ERROR.MESSAGES.Password should have at least 3 symbols'),
+                            control: managerForm.controls['password']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'maxLength',
+                            message: translate('ERROR.MESSAGES.Password should have maximum 100 symbols'),
+                            control: managerForm.controls['password']
+                        }"
+                    ></ng-container>
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="form-group">
+                    <label class="font-size-h6 font-weight-bolder text-dark">
+                        {{ "EDIT.USER.MANAGER_FORM.CONFIRM_PASSWORD" | translate }}
+                    </label>
+                    <input
+                            class="form-control form-control-solid h-auto font-size-h6"
+                            type="password"
+                            placeholder="{{ 'EDIT.USER.MANAGER_FORM.CONFIRM_PASSWORD' | translate }}"
+                            name="password_confirmation"
+                            autocomplete="off"
+                            formControlName="password_confirmation"
+                            [ngClass]="{'is-invalid': managerForm.controls['password_confirmation'].invalid && managerForm.controls['password_confirmation'].touched}"
+                    />
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: translate('ERROR.MESSAGES.Confirm password is required'),
+                            control: managerForm.controls['password_confirmation']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'minlength',
+                            message: translate('ERROR.MESSAGES.Confirm Password should have at least 3 symbols'),
+                            control: managerForm.controls['password_confirmation']
+                        }"
+                    ></ng-container>
+                    <ng-container
+                            [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                            validation: 'maxLength',
+                            message: translate('ERROR.MESSAGES.Confirm Password should have maximum 100 symbols'),
+                            control: managerForm.controls['password_confirmation']
+                        }"
+                    ></ng-container>
+                    <ng-container *ngIf="managerForm.controls['password_confirmation'].errors &&
+                            managerForm.controls['password_confirmation'].errors.ConfirmPassword"
+                    >
+                        <div class="fv-plugins-message-container">
+                            <div class="fv-help-block">
+                                {{ "ERROR.MESSAGES.PASSWORDS_DIDNT_MATCH" | translate }}
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div *ngIf="applications && applications.length > 0" class="form-group">
+                    <label class="font-size-h6 font-weight-bolder text-dark">
+                        {{ "EDIT.USER.MANAGER_FORM.APPLICATIONS_ACCESS" | translate }}
+                    </label>
+                    <div class="pt-2" formGroupName="associatedApplications">
+                        <!--begin::Item-->
+                        <div *ngFor="let application of applications; let i = index" class="d-flex align-items-center mb-10">
+                            <!--begin::Bullet-->
+                            <span class="bullet bullet-bar bg-success align-self-stretch"></span>
+                            <!--end::Bullet-->
+
+                            <!--begin::Text-->
+                            <div class="d-flex flex-column flex-grow-1 pl-2">
+                                <a [routerLink]="'/constructor/' + application.id" class="text-dark-75 text-hover-primary font-weight-bold font-size-lg mb-1 cursor-pointer">
+                                    {{application.name}}
+                                </a>
+                                <span class="text-muted font-weight-bold">{{application.description}}</span>
+                            </div>
+                            <!--end::Text-->
+
+                            <!--begin::Checkbox-->
+                            <label class="checkbox checkbox-lg checkbox-light-success checkbox-single flex-shrink-0 m-0 mx-4">
+                                <input type="checkbox" value="0" [formControlName]="i"/>
+                                <span></span>
+                            </label>
+                            <!--end::Checkbox-->
+
+                        </div>
+                        <!--end:Item-->
+                    </div>
+
+                </div>
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="form-group d-flex flex-wrap pb-lg-0 pb-3">
+                    <button type="submit" [disabled]="managerForm.invalid || (managerCurrentAvatar == '')" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">
+                        {{ "GENERAL.LANGUAGES.SAVE" | translate }}
+                    </button>
+                    <a type="button" class="btn btn-secondary font-weight-bolder font-size-h6 px-8 py-4 my-3" (click)="isShowManagerForm=false;">
+                        {{ "GENERAL.LANGUAGES.CANCEL" | translate }}
+                    </a>
+                </div>
+                <!--end::Form group-->
+            </form>
+        </div>
+        <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+            <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+                <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                        {{ message }}
+                    </div>
+                </div>
+            </ng-container>
+        </ng-template>
+        <!--end::Manager form-->
+
+        <!--end::Body-->
+    </div>
+</ng-container>
+

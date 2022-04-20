@@ -1,0 +1,33 @@
+{
+    "id": 1,
+    "system_email": "no-reply@somehost.com",
+    "system_owner": "App Creator",
+    "left_logo_img": "\/assets\/images\/left_image.png",
+    "auth_color": "#001E47",
+    "logo_img": "\/assets\/images\/top_logo.png",
+    "inner_logo": "\/assets\/images\/inner_logo.png",
+    "spinner_logo": "\/assets\/images\/spinner_logo.png",
+    "text_logo_color": "#986923",
+    "domain": "example.com",
+    "default_currency": "USD",
+    "default_avatar": "assets\/images\/predefined_avatars\/avatar-nw (6).png",
+    "users_registration_enabled": 1,
+    "trial_day": 31,
+    "google_web_client_id": "306825626028-9i6uudbl22i7oo68lpnvv0cvl1jlis1t.apps.googleusercontent.com",
+    "google_registration": 0,
+    "created_at": null,
+    "updated_at": "2022-03-18T18:46:01.000000Z",
+    "platform": "saas",
+    "version": "1.0.0",
+    "last_check_date": "2022-03-18 18:46:01",
+    "meta": {
+        "en": {
+            "META_TITLE": "APP Creator",
+            "META_DESCRIPTION": "APP Creator"
+        },
+        "ru": {
+            "META_TITLE": "Коструктор мобильных приложений",
+            "META_DESCRIPTION": "Discover Amazing APP CREATOR with great build tools"
+        }
+    }
+}

@@ -1,0 +1,12 @@
+:host .aside {
+  height: 100%;
+}
+
+:host .aside .aside-menu {
+  margin: 0;
+}
+
+:host .menu-text {
+  white-space: nowrap;
+}
+/*# sourceMappingURL=aside.component.css.map */

@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <h4 class="modal-title">Icons</h4>
+    <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    
+    <div *ngIf="!page_loaded" class="w-100"><div class="spinner"></div></div>
+
+    <div class="row">
+        <div class="col-sm-12" style="max-height: 300px; overflow:auto">
+
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="symbol symbol-30 mr-3 mt-3" [ngClass]="myImage.icon_name == selectedIcon? 'select': ''"  *ngFor="let myImage of myIonicons" (click)="selectIcon(myImage.icon_name)">
+                    <img alt="Pic" [src]="'assets/ionicons/' + myImage.icon_name + '.svg'"/>
+                </div>
+            </div>
+
+            
+            
+        </div>
+    </div>
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+    <button type="button" class="btn btn-primary" (click)="select()">{{'GENERAL.LANGUAGES.SAVE' | translate}}</button>
+</div>

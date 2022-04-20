@@ -1,0 +1,166 @@
+<ng-container>
+
+    <div class="card card-custom  gutter-b">
+
+
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+    
+            <!--begin::Header-->
+            <div class="card-header py-3">
+                <div class="card-title align-items-start flex-column">
+                    <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.LANGUAGES.TITLE' | translate}}</h3>
+                    <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.LANGUAGES.TITLE_TEXT' | translate}}</span>
+                </div>
+                <div class="card-toolbar">
+                    <span class="label label-warning label-pill label-inline mr-2" *ngIf="was_changed" >{{'CONSTRUCTOR.COLORS.SAVE_TO_STORE' | translate}}</span>
+                    <button type="submit"  class="btn btn-success mr-2" (click)="save()">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+                    <button type="reset" class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+                </div>
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Form-->
+            <div class="form card-body mt-2">
+
+
+                <div class="alert alert-custom alert-light-danger fade show mb-5" role="alert" *ngIf="languages.length>0 && !defaultIsActive()">
+                    <div class="alert-icon">
+                        <i class="flaticon-warning"></i>
+                    </div>
+                    <div class="alert-text">
+                       {{'CONSTRUCTOR.LANGUAGES.DEFAULT_LANGUAGE_NOT_ACTIVE'|translate}}
+                    </div>
+                </div>
+
+                <div class="alert alert-custom alert-light-danger fade show mb-5" role="alert" *ngIf="languages.length>0 && !hasActive()">
+                    <div class="alert-icon">
+                        <i class="flaticon-warning"></i>
+                    </div>
+                    <div class="alert-text">
+                       {{'CONSTRUCTOR.LANGUAGES.LANGUAGE_EMPTY'|translate}}
+                    </div>
+                </div>
+
+                <div class="alert alert-custom alert-light-danger fade show mb-5" role="alert" *ngIf="doubleCode()">
+                    <div class="alert-icon">
+                        <i class="flaticon-warning"></i>
+                    </div>
+                    <div class="alert-text">
+                       {{'CONSTRUCTOR.LANGUAGES.LANGUAGE_DUPLICATES'|translate}} ({{languages_dulicates.join(', ')}})
+                    </div>
+                </div>
+
+                <!-- new lagn form -->
+                <div class="gutter-b">
+                    <button type="button" (click)="showAddLangaugeForm()" class="btn btn-primary btn-sm"> <i class="fas fa-plus"></i> {{'CONSTRUCTOR.LANGUAGES.ADD_LANGUAGE' | translate}}</button>
+                    <div class="d-flex align-items-center bg-light" *ngIf="new_opened">
+                        <div class="d-flex flex-column flex-grow-1 ml-3">
+
+                            <div class="form-group row">
+                                <div class="col-lg-2">
+                                    <label class="">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_NAME' | translate}}</label>
+                                    <input type="text" class="form-control" placeholder="" [(ngModel)]="edit_array.name">
+                                    <span class="form-text" [ngClass]="{'text-danger':!name_validate, 'text-muted':name_validate}">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_NAME_HELP' | translate}}</span>
+                                </div> 
+                                <div class="col-lg-2">
+                                    <label class="">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_CODE' | translate}}</label>
+                                    <input type="text" class="form-control" placeholder="" [(ngModel)]="edit_array.code">
+                                    <span class="form-text" [ngClass]="{'text-danger':!code_validate, 'text-muted':code_validate}">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_CODE_HELP' | translate}}</span>
+                                </div> 
+                                <div class="col-lg-2">
+                                    <mat-checkbox class="example-margin" [(ngModel)]="edit_array.is_active">{{'CONSTRUCTOR.LANGUAGES.ACTIVE' | translate}}</mat-checkbox><br>
+                                    <mat-checkbox class="example-margin" [(ngModel)]="edit_array.is_default" >{{'CONSTRUCTOR.LANGUAGES.IS_DEFAULT' | translate}}</mat-checkbox>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <button [disabled]="!newlangFormValidate()" (click)="storenewlang()"  class="btn btn-sm  btn-success font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</button>
+                                    <a (click)="new_opened=false"  class="btn btn-sm  btn-light-dark font-weight-bold">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- exist languages list-->
+                <div  *ngFor="let language of languages; index as i" class="mt-3">
+                    <div class="d-flex align-items-center" [ngClass]="{'bg-light':language.edit || language.delete}"  *ngIf="!language.edit">
+                        <!--begin::Bullet-->
+                        <span class="bullet bullet-bar align-self-stretch" [ngClass]="{'bg-success':language.code==application.default_language }"></span>
+                        <!--end::Bullet-->
+                        <!--begin::Text-->
+                        <div class="d-flex flex-column flex-grow-1 ml-3">
+                            <a href="#" class="text-dark-75 font-weight-bold font-size-lg mb-1">{{language.code}} - {{language.name}}</a>
+                            <span class="text-muted font-weight-bold" *ngIf="language.code==application.default_language">{{'CONSTRUCTOR.LANGUAGES.IS_DEFAULT' | translate}}</span>
+                        </div>
+                        <!--end::Text-->
+
+
+                        <span class="label label-lg label-light-success label-inline font-weight-bold py-4 mr-2" *ngIf="!language.edit && language.active==1">{{'CONSTRUCTOR.LANGUAGES.ACTIVE' | translate}}</span>
+                        <span class="label label-lg label-light-danger label-inline font-weight-bold py-4 mr-2 " *ngIf="!language.edit && language.active==0">{{'CONSTRUCTOR.LANGUAGES.NOT_ACTIVE' | translate}}</span>
+
+                        <a (click)="openLanguage(i)" class="btn btn-icon btn-light btn-sm ml-3" *ngIf="!language.edit">
+                            <span class="svg-icon svg-icon-primary">
+                                <span [inlineSVG]="'./assets/media/svg/icons/Design/Edit.svg'" cacheSVG="true" class="svg-icon svg-icon-md"></span>
+                            </span>
+                        </a>  
+                        <a (click)="language.delete=true" class="btn btn-icon btn-light btn-sm ml-3" *ngIf="!language.edit && languages.length>1">
+                            <span class="svg-icon svg-icon-danger">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true" class="svg-icon svg-icon-md"></span>
+                            </span>
+                        </a>                    
+
+                    </div>
+
+                    <div class="d-flex align-items-right bg-light" *ngIf="language.delete">
+                        <div class="d-flex flex-column flex-grow-1 ml-3">
+                            <div class="form-group row">
+                                <div class="col-lg-12 text-right">
+                                    {{'GENERAL.LANGUAGES.ARE_YOU_SURE' | translate}}
+                                    <a (click)="language.delete=false" class="btn btn-text-dark btn-hover-light-dark  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                    <a (click)="removeLang(i)" class="btn btn-text-danger btn-hover-light-danger  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center bg-light" *ngIf="language.edit">
+                        <div class="d-flex flex-column flex-grow-1 ml-3">
+
+                            <div class="form-group row">
+                                <div class="col-lg-2">
+                                    <label class="">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_NAME' | translate}}</label>
+                                    <input type="text" class="form-control" placeholder="" [(ngModel)]="edit_array.name">
+                                    <span class="form-text" [ngClass]="{'text-danger':!name_validate, 'text-muted':name_validate}">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_NAME_HELP' | translate}}</span>
+                                </div> 
+                                <div class="col-lg-2">
+                                    <label class="">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_CODE' | translate}}</label>
+                                    <input type="text" class="form-control" placeholder="" [(ngModel)]="edit_array.code">
+                                    <span class="form-text" [ngClass]="{'text-danger':!code_validate, 'text-muted':code_validate}">{{'CONSTRUCTOR.LANGUAGES.LANGUAGE_CODE_HELP' | translate}}</span>
+                                </div> 
+                                <div class="col-lg-2">
+                                    <mat-checkbox class="example-margin" [(ngModel)]="edit_array.is_active">{{'CONSTRUCTOR.LANGUAGES.ACTIVE' | translate}}</mat-checkbox><br>
+                                    <mat-checkbox class="example-margin" [(ngModel)]="edit_array.is_default" >{{'CONSTRUCTOR.LANGUAGES.IS_DEFAULT' | translate}}</mat-checkbox>
+                                </div>
+                                <div class="col-lg-4 text-right">
+                                    <button [disabled]="!langFormValidate(i)" (click)="storelang(i)"  class="btn btn-sm  btn-success font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</button>
+                                    <a (click)="language.edit=false"  class="btn btn-sm  btn-light-dark font-weight-bold">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Form--> 
+
+    </div>
+
+
+</ng-container>

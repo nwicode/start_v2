@@ -1,0 +1,70 @@
+<!--begin::Card-->
+<div class="card card-custom">
+    <!--begin::Header-->
+    <div class="card-header py-3">
+        <div class="card-title align-items-start flex-column">
+            <h3 class="card-label font-weight-bolder text-dark">Installed Solution</h3>
+            <span class="text-muted font-weight-bold font-size-sm mt-1"></span>
+        </div>
+    </div>
+    <!--end::Header-->
+    <!--begin::Form-->
+    <form class="form">
+        <div class="card-body">
+            <!--begin::Heading-->
+            <div class="form-group row">
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
+                        <thead>
+                        <tr class="text-left text-uppercase">
+                            <th style="min-width: 250px;"><span class="text-dark-75">Name</span></th>
+                            <th style="min-width: 100px;">Developer</th>
+                            <th style="min-width: 100px;">Version</th>
+                            <th style="min-width: 100px;">Last Updated</th>
+                            <th style="min-width: 100px;">Update Untill</th>
+                            <th style="min-width: 130px;">Status</th>
+                            <th style="min-width: 130px;">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let item of installedSolutions;">
+                            <td>
+                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg"> {{item.name}}</span>
+                                <span class="text-muted font-weight-bold"> bitrix.learningtemplates </span>
+                            </td>
+                            <td>
+                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{item.developer}}</span>
+                                <span class="text-muted font-weight-bold"> bengeos </span>
+                            </td>
+                            <td>
+                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg">V 2</span>
+                                <span class="text-muted font-weight-bold"> V 1.0.2 </span>
+                            </td>
+                            <td>
+                                <span class="text-dark-75 font-weight-bolder d-block font-size-lg"> 02/03/2022 </span>
+                            </td>
+                            <td>
+                                <span class="text-muted font-weight-bold d-block font-size-sm"> - - -  </span>
+                            </td>
+                            <td>
+                                <span class="label label-lg label-inline font-weight-bold py-4"
+                                      ngClass="{{item.status? 'label-light-success': 'label-light-danger'}}">
+                                    {{item.status? 'Installed' : 'Not Installed'}}
+                                </span>
+                            </td>
+                            <td>
+                                <a class="btn font-weight-bolder font-size-sm cursor-pointer"
+                                   ngClass="{{!item.status? 'btn-light-success': 'btn-light-danger'}}">
+                                    {{item.status? 'Delete' : 'Install'}}
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--end::Form-->
+</div>
+<!--end::Card-->

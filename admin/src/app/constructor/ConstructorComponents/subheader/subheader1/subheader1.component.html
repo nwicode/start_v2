@@ -1,0 +1,115 @@
+<!--begin::Subheader-->
+<div
+  class="subheader py-2 py-lg-6"
+  [ngClass]="subheaderCSSClasses"
+  id="kt_subheader"
+>
+  <div
+    [ngClass]="subheaderContainerCSSClasses"
+    class="d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap"
+  >
+    <!--begin::Info-->
+    <div class="d-flex align-items-center flex-wrap mr-1">
+      <ng-container *ngIf="subheaderMobileToggle">
+        <!--begin::Mobile Toggle-->
+        <button
+          class="burger-icon burger-icon-left mr-4 d-inline-block d-lg-none"
+          id="kt_subheader_mobile_toggle"
+        >
+          <span></span>
+        </button>
+        <!--end::Mobile Toggle-->
+      </ng-container>
+
+      <!--begin::Page Heading-->
+      <div class="d-flex align-items-baseline flex-wrap mr-5">
+        <!--begin::Page Title-->
+        <ng-container *ngIf="title$ | async as _title">
+          <h5 class="text-dark font-weight-bold my-1 mr-5">
+            {{_title | translate}}
+            <ng-container *ngIf="subheaderDisplayDesc">
+              <ng-container *ngIf="description$ | async as _description">
+                <small>{{ _description | translate }}</small>
+              </ng-container>
+            </ng-container>
+          </h5>
+        </ng-container>
+        <!--end::Page Title-->
+
+        <!--begin::Breadcrumb-->
+        <ul
+          class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm"
+        >
+          <li
+            class="breadcrumb-item"
+            *ngFor="let bc of breadcrumbs"
+            routerLinkActive="active"
+          >
+            <a [routerLink]="bc.linkPath" class="text-muted">
+              {{ bc.linkText | translate }}
+            </a>
+          </li>
+        </ul>
+        <!--end::Breadcrumb-->
+      </div>
+      <!--end::Page Heading-->
+    </div>
+    <!--end::Info-->
+
+    <!--begin::Toolbar-->
+    <div class="d-flex align-items-center">
+        <!--begin::Daterange-->
+        <!--
+      <ng-container *ngIf="subheaderDisplayDaterangepicker">
+        <a
+          class="btn btn-light-primary btn-sm font-weight-bold mr-2 cursor-pointer"
+          id="kt_dashboard_daterangepicker"
+          data-toggle="tooltip"
+          title="Select dashboard daterange"
+          data-placement="left"
+        >
+          <span
+            class="opacity-60 font-weight-bold mr-2"
+            id="kt_dashboard_daterangepicker_title"
+            >Today</span
+          >
+          <span class="font-weight-bold" id="kt_dashboard_daterangepicker_date"
+            >Aug 16</span
+          >
+        </a>
+      </ng-container>-->
+
+      <!--begin::Dropdown-->
+
+      <a class="btn btn-secondary font-weight-bold  btn-sm  mr-2" (click)="generatePreview()">
+        <i class="flaticon-eye"></i> {{'PAGE.CONSTRUCTOR.PREVIEW' | translate}}
+      </a>
+      
+     
+      <!--
+      <div
+        class="dropdown dropdown-inline mr-2"
+        data-toggle="tooltip"
+        title="Quick actions"
+        placement="bottom-right"
+        ngbDropdown
+      >
+        <a ngbDropdownToggle class="btn btn-light-primary font-weight-bold btn-sm">
+            <i class="flaticon-eye"></i> {{'PAGE.CONSTRUCTOR.PREVIEW' | translate}}
+        </a> 
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <button class="dropdown-item" (click)="openPreview('smartphone')">{{'PAGE.CONSTRUCTOR.PREVIEW_PHONE' | translate}}</button>
+          <button class="dropdown-item" (click)="openPreview('tablet')">{{'PAGE.CONSTRUCTOR.PREVIEW_TABLET' | translate}}</button>
+
+        </div>      
+
+      </div>
+
+      <a class="btn btn-secondary font-weight-bold btn-icon btn-sm mr-2"  (click)="openPreview('browser')"><i class="fas fa-external-link-alt"></i></a> 
+    -->
+      <!--end::Dropdown-->
+    </div>
+    <!--end::Toolbar-->
+  </div>
+</div>
+<!--end::Subheader-->

@@ -1,0 +1,46 @@
+<div class="android1">
+    <div class="mockup">
+        <img src="../../../assets/images/preview/android1.png">
+    </div>
+    <div class="iframe"
+    [style.color]="text_color"
+    [style.background-color]="bg_color"
+    [style.background-size]="background_image_size"
+    [style.background-repeat]="background_image_mode"
+    [style.background-image]="'url(' + background_image + ')'"
+    >
+
+        <div class="container h-100 page-preloader text-center" *ngIf="!was_loaded">
+            <div class="row h-100 justify-content-center align-items-center">
+              <div class="spinner spinner-track spinner-lg spinner-primary"></div>
+            </div>
+        </div>
+
+        <div class="h-100 text-center" *ngIf="was_loaded">
+            <p class="font-weight-bold font-size-h2">{{application.name}}</p>
+            <p class="font-weight-bold font-size-h6">{{application.description}}</p>
+            <br>
+            <br>
+            <p class="font-weight-bold font-size-h4">{{'CONSTRUCTOR.COLORS.SYSTEM_COLORS' | translate}}</p>
+            <div *ngFor="let color of system_colors" class="pt-3">
+                <button type="button" class="btn btn-primary btn-sm btn-block" [style.border-color]="color.color_value" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast">{{color.name}}</button>
+            </div>            <br>
+            <br>
+            <p class="font-weight-bold font-size-h4">{{'CONSTRUCTOR.COLORS.USER_COLORS' | translate}}</p>
+            <div *ngFor="let color of user_colors" class="pt-3">
+                <button type="button" class="btn btn-primary btn-sm btn-block" [style.border-color]="color.color_value" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast">{{color.name}}</button>
+            </div>
+            <br>
+            <p class="font-weight-bold font-size-h4">{{'CONSTRUCTOR.COLORS.ADDITIONAL_COLORS' | translate}}</p>
+            <div *ngFor="let color of additional_colors" class="pt-3">
+                <p class="font-size-h6 font-weight-bold" [style.color]="color.color_value">{{color.name}}</p>
+            </div>            
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+                 
+    </div>
+</div>

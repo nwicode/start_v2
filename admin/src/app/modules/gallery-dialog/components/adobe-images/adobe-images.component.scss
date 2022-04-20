@@ -1,0 +1,48 @@
+.card {
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.select {
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.5);
+  border: 2px solid black;
+}
+
+/* On mouse-over, add a deeper shadow */
+.card:hover {
+  box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+
+.portrait {
+  height: 100px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.container {
+  margin-top: 5px;
+  margin-bottom: 3px;
+  overflow: hidden;
+}
+
+a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+img {
+  height: 150px;
+  object-fit: cover;
+  max-height: 100%;
+  max-width: 100%;
+  display: block;
+  margin: auto auto;
+}

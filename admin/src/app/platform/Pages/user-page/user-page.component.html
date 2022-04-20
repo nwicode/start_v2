@@ -1,0 +1,226 @@
+<!--begin::Profile Overview-->
+<div class="d-flex flex-row" *ngIf="userCurrent">
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+<!--begin::Profile Card-->
+<div class="card card-custom card-stretch" >
+    <!--begin::Body-->
+    <div class="card-body pt-4">
+      <!--begin::Toolbar-->
+      <!--
+      <div class="d-flex justify-content-end">
+        <div class="dropdown dropdown-inline" ngbDropdown>
+          <a class="btn btn-clean btn-hover-light-primary btn-sm btn-icon cursor-pointer" ngbDropdownToggle>
+            <i class="ki ki-bold-more-hor"></i>
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+            <app-dropdown-menu4></app-dropdown-menu4>
+          </div>
+        </div>
+      </div>
+    -->
+      <!--end::Toolbar-->
+  
+      <!--begin::User-->
+      <div class="d-flex align-items-center">
+        <div class="symbol symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
+          <div class="symbol-label"
+          [ngClass]="{'image-empty': !avatar}"
+          [style.backgroundImage]="'url('+ avatar +')'"></div>
+          <i class="symbol-badge bg-success"></i>
+        </div>
+        <div>
+          <a class="font-weight-bolder font-size-h5 text-dark-75 text-hover-primary cursor-pointer">
+            {{userCurrent.name + ' ' + userCurrent.lastname}}
+          </a>
+          <div class="text-muted">
+            Advanced customer
+          </div>
+          <!--
+          <div class="mt-2">
+            <a class="btn btn-sm btn-primary font-weight-bold mr-2 py-2 px-3 px-xxl-5 my-1 cursor-pointer">Chat</a>
+            <a class="btn btn-sm btn-success font-weight-bold py-2 px-3 px-xxl-5 my-1 cursor-pointer">Follow</a>
+          </div>
+        -->
+        </div>
+      </div>
+      <!--end::User-->
+  
+      <!--begin::Contact-->
+      <div class="py-9">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="font-weight-bold mr-2">{{'PROFILE.FULL.EMAIL' | translate}}:</span>
+          <a class="text-muted text-hover-primary">{{userCurrent.email}}</a>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="font-weight-bold mr-2">{{'PROFILE.FULL.PHONE' | translate}}:</span>
+          <span class="text-muted">{{userCurrent.phone}}</span>
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <span class="font-weight-bold mr-2">{{'PROFILE.FULL.LOCATION' | translate}}:</span>
+          <span class="text-muted">{{userCurrent.address}}</span>
+        </div>
+        <!--<div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="font-weight-bold mr-2">Balance:</span>
+          <span class="text-muted"><strong>$300</strong></span>
+      </div>-->
+      <hr>
+      <!--
+      <label><strong>Referral Programs</strong></label>
+      <br>
+      <div class="d-flex align-items-center justify-content-between mb-2"
+           *ngFor="let referralProgram of referralProgramsService.referralProgramItems | async; index as i;">
+          <span class="font-weight-bold mr-2">{{referralProgram.name}}:</span>
+          <button class="text-hover-primary" (click)="getUserReferralProgramLink(referralProgram)">COPY</button>
+      </div>      -->  
+      </div>
+      <!--end::Contact-->
+  
+      <!--begin::Nav-->
+      <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+      <!--  <div class="navi-item mb-2">
+          <a class="navi-link py-4" routerLink="/user-profile/profile-overview" routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/Design/Layers.svg'" cacheSVG="true" class="svg-icon"></span>
+            </span>
+            <span class="navi-text font-size-lg">
+              Profile Overview
+            </span>
+          </a>
+        </div>
+      -->
+        <div class="navi-item mb-2">
+          <a class="navi-link py-4" routerLink="/user-page/personal-information" [queryParams]="{b: backUrl}" routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/General/User.svg'" cacheSVG="true" class="svg-icon"></span>
+            </span>
+                            <span class="navi-text font-size-lg">
+              {{'PROFILE.FULL.PERSONAL_INFORMATION' | translate}}
+            </span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="/user-page/account-information"
+                           [queryParams]="{b: backUrl}" routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/Code/Compiling.svg'" cacheSVG="true" class="svg-icon"></span>
+            </span>
+                            <span class="navi-text font-size-lg">
+              {{'PROFILE.FULL.ACCOUNT_INFORMATION' | translate}}
+            </span>
+                        </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="/user-page/change-password" [queryParams]="{b: backUrl}"
+                           routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/Communication/Shield-user.svg'" cacheSVG="true"
+                    class="svg-icon"></span>
+            </span>
+                            <span class="navi-text font-size-lg">
+              {{'PROFILE.FULL.CHANGE_PASSWORD' | translate}}
+            </span>
+                        </a>
+                    </div>
+                    <!--
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="/user-page/referrals" routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/Communication/Shield-user.svg'" cacheSVG="true"
+                    class="svg-icon"></span>
+            </span>
+                            <span class="navi-text font-size-lg">
+              My Referrals
+            </span>
+                        </a>
+                    </div>
+
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="/user-page/withdrawals" routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/General/Thunder-move.svg'" cacheSVG="true"
+                    class="svg-icon"></span>
+            </span>
+                            <span class="navi-text font-size-lg">
+              Withdrawals
+            </span>
+                        </a>
+                    </div>-->
+                    <div class="navi-item mb-2" *ngIf="userCurrent.user_type_id==2">
+                        <a class="navi-link py-4" routerLink="/user-page/change-tarif" [queryParams]="{b: backUrl}"
+                           routerLinkActive="active">
+            <span class="navi-icon mr-2">
+              <span [inlineSVG]="'./assets/media/svg/icons/Shopping/Money.svg'" cacheSVG="true"
+                    class="svg-icon"></span>
+            </span>
+                            <span class="navi-text font-size-lg">
+              {{'PROFILE.FULL.CHANGE_TARIF' | translate}}
+            </span>
+                        </a>
+                    </div>
+
+                    <!--
+                    <div class="navi-item mb-2">
+                      <a class="navi-link py-4" routerLink="/user-profile/email-settings" routerLinkActive="active">
+                        <span class="navi-icon mr-2">
+                          <span [inlineSVG]="'./assets/media/svg/icons/Communication/Mail-opened.svg'" cacheSVG="true"
+                            class="svg-icon"></span>
+                        </span>
+                        <span class="navi-text font-size-lg">
+                          Email settings
+                        </span>
+                      </a>
+                    </div>-->
+                    <!--
+                    <div class="navi-item mb-2">
+                      <a class="navi-link py-4 cursor-pointer"
+                        (click)="t.open()" placement="right">
+                        <span class="navi-icon mr-2">
+                          <span [inlineSVG]="'./assets/media/svg/icons/Layout/Layout-top-panel-6.svg'" cacheSVG="true"
+                            class="svg-icon"></span>
+                        </span>
+                        <span class="navi-text font-size-lg">
+                          Saved Credit Cards
+                        </span>
+                      </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                      <a class="navi-link py-4 cursor-pointer"
+                        (click)="t2.open()" placement="right">
+                        <span class="navi-icon mr-2">
+                          <span [inlineSVG]="'./assets/media/svg/icons/Files/File.svg'" cacheSVG="true" class="svg-icon"></span>
+                        </span>
+                        <span class="navi-text font-size-lg">Tax information</span>
+                        <span class="navi-label">
+                          <span class="label label-light-primary label-inline font-weight-bold">new</span>
+                        </span>
+                      </a>
+                    </div>
+                    <div class="navi-item mb-2">
+                      <a class="navi-link py-4 cursor-pointer"
+                        (click)="t3.open()" placement="right">
+                        <span class="navi-icon mr-2">
+                          <span [inlineSVG]="'./assets/media/svg/icons/Text/Article.svg'" cacheSVG="true" class="svg-icon"></span>
+                        </span>
+                        <span class="navi-text">
+                          Statements
+                        </span>
+                      </a>
+                    </div>
+                    -->
+                </div>
+                <!--end::Nav-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+        <router-outlet></router-outlet>
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Profile Overview-->

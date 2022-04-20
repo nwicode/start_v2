@@ -1,0 +1,62 @@
+<ng-container>
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'PAGE.ACTIVITY_LOG.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'PAGE.ACTIVITY_LOG.TITLE_TEXT' | translate}}</span>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Log list-->
+        <div class="form">
+            <div class="card-body">
+                <div class="timeline timeline-1">
+                    <div class="timeline-sep bg-primary-opacity-20 ml-3"></div>
+
+                    <div *ngFor="let record of logList" class="timeline-item">
+                        <ng-container>
+                            <div class="timeline-label">{{record.created_at}}</div>
+                            <div class="timeline-badge">
+                                <span [inlineSVG]="record.iconCode" [ngClass]="'svg-icon-' + record.iconColor" cacheSVG="true" class="svg-icon"></span>
+
+                            </div>
+                            <div class="timeline-content text-muted font-weight-normal">
+                                {{('PAGE.ACTIVITY_LOG.' + record.name) | translate}}
+                                <a *ngIf="record.link" [routerLink]="record.link" class="text-primary font-weight-bold">{{record.linkText}} </a>
+                                <span *ngIf="record.noLinkText" class="font-weight-bold">{{record.noLinkText}} </span>
+                                <span *ngIf="record.labelText!=''" class="label label-inline font-weight-bolder" [ngClass]="'label-' + record.labelColor">{{record.labelText}}</span>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                </div>
+            </div>
+
+            <div *ngIf="totalRecords > itemsPerPage" class="card-body py-5">
+                <div class="d-flex justify-content-between flex-wrap">
+                    <!-- pagination select-->
+                    <div class="d-flex flex-wrap mr-3 align-items-center">
+                        <ngb-pagination class="d-flex flex-wrap justify-content-end mr-3"
+                                        (pageChange)="pageChange($event)"
+                                        [collectionSize]="totalRecords" [(page)]="currentPage"
+                                        [pageSize]="itemsPerPage"
+                                        [maxSize]="5" [rotate]="true"></ngb-pagination>
+                        <div class="d-flex justify-content-end">
+                            {{paginationString()}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Log list-->
+    </div>
+</ng-container>

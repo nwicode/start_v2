@@ -1,0 +1,38 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div *ngIf="formGroup" class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">Google Analytics</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.MIX_PANEL_SETTINGS.TITLE_TEXT' | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup.invalid && this.formGroup.touched">{{ 'GENERAL.LANGUAGES.FORM_NOT_FILL' | translate}}</span>
+                <button type="submit" class="btn btn-success mr-2" [disabled]="formGroup.invalid && this.formGroup.touched" (click)="save()">{{ 'GENERAL.LANGUAGES.SAVE_CHANGES' | translate }}</button>
+                <button type="reset" class="btn btn-secondary" (click)="cancel()">{{ 'GENERAL.LANGUAGES.CANCEL' | translate }}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div *ngIf="formGroup" class="form" [formGroup]="formGroup">
+            <div class="card-body">
+                <div class="form-group">
+                    <label>Analytics View ID</label>
+                    <input type="text" class="form-control form-control-solid" name="google_analytics_view_id" formControlName="google_analytics_view_id">
+                </div>
+
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>
+
+

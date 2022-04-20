@@ -1,0 +1,129 @@
+<ng-container >
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div *ngIf="formGroup" class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.COLLECTION_EDIT.TITLE' | translate}}</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.COLLECTION_EDIT.TITLE_TEXT' | translate}}</span>
+            </div>
+            <div class="card-toolbar">
+                <span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup.invalid && this.formGroup.touched">{{ 'GENERAL.LANGUAGES.FORM_NOT_FILL' | translate}}</span>
+                <button type="submit" class="btn btn-success mr-2" [disabled]="formGroup.invalid && this.formGroup.touched" (click)="save()">{{ 'GENERAL.LANGUAGES.SAVE_CHANGES' | translate }}</button>
+                <button type="reset" class="btn btn-secondary mr-2" (click)="cancel()">{{ 'GENERAL.LANGUAGES.CANCEL' | translate }}</button>
+                <button type="button" class="btn btn-secondary" [routerLink]="'/constructor/' + this.applicationId + '/collections/collection-list/'">{{'GENERAL.LANGUAGES.BACK' | translate}}</button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div *ngIf="formGroup" class="form" [formGroup]="formGroup">
+            <div class="card-body">
+
+                <div class="form-group">
+                    <label>{{'CONSTRUCTOR.COLLECTION_EDIT.COLLECTION_NAME' | translate}}</label>
+                    <input type="text" class="form-control form-control-solid" formControlName="collection_name"
+                           [class.is-invalid]="formGroup.controls['collection_name'].invalid && (formGroup.controls['collection_name'].dirty || formGroup.controls['collection_name'].touched)"
+                           [class.is-valid]="formGroup.controls['collection_name'].valid && (formGroup.controls['collection_name'].dirty || formGroup.controls['collection_name'].touched)">
+                </div>
+
+
+                <div class="form-group">
+                    <label>{{'CONSTRUCTOR.COLLECTION_EDIT.EMAILS' | translate}}</label>
+                    <input type="text" class="form-control form-control-solid" formControlName="emails"
+                           [class.is-invalid]="formGroup.controls['emails'].invalid && (formGroup.controls['emails'].dirty || formGroup.controls['emails'].touched)"
+                           [class.is-valid]="formGroup.controls['emails'].valid && (formGroup.controls['emails'].dirty || formGroup.controls['emails'].touched)">
+                </div>
+
+                <div><label>{{'CONSTRUCTOR.COLLECTION_EDIT.FIELDS' | translate}}</label></div>
+                <mat-accordion multi>
+                    <ng-container *ngFor="let field of formGroup.get('fields')['controls']; let i = index">
+                        <div class="d-flex flex-row align-items-center">
+
+                            <mat-expansion-panel class="flex-grow-1 mr-2">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{i + 1 + '.'}}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div [formGroup]="formGroup.get('fields')['controls'][i]">
+
+                                    <div class="form-group">
+
+                                        <ng-container *ngFor="let language of appLanguages">
+                                            <label class="m-1">{{'CONSTRUCTOR.COLLECTION_EDIT.FIELD_NAME' | translate}}{{' (' + language.name + ')'}}</label>
+                                            <input type="text" class="form-control form-control-solid"
+                                                   [formControlName]="'field_name_' + language.code"
+                                                   [class.is-invalid]="field.controls['field_name_' + language.code].invalid && (field.controls['field_name_' + language.code].dirty || field.controls['field_name_' + language.code].touched)"
+                                                   [class.is-valid]="field.controls['field_name_' + language.code].valid && (field.controls['field_name_' + language.code].dirty || field.controls['field_name_' + language.code].touched)">
+                                        </ng-container>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{'CONSTRUCTOR.COLLECTION_EDIT.FIELD_TYPE' | translate}}</label>
+                                        <div>
+                                            <select class="form-control form-control-solid" formControlName="field_type"
+                                                    [class.is-invalid]="field.controls['field_type'].invalid && (field.controls['field_type'].dirty || field.controls['field_type'].touched)"
+                                                    [class.is-valid]="field.controls['field_type'].valid && (field.controls['field_type'].dirty || field.controls['field_type'].touched)">
+                                                <option value="image">{{'CONSTRUCTOR.COLLECTION_EDIT.IMAGE' | translate}}</option>
+                                                <option value="string">{{'CONSTRUCTOR.COLLECTION_EDIT.STRING' | translate}}</option>
+                                                <option value="number">{{'CONSTRUCTOR.COLLECTION_EDIT.NUMBER' | translate}}</option>
+                                                <option value="logical">{{'CONSTRUCTOR.COLLECTION_EDIT.LOGICAL' | translate}}</option>
+                                                <option value="date">{{'CONSTRUCTOR.COLLECTION_EDIT.DATE' | translate}}</option>
+                                                <option value="date_time">{{'CONSTRUCTOR.COLLECTION_EDIT.DATE_TIME' | translate}}</option>
+                                                <option value="file">{{'CONSTRUCTOR.COLLECTION_EDIT.FILE' | translate}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-lg-5">
+                                            <label>{{'CONSTRUCTOR.COLLECTION_EDIT.ORDER' | translate}}</label>
+                                            <span class="navi-icon ml-2"><i class="flaticon2-up" (click)="orderUp(i)"></i></span>
+                                            <span class="navi-icon ml-1"><i class="flaticon2-down" (click)="orderDown(i)"></i></span>
+                                            <input type="text" class="form-control form-control-solid" formControlName="order"
+                                                   [class.is-invalid]="field.controls['order'].invalid && (field.controls['order'].dirty || field.controls['order'].touched)"
+                                                   [class.is-valid]="field.controls['order'].valid && (field.controls['order'].dirty || field.controls['order'].touched)">
+                                        </div>
+
+                                        <div class="col-lg-3 d-flex flex-column align-items-center">
+                                            <label>{{'CONSTRUCTOR.COLLECTION_EDIT.REQUIRED' | translate}}</label>
+                                            <div class="d-flex flex-grow-1">
+                                                <label class="checkbox checkbox-lg align-self-center">
+                                                    <input type="checkbox" formControlName="required"/>
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </mat-expansion-panel>
+                            <div>
+                                <a class="btn btn-icon btn-sm" [ngClass]="{'btn-hover-danger': field.controls['field_type'].value !== 'title', 'cursor-default': field.controls['field_type'].value === 'title'}" (click)="deleteField(i, field.controls['field_type'].value)">
+                            <span [inlineSVG]="'./assets/media/svg/icons/General/Trash.svg'" cacheSVG="true"
+                                  class="svg-icon svg-icon-md" [ngClass]="{'svg-icon-danger': field.controls['field_type'].value !== 'title'}"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </ng-container>
+                </mat-accordion>
+
+                <button type="button" (click)="addNewField()" class="btn btn-primary btn-sm mt-3"> <i class="fas fa-plus"></i> {{'GENERAL.LANGUAGES.ADD' | translate}}</button>
+
+
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>
+
+

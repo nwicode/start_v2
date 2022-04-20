@@ -1,0 +1,4 @@
+:host .dropdown-toggle::after {
+  display: inline-block !important;
+}
+/*# sourceMappingURL=dropdown.component.css.map */

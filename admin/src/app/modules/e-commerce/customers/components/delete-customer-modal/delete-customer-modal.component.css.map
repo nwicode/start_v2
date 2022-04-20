@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "delete-customer-modal.component.scss"
+    ],
+    "names": [],
+    "file": "delete-customer-modal.component.css"
+}

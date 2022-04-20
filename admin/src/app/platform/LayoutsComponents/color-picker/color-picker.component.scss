@@ -1,0 +1,21 @@
+div.color-picker {
+    position: absolute;
+    width: 200px;
+    left: 150px;
+   
+    z-index: 10;
+    color-sketch {
+        position: relative;
+        z-index: 9999;
+    }    
+}
+
+div.overlay {
+    z-index: 9;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;    
+
+}

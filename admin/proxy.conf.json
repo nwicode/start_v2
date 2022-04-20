@@ -1,0 +1,29 @@
+{
+    "/api": {
+      "target": "http://localhost:8000/api",
+      "secure": false,
+      "changeOrigin": false,
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }, 
+    "/mobile": {
+      "target": "http://localhost:8000/mobile",
+      "secure": false,
+      "changeOrigin": false,
+      "pathRewrite": {
+        "^/mobile": ""
+      }
+    },    
+    "/storage": {
+      "target": "http://localhost:8000/storage",
+      "secure": false,
+      "changeOrigin": false
+    },    
+    "/assets": {
+      "target": "http://localhost:8000/assets",
+      "secure": false,
+      "changeOrigin": false
+    },
+    "logLevel": "debug"
+  }

@@ -1,0 +1,179 @@
+<div class="row">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                     style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+
+    <!-- android -->
+    <div class="col-xl-4 col-md-6">
+
+        <div class="card card-custom gutter-b">
+            <div class="card-header h-auto py-3 border-0">
+                <div class="card-title">
+                    <h3 class="card-label text-primary">Android</h3>
+                </div>
+            </div>
+            <div class="card-body pt-2">
+                <p class="text-dark-50">You can order a build of an application for Android. The task will be queued, a download link will be published here, and also sent to you by Email.</p>
+                <div class="mt-5">
+                    <a *ngIf="can_generate_apk" (click)="buildAndroid()" class="btn btn-success btn-sm font-weight-bold mr-2">{{'CONSTRUCTOR.BUILD.ANDROID_APK' | translate}}</a>
+                    <!-- <button disabled *ngIf="can_generate_aab" (click)="buildAndroidAAB()" class="btn btn-secondary btn-sm font-weight-bold mr-2">{{'CONSTRUCTOR.BUILD.ANDROID_AAB' | translate}}</button> -->
+                    <a *ngIf="can_generate_android_sources" (click)="buildAndroidSrc()" class="btn btn-clean btn-sm font-weight-bold mr-2">{{'CONSTRUCTOR.BUILD.ANDROID_SOURCES' | translate}}</a>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+
+    <!-- android -->
+    <div class="col-xl-4 col-md-6">
+
+        <div class="card card-custom gutter-b">
+            <div class="card-header h-auto py-3 border-0">
+                <div class="card-title">
+                    <h3 class="card-label text-primary">IOS</h3>
+                </div>
+            </div>
+            <div class="card-body pt-2">
+                <p class="text-dark-50">You can order a build of an application for IOS. The task will be queued, a download link will be published here, and also sent to you by Email.</p>
+                <div class="mt-5">
+                    <!-- <button disabled *ngIf="can_generate_ipa" (click)="buildAndroid()" class="btn btn-success btn-sm font-weight-bold mr-2">{{'CONSTRUCTOR.BUILD.IOS_IPA' | translate}}</button> -->
+                    <button *ngIf="can_generate_ios_sources" (click)="buildIOSSrc()" class="btn btn-clean btn-sm font-weight-bold mr-2">{{'CONSTRUCTOR.BUILD.IOS_SOURCES' | translate}}</button>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+
+    <!-- WEB -->
+    <div class="col-xl-4 col-md-6">
+
+        <div class="card card-custom gutter-b">
+            <div class="card-header h-auto py-3 border-0">
+                <div class="card-title">
+                    <h3 class="card-label text-primary">WEB</h3>
+                </div>
+            </div>
+            <div class="card-body pt-2">
+                <p class="text-dark-50">You can order a build of WEB verison of application. The task will be queued, a web link will be published here.</p>
+                <div class="mt-5">
+                    <button *ngIf="can_generate_www" class="btn btn-success btn-sm font-weight-bold mr-2" (click)="buildWeb()">Build WEB</button>
+                    <a *ngIf="www_last_generation_date!='' && www_link!=''" target="blank" href="{{base_path}}{{www_link}}" class="btn btn-clean btn-sm font-weight-bold mr-2"><i class="fas fa-link"></i> Open WEB at {{www_last_generation_date}}</a>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+
+</div>
+
+<!-- time line row-->
+<div class="row">
+
+    <!-- android -->
+    <div class="col-xl-12">
+
+
+        <div class="card card-custom wave wave-animate-fast wave-primary" *ngIf="queue.length==0  && was_loaded">
+            <div class="card-body">
+             <div class="d-flex align-items-center p-5">
+              <div class="mr-6">
+                <span [inlineSVG]="'./assets/media/svg/icons/Files/Locked-folder.svg'" cacheSVG="true" class="svg-icon svg-icon-primary svg-icon-4x"></span>
+              </div>
+              <div class="d-flex flex-column">
+               <a class="text-dark  font-weight-bold font-size-h4 mb-3">
+                {{'CONSTRUCTOR.BUILD.BUILDING_HISTORY' | translate}}
+               </a>
+               <div class="text-dark-75">
+                {{'CONSTRUCTOR.BUILD.QUEUE_EMPTY' | translate}}
+               </div>               
+              </div>
+             </div>
+            </div>
+           </div>
+           
+
+           
+
+        <div class="card card-custom gutter-b" *ngIf="queue.length>0 && was_loaded">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">{{'CONSTRUCTOR.BUILD.BUILDING_HISTORY' | translate}}</h3>
+                </div>
+            </div>
+            <div class="card-body" >
+                <!--begin::Example-->
+                <div class="example example-basic">
+                    <div class="example-preview">
+                        <!--begin::Timeline-->
+                        <div class="timeline timeline-3">
+                            <div class="timeline-items">
+                                                                
+                                <div class="timeline-item" *ngFor="let item of queue">
+
+
+                                    <!-- android icon-->
+                                    <div class="timeline-media" *ngIf="item.type=='android_apk' || item.type=='android_aab' || item.type=='android_sources'">
+                                        <i *ngIf="item.ended==1  && item.status==1" class="fab fa-android text-success"></i>
+                                        <i *ngIf="item.ended==1  && item.status==0" class="fab fa-android text-danger"></i>
+                                        <i *ngIf="item.ended==0 && item.run==0" class="fab fa-android text-warning"></i>
+                                        <div *ngIf="item.run==1" class="spinner spinner-track spinner-primary spinner-lg mr-8"></div>
+                                    </div>                                    
+
+                                    <!-- www icon-->
+                                    <div class="timeline-media" *ngIf="item.type=='www'">
+                                        <i *ngIf="item.ended==1 && item.status==1" class="fas fa-globe text-success"></i>
+                                        <i *ngIf="item.ended==1 && item.status==0" class="fas fa-globe text-danger"></i>
+                                        <i *ngIf="item.ended==0 && item.run==0" class="fas fa-globe text-warning"></i>
+                                        <div *ngIf="item.run==1" class="spinner spinner-track spinner-primary spinner-lg mr-8"></div>
+                                    </div>
+
+                                    <!-- ios icon-->
+                                    <div class="timeline-media" *ngIf="item.type=='ios_sources' || item.type=='ios_sources'">
+                                        <i *ngIf="item.ended==1 && item.status==1" class="fab fa-apple text-success"></i>
+                                        <i *ngIf="item.ended==1 && item.status==0" class="fab fa-apple text-danger"></i>
+                                        <i *ngIf="item.ended==0 && item.run==0" class="fab fa-apple text-warning"></i>
+                                        <div *ngIf="item.run==1" class="spinner spinner-track spinner-primary spinner-lg mr-8"></div>
+                                    </div>
+
+                                    <div class="timeline-content">
+                                        <div class="d-flex align-items-center justify-content-between mb-3">
+                                            <div class="mr-2">
+                                                <a class="text-dark font-weight-bold">{{'CONSTRUCTOR.BUILD.'+item.description | translate}}</a>
+                                                <span *ngIf="item.ended==1 && item.status==1" class="label label-light-success font-weight-bolder label-inline ml-2">{{'CONSTRUCTOR.BUILD.DONE' | translate}}</span>
+                                                <span *ngIf="item.ended==1 && item.status==0" class="label label-light-danger font-weight-bolder label-inline ml-2">{{'CONSTRUCTOR.BUILD.ERROR' | translate}}</span>
+                                                <span *ngIf="item.ended==0 && item.run==0" class="label label-light-warning font-weight-bolder label-inline ml-2">{{'CONSTRUCTOR.BUILD.IN_QUEUE' | translate}}</span>
+                                                <span *ngIf="item.run==1" class="label label-primary font-weight-bolder label-inline ml-2">{{'CONSTRUCTOR.BUILD.RUNNING' | translate}}</span>
+                                            </div>
+                                            
+                                        </div>
+                                        <p class="p-0">
+                                            <span class="font-size-sm" *ngIf="item.ended==0 && item.run==0">{{'CONSTRUCTOR.BUILD.START_DATE' | translate}} {{item.created_at | date:'yyyy-MM-dd HH:mm:ss'}}<br></span>
+                                            <span class="font-size-sm" *ngIf="item.run==1">{{'CONSTRUCTOR.BUILD.START_DATE' | translate}} {{item.created_at | date:'yyyy-MM-dd HH:mm:ss'}}<br></span>
+                                            <span class="font-size-sm" *ngIf="item.ended==1">{{'CONSTRUCTOR.BUILD.START_DATE' | translate}} {{item.buld_start | date:'yyyy-MM-dd HH:mm:ss'}}<br>{{'CONSTRUCTOR.BUILD.END_DATE' | translate}} {{item.buld_end | date:'yyyy-MM-dd HH:mm:ss'}}<br></span>
+                                            <span class="font-size-lg" *ngIf="item.source_file!=''"><a href="{{base_path}}{{item.source_file}}" class="btn btn-success p-2 m-3"> <i class="fas fa-file-download"></i>{{'CONSTRUCTOR.BUILD.DOWNLOAD' | translate}}</a></span>
+                                            <span class="font-size-lg" *ngIf="item.report_file!='' && item.status==0"><a target="blank" href="{{base_path}}{{item.report_file}}" class="btn btn-light-danger p-2 m-3"> <i class="fas fa-file-download"></i>{{'CONSTRUCTOR.BUILD.DOWNLOAD_LOG' | translate}}</a></span>
+                                            <span class="font-size-lg" *ngIf="item.report_file!='' && item.status==1"><a target="blank" href="{{base_path}}{{item.report_file}}" class="btn btn-light-success p-2 m-3"> <i class="fas fa-file-download"></i>{{'CONSTRUCTOR.BUILD.DOWNLOAD_LOG' | translate}}</a></span>
+                                            
+                                        </p>
+                                    </div>
+                                </div>
+
+                                
+                                
+                            </div>
+                        </div>
+                        <!--end::Timeline-->
+                    </div>
+                </div>
+                <!--end::Example-->
+                
+            </div>
+        </div>
+    </div>
+ 
+</div>

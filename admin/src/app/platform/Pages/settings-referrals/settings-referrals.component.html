@@ -1,0 +1,77 @@
+<ng-container>
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="referralProgramsService.isLoading$ | async">
+            <div class="progress progress-modal">
+                <div
+                        class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                        role="progressbar"
+                        style="width: 100%"
+                        aria-valuenow="100"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                ></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">Referral Programs</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">List of referral programs</span>
+            </div>
+            <div class="card-toolbar">
+                <button type="submit" routerLink="/referrals/add-referral-programs" class="btn btn-success mr-2">Add
+                    Referral Program
+                </button>
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div class="form">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="row">#</th>
+                        <th scope="row" class="text-center">Name</th>
+                        <th scope="row" class="text-center">Uri</th>
+                        <th scope="row" class="text-center">Life Time</th>
+                        <th scope="row" class="text-center">Created</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let referralProgram of referralProgramsService.referralProgramItems | async; index as i;">
+                        <td scope="row">{{i+1}}</td>
+                        <td scope="row" class="text-center">
+                            <span class="font-weight-bolder">{{referralProgram.name}}</span>
+                        </td>
+                        <td scope="row" class="text-center">{{referralProgram.uri}}</td>
+                        <td scope="row" class="text-center">{{referralProgram.lifeTimeMinutes}} min</td>
+                        <td scope="row" class="text-center">{{referralProgram?.createdAt | date: 'medium'}}</td>
+                        <td scope="row" class="text-right">
+                            <div class="btn-group" ngbDropdown role="group"
+                                 aria-label="Button group with nested dropdown">
+
+                                <a ngbDropdownToggle class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                    <i class="ki ki-bold-more-hor"></i>
+                                </a>
+                                <div class="dropdown-menu" ngbDropdownMenu>
+                                    <button class="dropdown-item"
+                                            [routerLink]="'/referrals/update-referral-programs/' + referralProgram.id">
+                                        Edit
+                                    </button>
+                                    <button class="dropdown-item" (click)="deleteReferralProgram(referralProgram)">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>

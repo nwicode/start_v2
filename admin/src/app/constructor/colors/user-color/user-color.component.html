@@ -1,0 +1,110 @@
+<ng-container>
+
+    <div class="card card-custom  gutter-b">
+
+
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+                style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+    
+            <!--begin::Header-->
+            <div class="card-header py-3">
+                <div class="card-title align-items-start flex-column">
+                    <h3 class="card-label font-weight-bolder text-dark">{{'CONSTRUCTOR.COLORS.USER_COLORS' | translate}}</h3>
+                    <span class="text-muted font-weight-bold font-size-sm mt-1">{{'CONSTRUCTOR.COLORS.USER_COLORS_TEXT' | translate}}</span>
+                </div>
+                <div class="card-toolbar">
+                    <span class="label label-warning label-pill label-inline mr-2" *ngIf="was_changed" >{{'CONSTRUCTOR.COLORS.SAVE_TO_STORE' | translate}}</span>
+                    <button type="submit"  class="btn btn-success mr-2" (click)="save()">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>
+                    <button type="reset" class="btn btn-secondary mr-2" (click)="cancel()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+                </div>
+            </div>
+            <!--end::Header-->
+
+            <!--begin::Form-->
+            <div class="form">
+                
+                
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-8">
+
+                            <div class="row" >
+                                <div class="symbol-list d-flex flex-wrap" *ngIf="loaded">
+                                    <div class="symbol symbol-70 mr-6 mb-3 cursor-pointer">
+                                        <span class="color-square symbol-label font-size-h1 cursor-pointer" (click)="addColor()">+</span>
+                                    </div>
+                                    <div class="font-size-h5 font-weight-bold">
+                                        {{'CONSTRUCTOR.COLORS.COLOR_ADD' | translate}}
+                                    </div>                            
+                                </div>
+                            </div>
+                            <div *ngIf="loaded && colors_array.length>0">
+                                <div class="row" *ngFor="let color of colors_array; index as i">
+                                    <div class="symbol-list d-flex flex-wrap">
+                                        <div class="symbol symbol-70 mr-6 mb-3 cursor-pointer" (click)="color.picker=true">
+                                            <span class="color-square symbol-label font-size-h1" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast">{{color.letter | uppercase}}</span>
+                                        </div>
+                                        <app-color-picker [disableAlpha]="true" *ngIf="color.picker" [color]="color.color_value" (onClose)="color.picker=false" (onChange)="changeColorEvent($event,color)"></app-color-picker>
+                                        <div class="form-group">
+                                            <label>{{'CONSTRUCTOR.COLORS.COLOR_NAME' | translate}}</label>
+                                            <input type="text" class="form-control" [(ngModel)]="color.name" value="{{color.name}}" name="name">
+                                            <span class="form-text text-muted">{{'CONSTRUCTOR.COLORS.COLOR_NAME_INFO' | translate}}</span>
+                                        </div>
+                                        <div class="delete-block">
+                                            <a *ngIf="!color.confirm" (click)="color.confirm=true" class="btn btn-icon btn-light-danger btn-sm mr-2 ml-3"><i class="far fa-trash-alt"></i></a>
+                                            <div *ngIf="color.confirm" class=" ml-3">
+                                                {{'GENERAL.LANGUAGES.ARE_YOU_SURE' | translate}}
+                                                <a (click)="color.confirm=false" class="btn btn-text-dark btn-hover-light-dark  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</a>
+                                                <a (click)="removeColor(color,i)" class="btn btn-text-danger btn-hover-light-danger  btn-sm font-weight-bold mr-2">{{'GENERAL.LANGUAGES.CONFIRM' | translate}}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div *ngIf="loaded  && colors_array.length==0">
+                                <div class="row">
+                                    <div class="font-size-h5 font-weight-bold">
+                                        {{'CONSTRUCTOR.COLORS.USER_COLORS_EMPTY' | translate}}
+                                    </div>
+                                </div>
+                            </div>
+        
+        
+                            <br>           
+                            <br>           
+                            <br>           
+                            <br>           
+                            <br>           
+                            <br>   
+                            <br>           
+                            <br>           
+                            <br>           
+                            <br>           
+                            <br>           
+                            <br>       
+
+                        </div>
+
+                        <div class="col-xs-12 col-sm-4">
+                            <app-android-mockup app_id="app_id"></app-android-mockup>
+                        </div>
+                    </div>
+
+                        
+        
+                </div>
+            </div>
+            <!--end::Form--> 
+
+    </div>
+
+
+</ng-container>

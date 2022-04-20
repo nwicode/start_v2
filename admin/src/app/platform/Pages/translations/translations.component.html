@@ -1,0 +1,38 @@
+<!--begin::Profile Overview-->
+<div class="d-flex flex-row" >
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+        <!--begin::Profile Card-->
+        <div class="card card-custom card-stretch" >
+            <!--begin::Body-->
+            <div class="card-body pt-4">
+                <!--begin::Nav-->
+                <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+                    <div class="navi-section mt-7 mb-2 font-size-h6 font-weight-bold pb-0">{{'PAGE.TRANSLATIONS.LIST_OF_LANGUAGES' | translate}}</div>
+                    <div class="navi-item mb-2" *ngFor="let language of languages">
+                        <a class="navi-link py-4" [routerLink]="['/translations/edit-translation/', language.id]" routerLinkActive="active">
+                            <span class="symbol symbol-25 mr-3">
+                                <img [src]="language.image">
+                            </span>
+                            <span class="navi-text font-size-lg">
+                                {{'GENERAL.LANGUAGES.' + language.code | translate}}
+                            </span>
+                        </a>
+                    </div>
+
+                </div>
+                <!--end::Nav-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+        <router-outlet></router-outlet>
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Profile Overview-->

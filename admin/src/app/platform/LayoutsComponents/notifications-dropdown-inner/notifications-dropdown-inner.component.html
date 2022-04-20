@@ -1,0 +1,203 @@
+<!--begin::Header-->
+<ng-container >
+  <div
+    class="d-flex flex-column pt-12 bgi-size-cover bgi-no-repeat rounded-top"
+    style="background-image: url('./assets/media/misc/bg-1.jpg');"
+  >
+    <!--begin::Title-->
+    <h4 class="d-flex flex-center rounded-top">
+      <span class="text-white">{{'NOTIFICATION.DROPDOWN.USERNOTIFICATIONS' | translate}}</span>
+      <span class="btn btn-text btn-success btn-sm font-weight-bold btn-font-md ml-2"
+        >{{newsNotifications}} {{'NOTIFICATION.DROPDOWN.NEWS' | translate}}</span>
+    </h4>
+    <!--end::Title-->
+
+    <!--begin::Tabs-->
+    <ul
+      class="nav nav-bold nav-tabs nav-tabs-line nav-tabs-line-3x nav-tabs-line-transparent-white nav-tabs-line-active-border-success mt-3 px-8"
+      role="tablist">
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          data-toggle="tab"
+          (click)="setActiveTabId('topbar_notifications_notifications')"
+          [ngClass]="getActiveCSSClasses('topbar_notifications_notifications')"
+          >{{'NOTIFICATION.DROPDOWN.ALERTS' | translate}}</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          data-toggle="tab"
+          (click)="setActiveTabId('topbar_notifications_events')"
+          [ngClass]="getActiveCSSClasses('topbar_notifications_events')"
+          >{{'NOTIFICATION.DROPDOWN.EVENTS' | translate}}</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link cursor-pointer"
+          data-toggle="tab"
+          (click)="setActiveTabId('topbar_notifications_logs')"
+          [ngClass]="getActiveCSSClasses('topbar_notifications_logs')"
+          >{{'NOTIFICATION.DROPDOWN.LOGS' | translate}}</a
+        >
+      </li>
+    </ul>
+    <!--end::Tabs-->
+  </div>
+</ng-container>
+<!--end::Header-->
+
+<!-- ALERTS -->
+
+<!--begin::Content-->
+<div class="tab-content">
+  <!--begin::Tabpane-->
+  <div
+    class="tab-pane p-8"
+    id="topbar_notifications_notifications"
+    role="tabpanel"
+    [ngClass]="getActiveCSSClasses('topbar_notifications_notifications')"
+    >
+    <!--begin::Scroll-->
+    <div 
+      *ngIf="is_newNotifyByType.isAlerts"
+      class="scroll pr-7 mr-n7 ps"
+      style="position: relative; max-height: 300px;"
+      perfectScrollbar
+      >
+      <!--begin::Item-->
+      <div class="d-flex align-items-center mb-6" *ngFor="let alert of alertsNotifications">
+        <!--begin::Symbol-->
+        <div class="symbol symbol-40 symbol-light-primary mr-5">
+          <span class="symbol-label">
+            <span
+              [inlineSVG]="alert.icon"
+              cacheSVG="true"
+              class="svg-icon svg-icon-xl svg-icon-primary"
+            ></span>
+          </span>
+        </div>
+        <!--end::Symbol-->
+
+        <!--begin::Text-->
+        <div class="d-flex flex-column font-weight-bold">
+          <a href="#" class="text-dark text-hover-primary mb-1 font-size-lg"
+            >{{alert.title}}</a>
+          <span class="text-muted">{{alert.message}}</span>
+        </div>
+        <!--end::Text-->
+      </div>
+      <!--end::Item-->
+      
+    </div>
+    <!--end::Scroll-->
+
+    <!--begin::Action-->
+    <div *ngIf="is_newNotifyByType.isAlerts" class="d-flex flex-center pt-7">
+      <a href="#" class="btn btn-light-primary font-weight-bold text-center"
+        >{{'NOTIFICATION.DROPDOWN.SEEALL' | translate}}</a
+      >
+    </div>
+    <!--end::Action-->
+    <!--begin::Nav-->
+    <div *ngIf="!is_newNotifyByType.isAlerts" class="d-flex flex-center text-center text-muted min-h-200px">
+      {{'NOTIFICATION.DROPDOWN.NONEWNOTIFY' | translate}}
+      <br />
+      {{'NOTIFICATION.DROPDOWN.NONEWALERTS' | translate}}
+    </div>
+    <!--end::Nav-->
+  </div>
+  <!--end::Tabpane-->
+
+  <!-- EVENTS -->
+
+  <!--begin::Tabpane-->
+  <div
+    class="tab-pane"
+    id="topbar_notifications_events"
+    role="tabpanel"
+    [ngClass]="getActiveCSSClasses('topbar_notifications_events')"
+  >
+    <!--begin::Nav-->
+    <div
+      *ngIf="is_newNotifyByType.isEvents"
+      class="navi navi-hover scroll my-4"
+      data-scroll="true"
+      style="position: relative; max-height: 300px;"
+      perfectScrollbar
+    >
+      <!--begin::Item-->
+      <a href="#" class="navi-item"  *ngFor="let event of eventsNotifications">
+        <div class="navi-link">
+          <div class="navi-icon mr-2">
+            <i class="flaticon2-line-chart text-success"></i>
+          </div>
+          <div class="navi-text">
+            <div class="font-weight-bold">
+              {{event.title}}
+            </div>
+            <div class="text-muted">
+              {{event.message}}
+            </div>
+          </div>
+        </div>
+      </a>
+      <!--end::Item-->
+    </div>
+    <!--end::Nav-->
+    <!--begin::Nav-->
+    <div *ngIf="!is_newNotifyByType.isEvents" class="d-flex flex-center text-center text-muted min-h-200px">
+      {{'NOTIFICATION.DROPDOWN.NONEWNOTIFY' | translate}}
+      <br />
+      {{'NOTIFICATION.DROPDOWN.NONEWEVENTS' | translate}}
+    </div>
+    <!--end::Nav-->
+  </div>
+  <!--end::Tabpane-->
+
+  <!-- LOGS -->
+
+  <!--begin::Tabpane-->
+  <div
+    class="tab-pane"
+    id="topbar_notifications_logs"
+    role="tabpanel"
+    [ngClass]="getActiveCSSClasses('topbar_notifications_logs')"
+  >
+    <!--begin::Nav-->
+    <div 
+      *ngIf="is_newNotifyByType.isLogs"
+      class="navi navi-hover scroll my-4"
+      data-scroll="true"
+      style="position: relative; max-height: 300px;"
+      perfectScrollbar
+    >
+      <!--begin::Item-->
+        <a href="#" class="navi-item" *ngFor="let log of logsNotifications">
+          <div class="navi-link">
+            <div class="navi-text">
+              <div class="font-weight-bold">
+                {{log.title}}
+              </div>
+              <div class="text-muted">
+                {{log.message}}
+              </div>
+            </div>
+          </div>
+        </a>
+      <!--end::Item-->
+    </div>
+    <!--end::Nav-->
+    <!--begin::Nav-->
+    <div *ngIf="!is_newNotifyByType.isLogs" class="d-flex flex-center text-center text-muted min-h-200px">
+      {{'NOTIFICATION.DROPDOWN.NONEWNOTIFY' | translate}}
+      <br />
+      {{'NOTIFICATION.DROPDOWN.NONEWLOGS' | translate}}
+    </div>
+    <!--end::Nav-->
+  </div>
+  <!--end::Tabpane-->
+</div>
+<!--end::Content-->

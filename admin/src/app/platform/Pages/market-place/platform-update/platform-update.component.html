@@ -1,0 +1,75 @@
+<!--begin::Card-->
+<div class="card card-custom">
+    <!--begin::Header-->
+    <div class="card-header py-3">
+        <div class="card-title align-items-start flex-column">
+            <h3 class="card-label font-weight-bolder text-dark">{{'PAGE.MARKETPLACE.PLATFORM_UPDATE' | translate}}</h3>
+            <span class="text-muted font-weight-bold font-size-sm mt-1">{{'PAGE.MARKETPLACE.PLATFORM_UPDATE_TEXT' | translate}}</span>
+        </div>
+    </div>
+    <!--end::Header-->
+    <!--begin::Form-->
+    <form class="form">
+
+
+        <div class="card-body d-flex align-items-center justify-content-between flex-wrap pb-0">
+            <div class="mr-2">
+                <h3 class="font-weight-bolder">{{'PAGE.MARKETPLACE.CURRENT_VERSION' | translate}}: {{currentPlatform}} {{currentVersion}}</h3>
+                <div class="text-dark-50 font-size-lg mt-2">{{'PAGE.MARKETPLACE.LAST_CHECK_DATE' | translate}}: {{lastCheckDate}}</div>
+            </div>
+            <button  class="btn btn-primary spinner  spinner-dark spinner-left font-weight-bold" [disabled]="checking_process" (click)="check()" [ngClass]="{'spinner spinner-dark spinner-left': checking_process}">{{'PAGE.MARKETPLACE.CHECK_NOW' | translate}}</button>
+        </div>
+
+        <div class="card-body">
+
+            <p class="text-muted" *ngIf="checked && !has_update">{{'PAGE.MARKETPLACE.SYSTEM_UP_TO_DATE' | translate}}</p>
+
+            <div *ngIf="checked && has_update && !update_done">
+
+                <div>
+                    <h4 class="alert-heading">{{'PAGE.MARKETPLACE.NEW_UPDATE_AVAILABLE' | translate}}</h4>
+                </div>
+                <div class="alert alert-success mb-5 p-5" role="alert">
+                    <h4 class="alert-heading" [innerHtml]="summary"></h4>
+                    <p [innerHtml]="release_date"></p>
+                    <div class="border-bottom border-white opacity-20 mb-5"  *ngIf="message!=''"></div>
+                    <p class="mb-0" *ngIf="message!=''" [innerHtml]="message"></p>
+                </div>                
+
+                <div *ngIf="update_info!=''" class="pb-3">
+                    <h5 class="alert-heading text-muted" >{{'PAGE.MARKETPLACE.CHANGE_LOG' | translate}}:</h5> 
+                    <div class="separator separator-solid"></div>
+                </div>                
+                <div class="card-scroll" style="height: 250px;" [innerHtml]="update_info" *ngIf="update_info!=''">
+
+                </div>
+                <div class="text-center pt-5">
+                    <div class="alert alert-custom alert-warning" role="alert" *ngIf="updating_process">
+                        <div class="alert-icon">
+                            <i class="flaticon-warning"></i>
+                        </div>
+                        <div class="alert-text">{{'PAGE.MARKETPLACE.PLEASE_WAIT' | translate}}</div>
+                        <div class="spinner spinner-right"></div>
+                    </div>
+                    <button *ngIf="!updating_process" (click)="update()" type="button" class="btn btn-primary btn-lg btn-block"><i class="flaticon2-check-mark"></i> {{'PAGE.MARKETPLACE.UPDATE_NOW' | translate}}</button>
+                </div>
+            </div>
+
+            <div *ngIf="checked && has_update && update_done">
+
+
+                <div class="alert alert-success mb-5 p-5" role="alert">
+                    <div class="text-center"><i class="flaticon-confetti icon-6x text-light"></i></div>
+                    <h4 class="text-center alert-heading">{{'PAGE.MARKETPLACE.OPERATION_SUCCESSFULLY' | translate}}</h4>
+                    <p class="text-center">{{'PAGE.MARKETPLACE.OPERATION_SUCCESSFULLY_TEXT' | translate}}</p>
+                    <div class="border-bottom border-white opacity-20 mb-5"></div>
+                    <p class="mb-0 text-center">{{'PAGE.MARKETPLACE.PLEASE_WAIT_RELOAD' | translate}}</p>
+                </div>
+                
+                
+            </div>
+        </div>
+    </form>
+    <!--end::Form-->
+</div>
+<!--end::Card-->

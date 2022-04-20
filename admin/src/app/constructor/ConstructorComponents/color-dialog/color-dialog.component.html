@@ -1,0 +1,72 @@
+    <div class="modal-header">
+        <h4 class="modal-title">{{title}}</h4>
+        <button type="button" class="close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        
+        <div *ngIf="!page_loaded" class="w-100"><div class="spinner"></div></div>
+
+        
+    <mat-tab-group *ngIf="page_loaded">
+    <!--<mat-tab label="{{'CONSTRUCTOR.COLORS.SYSTEM_COLORS' | translate}}">
+
+        <div class="symbol-list d-flex flex-wrap">
+            <div class="symbol symbol-55 p-1 text-center"   [class.active]="selected_color==color.color_name" *ngFor="let color of colors.colors_system">
+                <span (click)="setBackgroundColor(color)" class="symbol-label font-size-xs cursor-pointer" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast?color.color_value_contrast:'#000'" ></span>
+                <span class="font-weight-lighter font-size-xs color-name">{{color.name}}</span>
+              </div>
+        </div>
+
+    </mat-tab>-->
+    <mat-tab label="{{'CONSTRUCTOR.COLORS.ADDITIONAL_COLORS' | translate}}">
+        <div class="symbol-list d-flex flex-wrap">
+            <div class="symbol symbol-55 p-1  text-center"   [class.active]="selected_color==color.color_name" *ngFor="let color of colors.colors_main">
+                <span (click)="setBackgroundColor(color)" class="symbol-label font-size-xs cursor-pointer" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast?color.color_value_contrast:'#000'" ></span>
+                <span class="font-weight-lighter font-size-xs color-name">{{color.name}}</span>
+              </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="{{'CONSTRUCTOR.COLORS.USER_COLORS' | translate}}">
+
+        <div class="symbol-list d-flex flex-wrap" *ngIf="!picker_open">
+            <div class="symbol symbol-55 p-1  text-center"   [class.active]="selected_color==color.color_name"  *ngFor="let color of colors.colors_user">
+                <span (click)="setBackgroundColor(color)" class="symbol-label font-size-xs cursor-pointer" [style.background-color]="color.color_value" [style.color]="color.color_value_contrast?color.color_value_contrast:'#000'" ></span>
+                <span class="font-weight-lighter font-size-xs color-name">{{color.name}}</span>
+            </div>
+            <div class="symbol symbol-55 p-1  text-center">
+                <span (click)="openColorPicker()" class="symbol-label font-size-xs cursor-pointer"><i class="flaticon2-plus icon-lg"></i></span>
+                <span class="font-weight-lighter font-size-xs color-name">{{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADD_COLOR' | translate}}</span>
+            </div>                                    
+        </div>   
+        
+        <div class="row" *ngIf="picker_open">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>{{title}}</label>
+                    <input type="color" class="form-control"  value="" name="new_color_value" [(ngModel)]="new_color_value" (onChange)="changeBgColorEvent($event)">
+                </div>
+
+                <div class="form-group">
+                    <label>{{'CONSTRUCTOR.COLORS.COLOR_NAME' | translate}}</label>
+                    <input type="text" class="form-control"  value="" name="new_color_name" [class.is-invalid]="new_color_name==''" [(ngModel)]="new_color_name">
+                </div>
+          </div>
+          <div class="col-sm-4">
+            <button type="button" (click)="closeAndSaveColorPickerModal()" [disabled]="new_color_name==''" [ngClass]="{'spinner spinner-white spinner-left':saving_process}" class="py-2 btn w-100 btn-success">{{'CONSTRUCTOR.LAYOUTS_COMPONENT_SIDE.ADD_COLOR' | translate}}</button><br>
+            <button type="button" class="py-2 mt-5 btn w-100 btn-secondary" (click)="picker_open=false">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+          </div>
+        </div>
+
+    </mat-tab>
+
+
+    </mat-tab-group>
+  
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close()">{{'GENERAL.LANGUAGES.CANCEL' | translate}}</button>
+        <button type="button" class="btn btn-primary" (click)="select()">{{'GENERAL.LANGUAGES.SAVE' | translate}}</button>
+    </div>

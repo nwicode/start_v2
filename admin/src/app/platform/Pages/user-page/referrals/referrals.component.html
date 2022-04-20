@@ -1,0 +1,66 @@
+<ng-container>
+    <div class="card card-custom">
+        <!-- begin::Loading -->
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="progress progress-modal">
+                <div
+                        class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                        role="progressbar"
+                        style="width: 100%"
+                        aria-valuenow="100"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                ></div>
+            </div>
+        </ng-container>
+        <!-- end::Loading -->
+        <!--begin::Header-->
+        <div class="card-header py-3">
+            <div class="card-title align-items-start flex-column">
+                <h3 class="card-label font-weight-bolder text-dark">My Referral</h3>
+                <span class="text-muted font-weight-bold font-size-sm mt-1">List of users referred by me</span>
+            </div>
+            <div class="card-toolbar">
+                <!--<span class="label label-danger label-pill label-inline mr-2" *ngIf="formGroup.invalid && this.formGroup.touched">{{'PROFILE.FULL.FILL_REQUIRED_FIELDS' | translate}}!</span>-->
+                <!--<button *ngIf="user.user_type_id > 1" type="reset" class="btn btn-secondary mr-2" (click)="cancel()"><i class="fas fa-backspace icon-md mr-1"></i>{{'GENERAL.LANGUAGES.CANCEL' |-->
+                <!--translate}}</button>-->
+                <!--<button *ngIf="user.user_type_id === 1" type="reset" class="btn btn-light-warning mr-2" (click)="cancel()"><i class="fas fa-undo-alt icon-nm mr-1"></i>{{'GENERAL.LANGUAGES.RESET' |-->
+                <!--translate}}</button>-->
+                <!--<button type="submit" [disabled]="formGroup.invalid" class="btn btn-success mr-2" (click)="save()">{{'GENERAL.LANGUAGES.SAVE_CHANGES' | translate}}</button>-->
+            </div>
+        </div>
+        <!--end::Header-->
+        <!--begin::Form-->
+        <div class="form">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="row">#</th>
+                        <th scope="row">Full Name</th>
+                        <th scope="row">Email</th>
+                        <th scope="row">Phone</th>
+                        <th scope="row">Program</th>
+                        <th scope="row">Created AT</th>
+                        <th scope="row">-</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let referralUser of userReferralsService.userReferralsItems | async; index as i;">
+                        <td scope="row">{{i+1}}</td>
+                        <td scope="row">
+                            <span class="font-weight-bolder">{{referralUser?.user?.name}}</span>
+                        </td>
+                        <td scope="row">{{referralUser?.user?.email}}</td>
+                        <td scope="row">{{referralUser?.user?.phone}}</td>
+                        <td scope="row">{{referralUser?.referralLink?.referralProgram?.name}}</td>
+                        <td scope="row">{{referralUser.createdAt | date: 'medium'}}</td>
+                        <td scope="row"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--end::Form-->
+    </div>
+</ng-container>

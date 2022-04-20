@@ -1,0 +1,84 @@
+<div class="alert alert-custom alert-warning pb-3 pt-3" role="alert">
+    <div class="alert-icon">
+        <i class="flaticon-danger"></i>
+    </div>
+    <div class="alert-text">{{'CONSTRUCTOR.COLORS.REBUILD_AFTER_SAVE' | translate}}</div>
+</div>
+
+
+<!--begin::Profile Overview-->
+<div class="d-flex flex-row">
+    <!--begin::Aside-->
+    <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+        <!--begin::Profile Card-->
+        <div class="card card-custom card-stretch">
+            <!--begin::Body-->
+            <div class="card-body pt-4">
+
+                <!--begin::Nav-->
+                <div class="navi navi-bold navi-hover navi-active navi-link-rounded">
+
+                    <div class="navi-section mt-7 mb-2 pb-0">
+                        <p>
+                            {{'CONSTRUCTOR.SETTINGS.SETTINGS' | translate}}
+                        </p>
+                    </div>
+
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="app-settings" routerLinkActive="active">
+                            <span class="navi-icon mr-4">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Settings-2.svg'" cacheSVG="true" class="svg-icon"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">{{'CONSTRUCTOR.SETTINGS.APP_SETTINGS' | translate}}</span>
+                        </a>
+                    </div>
+
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="icon-edit" routerLinkActive="active">
+                            <span class="navi-icon mr-4">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Settings-2.svg'" cacheSVG="true" class="svg-icon"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">
+                                {{'CONSTRUCTOR.SETTINGS.ICON_EDIT' | translate}}
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="splashscreen" routerLinkActive="active">
+                            <span class="navi-icon mr-4">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Settings-2.svg'" cacheSVG="true" class="svg-icon"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">
+                                {{'CONSTRUCTOR.SETTINGS.SPLASHSCREEN_EDIT' | translate}}
+                            </span>
+                        </a>
+                    </div>
+
+                    <div class="navi-item mb-2">
+                        <a class="navi-link py-4" routerLink="privacy" routerLinkActive="active">
+                            <span class="navi-icon mr-4">
+                                <span [inlineSVG]="'./assets/media/svg/icons/General/Settings-2.svg'" cacheSVG="true" class="svg-icon"></span>
+                            </span>
+                            <span class="navi-text font-size-lg">
+                                {{'CONSTRUCTOR.SETTINGS.PRIVACY' | translate}}
+                            </span>
+                        </a>
+                    </div>
+
+                </div>
+                <!--end::Nav-->
+            </div>
+            <!--end::Body-->
+        </div>
+        <!--end::Profile Card-->
+    </div>
+    <!--end::Aside-->
+
+    <!--begin::Content-->
+    <div class="flex-row-fluid ml-lg-8">
+        <router-outlet></router-outlet>
+    </div>
+    <!--end::Content-->
+</div>
+<!--end::Profile Overview-->
