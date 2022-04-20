@@ -5,7 +5,7 @@ Anyone can contribute to Nwicode. And we need your contributions.
 
 ## Share new features
 
-If you have developed, who are aiming to develop new features to share with the SiberianCMS community you are welcome.
+If you have developed, who are aiming to develop new features to share with the Nwicode CMS community you are welcome.
 
 We wrote a [complete documentation](https://github.com/nwicode/nwicode_api/) on how to create new `modules`
 
