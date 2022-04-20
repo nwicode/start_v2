@@ -10,21 +10,21 @@
 
 The constructor consists of three parts:
 
-frontend (on the Angular framework)
-backend (on the Laravel framework)
-mobile (Ionic framework)
+- frontend (on the Angular framework)
+- backend (on the Laravel framework)
+- mobile (Ionic framework)
 
 The interaction between them occurs through GET/POST requests. Since we write the frontend separately, we will not have to use View in laravel itself.
 
 The production-generated frontend will be located at the root of the domain. So, public from laravel will also be configured on the root of the folder. Thus, both projects will be combined in the same directory, and therefore no additional Apache configuration will be needed.
 
-A database is needed for the backend to function.
+- A database is needed for the backend to function.
 
-For the backend to function, a PHP version of at least 8.0 is required
+- For the backend to function, a PHP version of at least 8.0 is required
 
-For the frontend to function, npm must be installed.
+- For the frontend to function, npm must be installed.
 
-Composer must be installed for PHP.
+- Composer must be installed for PHP.
 
 ## Install steps
 
