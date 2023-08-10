@@ -1,10 +1,10 @@
-# NWICODEv2 Mobile App Builder (START version 1.0.6)
+# Moxly Mobile App Builder (START version 1.0.6) This version is no longer supported
 ![](https://nwicode.com/upload/CMax/5a4/i6dfl567pl5yq3krn7d0m8g72jq1226f/nwcode_500x150-Logo_p-_1_.png)
 ## Links & Stuff
 
-- [User documentation](https://docs.nwcode.io/ "User documentation")
+- [User documentation](https://help.moxly.io/ "User documentation")
 - [Developer documentation](https://github.com/nwicode/nwicode_api/ "Developer documentation")
-- [Community](https://forum.nwicode.com/ "Community")
+- [Community](https://forum.moxly.io/ "Community")
 
 **##Structure and interaction**
 
